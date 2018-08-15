@@ -13,6 +13,19 @@ The API should provide a means to _detect_ the user's idle status (active, idle,
 * Showing timely alerts - e.g. deferring displaying feedback until the user returns to an active state
 * Automatically pausing media when the screen is locked
 
+## Model
+
+The API assumes that there is some level of engagement between the user, user agent, and operating system of the device in use. This is represented in three states:
+
+* **active** - the user is interacting with the user agent
+* **idle** - the user has not interacted with the user agent for some period of time
+* **locked** - the system has an active screen lock preventing interaction with the user agent
+
+Distinguishing "active" from "idle" requires heuristics that may differ across user, user agent, and operating system. It should also be a reasonably coarse threshold. (See Privacy)
+
+The model intentionally does not formally distinguish between interaction with particular content (i.e. the web page in a tab using the API), the user agent as a whole, or the operating system; this definition is left to the user agent.
+
+> Example: The user is interacting with an operating system providing multiple virtual desktops. The user may be actively interacting with one virtual desktop, but unable to see the content of another virtual desktop. A user agent presenting content on the second virtual desktop may report an "idle" state rather than an "active" state.
 
 ## Taste of the API
 
@@ -63,6 +76,9 @@ Using the `setDetectionInterval()` or `query()` API will trigger a permission re
 
 * There are definitely privacy implications here, mandating a new permission.
 * There is a new way of causing work to be scheduled, but no new network or storage functionality is offered.
+* The threshold to distinguish between "active" and "idle" must be coarse enough to preclude inferring too much about user activity 
+    * At an extreme, typing cadence can be used to guess passwords.
+    * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content.
 
 ## Prior Work
 

@@ -5,6 +5,15 @@ A proposal for an idle detection and notification API for the web
 * This _is_ about detecting when the user is away from the keyboard or the screen is locked.
 * This is _not_ about asynchronously scheduling work when the system is idle. See [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/) for that one.
 
+The API should provide a means to _detect_ the user's idle status (active, idle, locked), and a power-efficient way to be _notified_ of changes to the status without polling from script.
+
+## Use cases
+
+* Chat application: presenting a user's status to other users
+* Showing timely alerts - e.g. deferring displaying feedback until the user returns to an active state
+* Automatically pausing media when the screen is locked
+
+
 ## Taste of the API
 
 Modeled on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, the API could be used in the following way:

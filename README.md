@@ -13,6 +13,13 @@ The API should provide a means to _detect_ the user's idle status (active, idle,
 * Showing timely alerts - e.g. deferring displaying feedback until the user returns to an active state
 * Automatically pausing media when the screen is locked
 
+### Why is a built-in API better than JS?
+
+* JS can only detect active/idle within a page by watching for UI events; the user agent can observe any interaction with the browser (or query the OS) to give a more accurate reflection of the state
+* Screen lock detection
+* Exposure in Workers w/o proxying from a window
+* Avoiding costly polling from script
+
 ## Model
 
 The API assumes that there is some level of engagement between the user, user agent, and operating system of the device in use. This is represented in three states:

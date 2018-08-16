@@ -62,6 +62,8 @@ function update_user_state(state) {
 }
 ```
 
+> Issue: This API sketch makes the detection interval global for an execution context. This means two libraries running in the same window/worker would fight over the threshold.
+
 ## Permissions
 
 A new [permission](https://w3c.github.io/permissions/) would be associated with this functionality. The permission might be auto-granted based on heuristics, such as user engagement, having "installed" the web site as a bookmark or desktop/homescreen icon, or having granted similar permissions such as [Wake Lock](https://w3c.github.io/wake-lock/).

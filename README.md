@@ -34,7 +34,7 @@ Modeled on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, t
 ```js
 // TODO: Examples of explicit permission request.
 
-navigator.idle.setDetectionInterval(2 * 60); // Only check every 2 minutes. Default is 1 minute.
+navigator.idle.setDetectionThreshold(2 * 60); // "Idle" means two minutes of inactivity.
 
 // Initialize the UI with the current state.
 navigator.idle.query().then(state => {
@@ -62,15 +62,15 @@ function update_user_state(state) {
 }
 ```
 
-> Issue: This API sketch makes the detection interval global for an execution context. This means two libraries running in the same window/worker would fight over the threshold.
+> Issue: This API sketch makes the detection threshold global for an execution context. This means two libraries running in the same window/worker would fight over the threshold.
 
-> Issue: How to stop listening? Set interval to 0? 
+> Issue: How to stop listening? Set threshold to 0? Or just delete the listener?
 
 ## Permissions
 
 A new [permission](https://w3c.github.io/permissions/) would be associated with this functionality. The permission might be auto-granted based on heuristics, such as user engagement, having "installed" the web site as a bookmark or desktop/homescreen icon, or having granted similar permissions such as [Wake Lock](https://w3c.github.io/wake-lock/).
 
-Using the `setDetectionInterval()` or `query()` API will trigger a permission request (if not already granted/blocked).
+Using the `setDetectionThreshold()` or `query()` API will trigger a permission request (if not already granted/blocked).
 
 > TODO: What's the best model to follow these days?
 

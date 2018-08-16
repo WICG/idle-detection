@@ -88,4 +88,6 @@ Using the `setDetectionThreshold()` or `query()` API will trigger a permission r
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this work.
   * Also exposed to Extensions in Firefox [MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle)
-* [Idle.js](http://shawnmclean.com/detecting-if-user-is-idle-away-or-back-by-using-idle-js/), a JavaScript library for detecting user idle/active behavior in a web page.
+* Attempts to do this from JS running on the page:
+  * [idle.ts](https://github.com/dropbox/idle.ts) from Dropbox
+  * [Idle.js](http://shawnmclean.com/detecting-if-user-is-idle-away-or-back-by-using-idle-js/)

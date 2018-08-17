@@ -41,7 +41,8 @@ Modeled on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, t
 ```js
 // TODO: Examples of explicit permission request.
 
-navigator.idle.setDetectionThreshold(2 * 60); // "Idle" means two minutes of inactivity.
+// Define "idle" as two minutes of inactivity.
+navigator.idle.setDetectionThreshold(2 * 60); 
 
 // Initialize the UI with the current state.
 navigator.idle.query().then(state => {
@@ -71,7 +72,9 @@ function update_user_state(state) {
 
 > Issue: This API sketch makes the detection threshold global for an execution context. This means two libraries running in the same window/worker would fight over the threshold.
 
-> Issue: How to stop listening? Set threshold to 0? Or just delete the listener?
+## Device Capabilities
+
+Not all devices implement a notion equivalent to "locking". Mobile devices typically have a screen lock, and desktop systems have screen savers that may or may not actually require a password to unlock. User agents can employ a heuristic to define "locked", such as any state where the user cannot observe the application state without first taking action.
 
 ## Permissions
 

@@ -94,6 +94,8 @@ See answers to [Self-Review Questionnaire: Security and Privacy](security-privac
     * At an extreme, typing cadence can be used to guess passwords.
     * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
 
+An implication here is that if implementations clamp the detection threshold, they should also clamp query() so rapid polling with JS does not bypass the clamp.
+
 ## Prior Work
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.

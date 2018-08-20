@@ -86,17 +86,17 @@ Using the `setDetectionThreshold()` or `query()` API will trigger a permission r
 
 ## Security and Privacy
 
-> TODO: Fill out [Self-Review Questionnaire: Security and Privacy](https://w3ctag.github.io/security-questionnaire/)
+See answers to [Self-Review Questionnaire: Security and Privacy](security-privacy-self-assessment.md)
 
 * There are definitely privacy implications here, mandating a new permission.
 * There is a new way of causing work to be scheduled, but no new network or storage functionality is offered.
 * The threshold to distinguish between "active" and "idle" must be coarse enough to preclude inferring too much about user activity 
     * At an extreme, typing cadence can be used to guess passwords.
-    * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content.
+    * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
 
 ## Prior Work
 
-* Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this work.
+* Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.
   * Also exposed to Extensions in Firefox [MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle)
 * Attempts to do this from JS running on the page:
   * [idle.ts](https://github.com/dropbox/idle.ts) from Dropbox

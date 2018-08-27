@@ -9,6 +9,8 @@ A proposal for an idle detection and notification API for the web
 
 The API should provide a means to _detect_ the user's idle status (active, idle, locked), and a power-efficient way to be _notified_ of changes to the status without polling from script.
 
+Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api/2959) &mdash; [Issues](https://github.com/inexorabletash/idle-detection/issues)
+
 ## Use cases
 
 * Chat application: presenting a user's status to other users
@@ -96,10 +98,13 @@ See answers to [Self-Review Questionnaire: Security and Privacy](security-privac
     * At an extreme, typing cadence can be used to guess passwords.
     * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
 
+An implication here is that if implementations clamp the detection threshold, they should also clamp query() so rapid polling with JS does not bypass the clamp.
+
 ## Prior Work
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.
   * Also exposed to Extensions in Firefox [MDN](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle)
+  * And [Edge](https://github.com/MicrosoftDocs/edge-developer/blob/master/microsoft-edge/extensions/api-support/supported-apis.md#idle)
 * Attempts to do this from JS running on the page:
   * [idle.ts](https://github.com/dropbox/idle.ts) from Dropbox
   * [Idle.js](http://shawnmclean.com/detecting-if-user-is-idle-away-or-back-by-using-idle-js/)

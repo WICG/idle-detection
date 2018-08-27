@@ -1,3 +1,5 @@
+<img src="https://cdn.rawgit.com/inexorabletash/idle-detection/gh-pages/logo-idle.svg" height="100" align=right>
+
 # idle-detection
 
 A proposal for an idle detection and notification API for the web
@@ -42,7 +44,7 @@ Modeled on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, t
 // TODO: Examples of explicit permission request.
 
 // Define "idle" as two minutes of inactivity.
-navigator.idle.setDetectionThreshold(2 * 60); 
+navigator.idle.setDetectionThreshold(2 * 60);
 
 // Initialize the UI with the current state.
 navigator.idle.query().then(state => {
@@ -90,7 +92,7 @@ See answers to [Self-Review Questionnaire: Security and Privacy](security-privac
 
 * There are definitely privacy implications here, mandating a new permission.
 * There is a new way of causing work to be scheduled, but no new network or storage functionality is offered.
-* The threshold to distinguish between "active" and "idle" must be coarse enough to preclude inferring too much about user activity 
+* The threshold to distinguish between "active" and "idle" must be coarse enough to preclude inferring too much about user activity
     * At an extreme, typing cadence can be used to guess passwords.
     * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
 

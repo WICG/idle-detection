@@ -1,4 +1,4 @@
-<img src="https://cdn.rawgit.com/inexorabletash/idle-detection/gh-pages/logo-idle.svg" height="100" align=right>
+<img src="https://raw.githubusercontent.com/inexorabletash/idle-detection/master/logo-idle.png" height="100" align=right>
 
 # idle-detection
 

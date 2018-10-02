@@ -40,22 +40,21 @@ The model intentionally does not formally distinguish between interaction with p
 
 ## Taste of the API
 
-Modeled on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, the API could be used in the following way:
+Modeled roughly on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, with inspiration from the [Permissions API](https://w3c.github.io/permissions/#permissions-interface), the API could be used in the following way:
 
 ```js
-// TODO: Examples of explicit permission request.
+async function start_observing_idle() {
+  // Define "idle" as two minutes of inactivity.
+  // A permission prompt could be shown here, depending on the UA.
+  const status = await navigator.idle.query({threshold: 2*60});
 
-// Define "idle" as two minutes of inactivity.
-navigator.idle.setDetectionThreshold(2 * 60);
+  // Use the current status.
+  update_user_state(status.state);
 
-// Initialize the UI with the current state.
-navigator.idle.query().then(state => {
-  update_user_state(state);
-})
-
-// Watch for future state changes.
-navigator.idle.addEventListener('changed', event => {
-  update_user_state(event.state);
+  // Respond to future status changes.
+  status.addEventListener('change', e => {
+    update_user_state(status.state);
+  });
 });
 
 // Idle state will be 'active', 'idle', or 'locked'.
@@ -74,8 +73,6 @@ function update_user_state(state) {
 }
 ```
 
-> Issue: This API sketch makes the detection threshold global for an execution context. This means two libraries running in the same window/worker would fight over the threshold.
-
 ## Device Capabilities
 
 Not all devices implement a notion equivalent to "locking". Mobile devices typically have a screen lock, and desktop systems have screen savers that may or may not actually require a password to unlock. User agents can employ a heuristic to define "locked", such as any state where the user cannot observe the application state without first taking action.
@@ -84,7 +81,7 @@ Not all devices implement a notion equivalent to "locking". Mobile devices typic
 
 A new [permission](https://w3c.github.io/permissions/) would be associated with this functionality. The permission might be auto-granted based on heuristics, such as user engagement, having "installed" the web site as a bookmark or desktop/homescreen icon, or having granted similar permissions such as [Wake Lock](https://w3c.github.io/wake-lock/).
 
-Using the `setDetectionThreshold()` or `query()` API will trigger a permission request (if not already granted/blocked).
+Using the `query()` API will trigger a permission request (if not already granted/blocked).
 
 > TODO: What's the best model to follow these days?
 

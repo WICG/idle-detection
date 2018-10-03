@@ -79,11 +79,9 @@ Not all devices implement a notion equivalent to "locking". Mobile devices typic
 
 ## Permissions
 
-A new [permission](https://w3c.github.io/permissions/) would be associated with this functionality. The permission might be auto-granted based on heuristics, such as user engagement, having "installed" the web site as a bookmark or desktop/homescreen icon, or having granted similar permissions such as [Wake Lock](https://w3c.github.io/wake-lock/).
+A new [permission](https://w3c.github.io/permissions/) would be associated with this functionality. A new [permission name](https://w3c.github.io/permissions/#permission-registry) such as `"idle-detection"` would be registered. The permission might be auto-granted based on heuristics, such as user engagement, having "installed" the web site as a bookmark or desktop/homescreen icon, or having granted similar permissions such as [Wake Lock](https://w3c.github.io/wake-lock/).
 
 Using the `query()` API will trigger a permission request (if not already granted/blocked).
-
-A new [permission name](https://w3c.github.io/permissions/#permission-registry) such as `"idle-detection"` would be registered.
 
 ## Security and Privacy
 
@@ -95,7 +93,7 @@ See answers to [Self-Review Questionnaire: Security and Privacy](security-privac
     * At an extreme, typing cadence can be used to guess passwords.
     * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
 
-An implication here is that if implementations clamp the detection threshold, they should also clamp query() so rapid polling with JS does not bypass the clamp.
+An implication here is that if implementations clamp the detection threshold, they should also clamp how quickly responses to `query()` are delivered and/or ensure that the responses to `query()` are cached or otherwise provide some granularity that rapid polling with JS does not bypass the clamp.
 
 ## Prior Work
 

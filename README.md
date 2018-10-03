@@ -83,7 +83,7 @@ A new [permission](https://w3c.github.io/permissions/) would be associated with 
 
 Using the `query()` API will trigger a permission request (if not already granted/blocked).
 
-> TODO: What's the best model to follow these days?
+A new [permission name](https://w3c.github.io/permissions/#permission-registry) such as `"idle-detection"` would be registered.
 
 ## Security and Privacy
 

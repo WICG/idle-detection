@@ -1,8 +1,8 @@
 <img src="https://raw.githubusercontent.com/inexorabletash/idle-detection/master/logo-idle.png" height="100" align=right>
 
-# idle-detection
+# User Idle Detection
 
-A proposal for an idle detection and notification API for the web
+A proposal for a user idle detection and notification API for the web
 
 * This _is_ about detecting when the user is away from the keyboard or the screen is locked.
 * This is _not_ about asynchronously scheduling work when the system is idle. See [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/) for that one.

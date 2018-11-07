@@ -17,7 +17,7 @@ Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api
 * Showing timely alerts - e.g. deferring displaying feedback until the user returns to an active state
 * Automatically pausing media when the screen is locked
 
-### Why is a built-in API better than JS?
+### Why is a built-in API better than tracking input events (etc) in JS?
 
 * JS can only detect active/idle within a page by watching for UI events; the user agent can observe any interaction with the browser (or query the OS) to give a more accurate reflection of the state
 * Screen lock detection

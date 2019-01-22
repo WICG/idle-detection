@@ -78,34 +78,12 @@ Open questions:
 Modeled roughly on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, with inspiration from the [Permissions API](https://w3c.github.io/permissions/#permissions-interface), the API could be used in the following way:
 
 ```js
-async function start_observing_idle() {
-  // Define "idle" as two minutes of inactivity.
-  // A permission prompt could be shown here, depending on the UA.
-  const status = await navigator.idle.query({threshold: 2*60});
+const status = await navigator.idle.query({threshold: 2*60});
 
-  // Use the current status.
-  update_user_state(status.state);
-
-  // Respond to future status changes.
-  status.addEventListener('change', e => {
-    update_user_state(status.state);
-  });
+// Respond to future status changes.
+status.addEventListener('change', {state} => {
+  // do stuff
 });
-
-// Idle state will be 'active', 'idle', or 'locked'.
-function update_user_state(state) {
-  switch (state) {
-  case 'active':
-    document.body.style.backgroundColor = 'green';
-    break;
-  case 'idle':
-    document.body.style.backgroundColor = 'yellow';
-    break;
-  case 'locked':
-    document.body.style.backgroundColor = 'red';
-    break;
-  }
-}
 ```
 
 #### [browser.idle](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle/queryState)

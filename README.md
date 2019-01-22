@@ -10,17 +10,17 @@ The API should provide a means to _detect_ the user's idle status (active, idle,
 
 Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api/2959) &mdash; [Issues](https://github.com/inexorabletash/idle-detection/issues)
 
-## Relationship with other APIs
-
-* As opposed to the [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/), this is _not_ about asynchronously scheduling work when the **system** is idle.
-* As opposed to the [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API), this API enables detecting idleness even after a page is no longer visible (e.g. after the page is no longer visible, is the user still around? if i showed a notification, would it be perceived?).
-
 ## Use cases
 
 * Chat application: presenting a user's status to other users
 * Showing timely notifications - e.g. deferring displaying feedback until the user returns to an active state
 
-### Why is a built-in API better than tracking input events (etc) in JS?
+## Relationship with other APIs
+
+* As opposed to the [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/), this is _not_ about asynchronously scheduling work when the **system** is idle.
+* As opposed to the [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API), this API enables detecting idleness even after a page is no longer visible (e.g. after the page is no longer visible, is the user still around? if i showed a notification, would it be perceived?).
+
+## Polyfills
 
 Currently, web apps (e.g. Dropbox’s [idle.ts](https://github.com/dropbox/idle.ts)) are constrained to their own content area:
 
@@ -43,10 +43,9 @@ The model intentionally does not formally distinguish between interaction with p
 
 > Example: The user is interacting with an operating system providing multiple virtual desktops. The user may be actively interacting with one virtual desktop, but unable to see the content of another virtual desktop. A user agent presenting content on the second virtual desktop may report an "idle" state rather than an "active" state.
 
-## Taste of the API
+## API Design
 
 There are multiple alternatives to be considered here. The following is an API inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) and the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) APIs.
-
 
 ```js
 const observer = new IdleObserver({state} => {
@@ -66,6 +65,11 @@ const observer = new IdleObserver({state} => {
 // Define "idle" as two minutes of inactivity.
 observer.observe({threshold: 2*60});
 ```
+
+Open questions:
+
+* Should we allow observer.disconnect()?
+* Should we allow multiple new IdleObserver() to run concurrently?
 
 ### Alternatives Considered
 
@@ -128,9 +132,20 @@ let observer = new IdleObserver(e => console.log(e));
 observer.observe({threshold: 2*60});
 ```
 
-## Device Capabilities
+## Platforms
 
-Not all devices implement a notion equivalent to "locking". Mobile devices typically have a screen lock, and desktop systems have screen savers that may or may not actually require a password to unlock. User agents can employ a heuristic to define "locked", such as any state where the user cannot observe the application state without first taking action.
+All supported platforms (linux, mac, windows, android, ios) have some notion of:
+
+- screen off / saver
+- screen locked
+
+### desktop
+
+On desktop (linux, mac, windows), a screen saver (from the time monitors were damaged when the same pixels were displayed) kicks in after a certain period of inactivity. If set up, the screen also gets locked after the user goes inactive for more time. Both of these events are observable by engines.
+
+### mobile
+
+On mobile (android), the screen gets dimmed a few moments after the user goes inactive (to save battery, not pixels) but isn't observable by engines (on android). The screen gets eventually turned off (to save further battery) if the user remains inactive for a configurable amount of time (typically 30 seconds), and that's observable by engines. When the screen goes off, the screen also typically gets locked (unlocked by Swipe, Pattern, PIN or Password), although it can be configured to be left off but unlocked.
 
 ## Permissions
 

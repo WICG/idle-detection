@@ -6,16 +6,20 @@ This is a proposal to give developers the ability to be notified when users go i
 
 Native applications / extensions (e.g. [Chrome apps](https://developer.chrome.com/apps/idle), [Android apps](https://stackoverflow.com/questions/8317331/detecting-when-screen-is-locked), [Firefox extensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle), [Edge extensions](https://github.com/MicrosoftDocs/edge-developer/blob/master/microsoft-edge/extensions/api-support/supported-apis.md#idle)) use idle detection to notify other users (e.g. chat apps letting other users know that the user isn’t active), to show timely alerts (e.g. "welcome back" when a user goes idle and restarts their task) or to pause media (e.g. to save bandwidth when the user is idle).
 
-This is _not_ to be confused about asynchronously scheduling work when the **system** is idle (see [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/)).
-
 The API should provide a means to _detect_ the user's idle status (active, idle, locked), and a power-efficient way to be _notified_ of changes to the status without polling from script.
 
 Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api/2959) &mdash; [Issues](https://github.com/inexorabletash/idle-detection/issues)
 
+# Relationship with other APIs
+
+As opposed to the [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/), this is _not_ about asynchronously scheduling work when the **system** is idle.
+
+As opposed to the [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API), this API enables detecting idleness even after a page is no longer visible (e.g. after the page is no longer visible, is the user still around? if i showed a notification, would it be perceived?).
+
 ## Use cases
 
 * Chat application: presenting a user's status to other users
-* Showing timely alerts - e.g. deferring displaying feedback until the user returns to an active state
+* Showing timely notifications - e.g. deferring displaying feedback until the user returns to an active state
 
 ### Why is a built-in API better than tracking input events (etc) in JS?
 
@@ -24,7 +28,7 @@ Currently, web apps (e.g. Dropbox’s [idle.ts](https://github.com/dropbox/idle.
 1. costly polling for input events or 
 1. listening to [visibility changes](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)
 
-Either way, script can't tell today when a user goes idle outside of its content area (e.g. whether a user is on a different tab or logged out of the computer altogether).
+Script can't tell today when a user goes idle outside of its content area (e.g. whether a user is on a different tab or logged out of the computer altogether).
 
 ## Model
 

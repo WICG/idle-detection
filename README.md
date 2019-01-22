@@ -2,10 +2,11 @@
 
 # User Idle Detection
 
-A proposal for a user idle detection and notification API for the web
+This is a proposal to give developers the ability to be notified when users go idle (e.g. they don’t interact with the keyboard/mouse/screen, when a screensaver kicks in and/or when the screen gets locked) past a certain time limit, even beyond their content area (e.g. when users move to a different window/tab).
 
-* This _is_ about detecting when the user is away from the keyboard or the screen is locked.
-* This is _not_ about asynchronously scheduling work when the system is idle. See [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/) for that one.
+Native applications / extensions (e.g. [Chrome apps](https://developer.chrome.com/apps/idle), [Android apps](https://stackoverflow.com/questions/8317331/detecting-when-screen-is-locked), [Firefox extensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle), [Edge extensions](https://github.com/MicrosoftDocs/edge-developer/blob/master/microsoft-edge/extensions/api-support/supported-apis.md#idle)) use idle detection to notify other users (e.g. chat apps letting other users know that the user isn’t active), to show timely alerts (e.g. "welcome back" when a user goes idle and restarts their task) or to pause media (e.g. to save bandwidth when the user is idle).
+
+This is _not_ to be confused about asynchronously scheduling work when the **system** is idle (see [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/)).
 
 The API should provide a means to _detect_ the user's idle status (active, idle, locked), and a power-efficient way to be _notified_ of changes to the status without polling from script.
 
@@ -15,14 +16,15 @@ Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api
 
 * Chat application: presenting a user's status to other users
 * Showing timely alerts - e.g. deferring displaying feedback until the user returns to an active state
-* Automatically pausing media when the screen is locked
 
 ### Why is a built-in API better than tracking input events (etc) in JS?
 
-* JS can only detect active/idle within a page by watching for UI events; the user agent can observe any interaction with the browser (or query the OS) to give a more accurate reflection of the state
-* Screen lock detection
-* Exposure in Workers w/o proxying from a window
-* Avoiding costly polling from script
+Currently, web apps (e.g. Dropbox’s [idle.ts](https://github.com/dropbox/idle.ts)) are constrained to their own content area:
+
+1. costly polling for input events or 
+1. listening to [visibility changes](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API)
+
+Either way, script can't tell today when a user goes idle outside of its content area (e.g. whether a user is on a different tab or logged out of the computer altogether).
 
 ## Model
 
@@ -39,6 +41,32 @@ The model intentionally does not formally distinguish between interaction with p
 > Example: The user is interacting with an operating system providing multiple virtual desktops. The user may be actively interacting with one virtual desktop, but unable to see the content of another virtual desktop. A user agent presenting content on the second virtual desktop may report an "idle" state rather than an "active" state.
 
 ## Taste of the API
+
+There are multiple alternatives to be considered here. The following is an API inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) and the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) APIs.
+
+
+```js
+const observer = new IdleObserver({state} => {
+  switch (state) {
+    case 'active':
+      document.body.style.backgroundColor = 'green';
+      break;
+    case 'idle':
+      document.body.style.backgroundColor = 'yellow';
+      break;
+    case 'locked':
+      document.body.style.backgroundColor = 'red';
+      break;
+  }
+});
+
+// Define "idle" as two minutes of inactivity.
+observer.observe({threshold: 2*60});
+```
+
+### Alternatives Considered
+
+#### [chrome.idle](https://developer.chrome.com/apps/idle)
 
 Modeled roughly on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, with inspiration from the [Permissions API](https://w3c.github.io/permissions/#permissions-interface), the API could be used in the following way:
 
@@ -71,6 +99,30 @@ function update_user_state(state) {
     break;
   }
 }
+```
+
+#### [browser.idle](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle/queryState)
+
+```js
+// Has to be polled for changes as opposed to notified (e.g. it is not
+// an event target).
+browser.idle.queryState( detectionIntervalInSeconds // integer )
+```
+
+#### Variations
+
+Here are some variations of the Observer pattern that we could try too:
+
+```js
+navigator.idle.observe({threshold: 2*60}, (e) => console.log(e))
+
+let observer = navigator.idle.query({threshold: 2*60}, e => console.log(e))
+observe.observe()
+
+// More consistent with MutationObserver, less consistent with
+// the other static navigator.* APIs.
+let observer = new IdleObserver(e => console.log(e));
+observer.observe({threshold: 2*60});
 ```
 
 ## Device Capabilities

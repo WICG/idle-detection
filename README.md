@@ -45,7 +45,7 @@ The model intentionally does not formally distinguish between interaction with p
 
 ## API Design
 
-There are multiple alternatives to be considered here. The following is an API inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) and the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) APIs.
+There are multiple alternatives to be considered here. The following is an API inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver), the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and the [PerformanceObserver](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver) APIs.
 
 ```js
 const observer = new IdleObserver({state} => {

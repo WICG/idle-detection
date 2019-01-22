@@ -10,11 +10,10 @@ The API should provide a means to _detect_ the user's idle status (active, idle,
 
 Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api/2959) &mdash; [Issues](https://github.com/inexorabletash/idle-detection/issues)
 
-# Relationship with other APIs
+## Relationship with other APIs
 
-As opposed to the [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/), this is _not_ about asynchronously scheduling work when the **system** is idle.
-
-As opposed to the [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API), this API enables detecting idleness even after a page is no longer visible (e.g. after the page is no longer visible, is the user still around? if i showed a notification, would it be perceived?).
+* As opposed to the [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/), this is _not_ about asynchronously scheduling work when the **system** is idle.
+* As opposed to the [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API), this API enables detecting idleness even after a page is no longer visible (e.g. after the page is no longer visible, is the user still around? if i showed a notification, would it be perceived?).
 
 ## Use cases
 

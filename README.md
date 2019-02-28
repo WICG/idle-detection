@@ -143,6 +143,8 @@ See answers to [Self-Review Questionnaire: Security and Privacy](security-privac
 
 An implication here is that if implementations clamp the detection threshold, they should also clamp how quickly responses to `query()` are delivered and/or ensure that the responses to `query()` are cached or otherwise provide some granularity that rapid polling with JS does not bypass the clamp.
 
+At least initially, per [TAG review](https://github.com/w3ctag/design-reviews/issues/336#issuecomment-460482399), we don't see any major gains we would get allowing the API to be called outside of top-level frames, so restricting it seems like a good starting point (and/or, perhaps, delegation via Feature Policy or a `sandbox` attribute).
+
 ## Prior Work
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.

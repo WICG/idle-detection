@@ -85,26 +85,30 @@ Open questions:
 
 #### navigator.idle.query
 
-#### [chrome.idle](https://developer.chrome.com/apps/idle)
-
-Modeled roughly on Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API, with inspiration from the [Permissions API](https://w3c.github.io/permissions/#permissions-interface), the API could be used in the following way:
+This formulation is closer to chrome's `[chrome.idle.query()](https://developer.chrome.com/apps/idle)` API and `[browser.idle,queryState()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle/queryState)`:
 
 ```js
-const status = await navigator.idle.query({threshold: 2*60});
+const monitor = navigator.idle.query({threshold: 2 * 60});
 
-// Respond to future status changes.
-status.addEventListener('change', {state} => {
+// Listen to state changes
+monitor.addEventListener('change', (state) => {
   // do stuff
 });
 ```
 
-#### [browser.idle](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle/queryState)
+Or, if you only care about the current state:
 
 ```js
-// Has to be polled for changes as opposed to notified (e.g. it is not
-// an event target).
-browser.idle.queryState( detectionIntervalInSeconds // integer )
+navigator.idle.query({threshold: 2 * 60})
+  .addEventListener({once: true}, (state) => {
+    // do stuff
+  });
 ```
+
+Open questions:
+
+* do we have a preference between `navigator.idle.query()` or `navigator.idle.observe()`?
+* should we `navigator.idle.query()` return a `Promise` such that the current state is returned easily?
 
 #### Variations
 

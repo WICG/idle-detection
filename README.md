@@ -85,7 +85,7 @@ Open questions:
 
 #### navigator.idle.query
 
-This formulation is closer to chrome's `[chrome.idle.query()](https://developer.chrome.com/apps/idle)` API and `[browser.idle,queryState()](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle/queryState)`:
+This formulation is closer to chrome's [`chrome.idle.query()`](https://developer.chrome.com/apps/idle) API and [`browser.idle,queryState()`](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle/queryState):
 
 ```js
 const monitor = navigator.idle.query({threshold: 2 * 60});

@@ -45,7 +45,18 @@ The model intentionally does not formally distinguish between interaction with p
 
 ## API Design
 
-There are multiple alternatives to be considered here. The following is an API inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver), the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and the [PerformanceObserver](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver) APIs.
+There are multiple alternatives to be considered here. Here are the ones that we ran into:
+
+* [IdleObserver](#IdleObserver)
+* [navigator.idle.query](#navigator.idle.query) and variations ([chrome.idle](#chrome.idle.query), [browser.idle](#browser.idle.query))
+
+Here are some guidance on [Events vs Observers](https://w3ctag.github.io/design-principles/#events-vs-observers) we got from the TAG review.
+
+### Alternatives Considered
+
+#### [IdleObserver]
+
+This formulation is inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver), the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and the [PerformanceObserver](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver) APIs.
 
 ```js
 const observer = new IdleObserver({state} => {
@@ -71,7 +82,8 @@ Open questions:
 * Should we allow observer.disconnect()?
 * Should we allow multiple new IdleObserver() to run concurrently?
 
-### Alternatives Considered
+
+#### navigator.idle.query
 
 #### [chrome.idle](https://developer.chrome.com/apps/idle)
 

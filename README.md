@@ -65,7 +65,7 @@ idleDetector.addEventListener('reading', () => reloadOnShake(idleDetector));
 idleDetector.start();
 ```
 
-And
+And for a one-shot reading of the state:
 
 ```js
 const reading = await IdleDetector.read({ threshold: 2 * 60 });

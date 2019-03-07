@@ -168,6 +168,8 @@ An implication here is that if implementations clamp the detection threshold, th
 
 At least initially, per [TAG review](https://github.com/w3ctag/design-reviews/issues/336#issuecomment-460482399), we don't see any major gains we would get allowing the API to be called outside of top-level frames, so restricting it seems like a good starting point (and/or, perhaps, delegation via Feature Policy or a `sandbox` attribute).
 
+This API exposes a system-wide state, which could be used to correlate normal/regular profiles, two different profiles, or two different browsers on the same machine. To reduce multiple sites identifying me as the same person due to the time I idle, it should to introduce some fuzziness between reporting to the various observers.
+
 ## Prior Work
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.

@@ -61,14 +61,14 @@ This formulation is inspired by [@kenchris's feedback](https://github.com/w3ctag
 
 ```js
 let idleDetector = new IdleDetector({ threshold: 60 });
-idleDetector.addEventListener('reading', () => reloadOnShake(idleDetector));
+idleDetector.addEventListener('reading', ({user, screen}) => ...);
 idleDetector.start();
 ```
 
 And for a one-shot reading of the state:
 
 ```js
-const reading = await IdleDetector.read({ threshold: 2 * 60 });
+const {user, screen} = await IdleDetector.read({ threshold: 2 * 60 });
 ```
 
 #### IdleObserver
@@ -98,7 +98,7 @@ This formulation is closer to chrome's [`chrome.idle.query()`](https://developer
 const monitor = navigator.idle.query({threshold: 2 * 60});
 
 // Listen to state changes
-monitor.addEventListener('change', (state) => {
+monitor.addEventListener('change', ({user, screen}) => {
   // do stuff
 });
 ```
@@ -107,7 +107,7 @@ Or, if you only care about the current state:
 
 ```js
 navigator.idle.query({threshold: 2 * 60})
-  .addEventListener({once: true}, (state) => {
+  .addEventListener({once: true}, ({user, screen}) => {
     // do stuff
   });
 ```

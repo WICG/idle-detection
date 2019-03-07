@@ -31,13 +31,14 @@ Script can't tell today when a user goes idle outside of its content area (e.g. 
 
 ## Model
 
-The API assumes that there is some level of engagement between the user, user agent, and operating system of the device in use. This is represented in three states:
+The API assumes that there is some level of engagement between the user, user agent, and operating system of the device in use. This is represented in two dimensions:
 
-* **active** - the user is interacting with the user agent
-* **idle** - the user has not interacted with the user agent for some period of time
-* **locked** - the system has an active screen lock preventing interaction with the user agent
+1. The user idle state
+  * **active**/**idle** - the user has / has not interacted with the user agent for some period of time
+2. The screen idle state
+  * **locked**/**unlocked** - the system has an active screen lock preventing interaction with the user agent
 
-Distinguishing "active" from "idle" requires heuristics that may differ across user, user agent, and operating system. It should also be a reasonably coarse threshold. (See Privacy)
+Distinguishing "active" from "idle" requires heuristics that may differ across user, user agent, and operating system. It should also be a reasonably coarse threshold (See Privacy).
 
 The model intentionally does not formally distinguish between interaction with particular content (i.e. the web page in a tab using the API), the user agent as a whole, or the operating system; this definition is left to the user agent.
 
@@ -54,23 +55,29 @@ Here are some guidance on [Events vs Observers](https://w3ctag.github.io/design-
 
 ### Alternatives Considered
 
+#### IdleDetector
+
+This formulation is inspired by [@kenchris's feedback](https://github.com/w3ctag/design-reviews/issues/336#issuecomment-470077151), the overall guidance on [Observers vs EventTargets](https://w3ctag.github.io/design-principles/#events-vs-observers), and the [Sensor API], specifically, the `Accelerometer` class.
+
+```
+let idleDetector = new IdleDetector({ threshold: 60 });
+idleDetector.addEventListener('reading', () => reloadOnShake(idleDetector));
+idleDetector.start();
+```
+
+And
+
+```
+const reading = await IdleDetector.read({ threshold: 2 * 60 });
+```
+
 #### IdleObserver
 
 This formulation is inspired by the [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver), the [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and the [PerformanceObserver](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceObserver) APIs.
 
 ```js
-const observer = new IdleObserver({state} => {
-  switch (state) {
-    case 'active':
-      document.body.style.backgroundColor = 'green';
-      break;
-    case 'idle':
-      document.body.style.backgroundColor = 'yellow';
-      break;
-    case 'locked':
-      document.body.style.backgroundColor = 'red';
-      break;
-  }
+const observer = new IdleObserver({user, screen} => {
+  // do stuff
 });
 
 // Define "idle" as two minutes of inactivity.

@@ -59,7 +59,7 @@ Here are some guidance on [Events vs Observers](https://w3ctag.github.io/design-
 
 This formulation is inspired by [@kenchris's feedback](https://github.com/w3ctag/design-reviews/issues/336#issuecomment-470077151), the overall guidance on [Observers vs EventTargets](https://w3ctag.github.io/design-principles/#events-vs-observers), and the [Sensor API](https://w3c.github.io/sensors/#feature-detection), specifically, the [`Accelerometer`](https://w3c.github.io/sensors/#feature-detection) class.
 
-```
+```js
 let idleDetector = new IdleDetector({ threshold: 60 });
 idleDetector.addEventListener('reading', () => reloadOnShake(idleDetector));
 idleDetector.start();
@@ -67,7 +67,7 @@ idleDetector.start();
 
 And
 
-```
+```js
 const reading = await IdleDetector.read({ threshold: 2 * 60 });
 ```
 

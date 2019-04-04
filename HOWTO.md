@@ -13,7 +13,7 @@ Here is an example of how to use the API:
 async function main() {
   // feature detection.
   if (!window.IdleDetector) {
-    log("IdleDetector is not available :(");
+    console.log("IdleDetector is not available :(");
     return;
   }
   
@@ -24,13 +24,13 @@ async function main() {
     let idleDetector = new IdleDetector({threshold: 60});
     idleDetector.addEventListener('change', e => {
       let {user, screen} = idleDetector.state;
-      log(`[${new Date().toLocaleString()}] idle change: ${user}, ${screen}`);
+      console.log(`[${new Date().toLocaleString()}] idle change: ${user}, ${screen}`);
     });
     await idleDetector.start();
   } catch (e) {
     // deal with initialization errors.
     // permission denied, running outside of top-level frame, etc
-    log(`Initialization error: ${e}.`);
+    console.log(`Initialization error: ${e}.`);
   }
 };
 ```

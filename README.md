@@ -60,19 +60,24 @@ Here are some guidance on [Events vs Observers](https://w3ctag.github.io/design-
 This formulation is inspired by [@kenchris's feedback](https://github.com/w3ctag/design-reviews/issues/336#issuecomment-470077151), the overall guidance on [Observers vs EventTargets](https://w3ctag.github.io/design-principles/#events-vs-observers), and the [Sensor API](https://w3c.github.io/sensors/#feature-detection), specifically, the [`Accelerometer`](https://w3c.github.io/sensors/#feature-detection) class.
 
 ```js
-// feature detection.
-if (!window.IdleDetector) {
-  return;
-}
+async function main() {
+  // feature detection.
+  if (!window.IdleDetector) {
+    console.log("IdleDetector is not available :(");
+    return;
+  }
   
-try {
-  let idleDetector = new IdleDetector({ threshold: 60 });
-  idleDetector.addEventListener('reading', ({user, screen}) => ...);
-  await idleDetector.start();
-} catch (e) {
-  // deal with initialization errors.
-  // permission denied, running outside of top-level frame, etc
-}
+  console.log("IdleDetector is available! Go idle!");
+  
+  try {
+    let idleDetector = new IdleDetector({ threshold: 60 });
+    idleDetector.addEventListener('change', ({user, screen}) => { console.log(`idle change: ${user}, ${screen}`); });
+    await idleDetector.start();
+  } catch (e) {
+    // deal with initialization errors.
+    // permission denied, running outside of top-level frame, etc
+  }
+};
 ```
 
 And for a one-shot reading of the state:

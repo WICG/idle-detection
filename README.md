@@ -71,7 +71,9 @@ async function main() {
   
   try {
     let idleDetector = new IdleDetector({ threshold: 60 });
-    idleDetector.addEventListener('change', ({user, screen}) => { console.log(`idle change: ${user}, ${screen}`); });
+    idleDetector.addEventListener('change', ({user, screen}) => { 
+      console.log(`idle change: ${user}, ${screen}`);
+    });
     await idleDetector.start();
   } catch (e) {
     // deal with initialization errors.

@@ -7,6 +7,34 @@ The IdleDetector API is currently available in chrome canaries under a flag:
 3) Navigate to a test page, e.g. https://code.sgo.to/tmp/idle.html
 4) Go idle (e.g. stop moving your mouse, typing on your keyboard or lock your screen)
 
+Here is an example of the API:
+
+```javascript
+async function main() {
+  // feature detection.
+  if (!window.IdleDetector) {
+    log("IdleDetector is not available :(");
+    return;
+  }
+  
+  log("IdleDetector is available! Go idle!");
+  
+  try {
+    // There is a minimum limit here of 60 seconds.
+    let idleDetector = new IdleDetector({threshold: 60});
+    idleDetector.addEventListener('change', e => {
+      let {user, screen} = idleDetector.state;
+      log(`[${new Date().toLocaleString()}] idle change: ${user}, ${screen}`);
+    });
+    await idleDetector.start();
+  } catch (e) {
+    // deal with initialization errors.
+    // permission denied, running outside of top-level frame, etc
+    log(`Initialization error: ${e}.`);
+  }
+};
+```
+
 You should see something along the lines of:
 
 ```

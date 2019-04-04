@@ -1,3 +1,9 @@
+There are multiple alternatives to be considered here. Here are the ones that we ran into:
+
+* [IdleObserver](#IdleObserver)
+* [navigator.idle.query()](#navigatoridlequery) and variations ([chrome.idle](#chrome.idle.query), [browser.idle](#browser.idle.query))
+
+Here are some guidance on [Events vs Observers](https://w3ctag.github.io/design-principles/#events-vs-observers) we got from the TAG review.
 
 ### Alternatives Considered
 

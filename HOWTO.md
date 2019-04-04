@@ -7,7 +7,7 @@ The IdleDetector API is currently available in chrome canaries under a flag:
 3) Navigate to a test page, e.g. https://code.sgo.to/tmp/idle.html
 4) Go idle (e.g. stop moving your mouse, typing on your keyboard or lock your screen)
 
-Here is an example of the API:
+Here is an example of how to use the API:
 
 ```javascript
 async function main() {

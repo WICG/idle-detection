@@ -12,8 +12,9 @@ Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api
 
 ## Use cases
 
-* Chat application: presenting a user's status to other users
-* Showing timely notifications - e.g. deferring displaying feedback until the user returns to an active state
+* Chat application: presenting a user's status to other users.
+* Showing timely notifications - e.g. deferring displaying feedback until the user returns to an active state.
+* Updating an outdated service worker when there's no unsaved state by triggering reloading of the tab.
 
 ## Relationship with other APIs
 

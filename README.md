@@ -100,6 +100,8 @@ If an implementation restricts the detection threshold it should also restrict h
 
 To mitigate the exposure of this global state the API should be restricted to top-level frames with the [`"notifications"` permission]. It could be delegationed to subframes via Feature Policy or a `sandbox` attribute. The top-level frame requirement significantly reduces the number of cross-origin contexts which can observe the a state event and thus identify the user through backend communication channels. The permission requirement further reduces this set to sites the user has engaged with before. The most compelling use cases for this capability involve messaging applications and so the [`"notifications"` permission] is appropriate.
 
+Implementations that provide a "privacy browsing" mode should not enable this capability in such a mode. This may be satisfied incidentally by not allowing notification permission to be granted. Care should be taken to avoid allowing sites to detect this mode by, for example, randomly delaying the automatic disapproval of the notification permission so that it appears to have been denied by the user.
+
 ## Prior Work
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.

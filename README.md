@@ -1,10 +1,10 @@
-<img src="https://raw.githubusercontent.com/inexorabletash/idle-detection/master/logo-idle.png" height="100" align=right>
+<img src="https://raw.githubusercontent.com/samuelgoto/idle-detection/master/logo-idle.png" height="100" align=right>
 
 # User Idle Detection
 
-This is a proposal to give developers the ability to be notified when users go idle (e.g. they don’t interact with the keyboard/mouse/screen, when a screensaver kicks in and/or when the screen gets locked) past a certain time limit, even beyond their content area (e.g. when users move to a different window/tab).
+This proposed API allows developers to add an event listener for when the user becomes idle (e.g. they don’t interact with the keyboard, mouse or touchscreen, when a screensaver activates or when the screen is locked). Unlike solutions based on monitoring input events this capability extends beyond the site's content area (e.g. when users move to a different window or tab).
 
-Native applications / extensions (e.g. [Chrome apps](https://developer.chrome.com/apps/idle), [Android apps](https://stackoverflow.com/questions/8317331/detecting-when-screen-is-locked), [Firefox extensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle), [Edge extensions](https://github.com/MicrosoftDocs/edge-developer/blob/master/microsoft-edge/extensions/api-support/supported-apis.md#idle)) use idle detection to notify other users (e.g. chat apps letting other users know that the user isn’t active), to show timely alerts (e.g. "welcome back" when a user goes idle and restarts their task) or to pause media (e.g. to save bandwidth when the user is idle).
+Native applications and browser extensions (e.g. [Chrome apps](https://developer.chrome.com/apps/idle), [Android apps](https://stackoverflow.com/questions/8317331/detecting-when-screen-is-locked), [Firefox extensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/idle), [Edge extensions](https://github.com/MicrosoftDocs/edge-developer/blob/master/microsoft-edge/extensions/api-support/supported-apis.md#idle)) use idle detection to notify other users that the user is unreachable (e.g. in chat applications), to show timely alerts (e.g. "welcome back" when a user returns to their task) or to pause media (e.g. to save bandwidth when the user is not present).
 
 The API should provide a means to _detect_ the user's idle status (active, idle, locked), and a power-efficient way to be _notified_ of changes to the status without polling from script.
 
@@ -12,7 +12,7 @@ Feedback: [WICG Discourse Thread](https://discourse.wicg.io/t/idle-detection-api
 
 ## Use cases
 
-* Chat application: presenting a user's status to other users.
+* Chat application: presenting a user's status to other users and delivering notifications to the device where the user is active.
 * Showing timely notifications - e.g. deferring displaying feedback until the user returns to an active state.
 * Updating an outdated service worker when there's no unsaved state by triggering reloading of the tab.
 
@@ -76,31 +76,29 @@ async function main() {
 
 ## Platforms
 
-All platforms (linux, windows, mac, android, ios and chromeos) support some form of idle detection.
+All platforms (Linux, Windows, macOS, Android, iOS and Chrome OS) support some form of idle detection.
 
-On desktop (linux, mac, windows), a screen saver (from the time monitors were damaged when the same pixels were displayed) kicks in after a certain period of inactivity. If set up, the screen also gets locked after the user goes inactive for more time. Both of these events are observable by engines.
+On desktop devices (Chrome OS, Linux, macOS and Windows), a screen saver (from a time when monitors were damaged if the same pixels were lit for an extended period of time) activates after a user-configurable period of inactivity. The operating system may optionally require the user to reauthenticate (i.e. lock the screen) after the screen saver has been activated for a period of time. Both of these events are observable by engines.
 
-On mobile (android), the screen gets dimmed a few moments after the user goes inactive (to save battery, not pixels) but isn't observable by engines (on android). The screen gets eventually turned off (to save further battery) if the user remains inactive for a configurable amount of time (typically 30 seconds), and that's observable by engines. When the screen goes off, the screen also typically gets locked (unlocked by Swipe, Pattern, PIN or Password), although it can be configured to be left off but unlocked.
+On mobile devices (Android and iOS), the screen is dimmed after a few seconds of inactivity (to save battery, not pixels) but this isn't observable by engines (on Android). The screen is eventually turned off (to save further battery) if the user remains inactive for a configurable amount of time (typically 30 seconds), and that is observable by engines. When the screen goes off, the screen is also typically locked (unlockable by Swipe, Pattern, PIN or Password), although it can be configured to be left off but unlocked.
 
 ## Permissions
 
-A new [permission](https://w3c.github.io/permissions/) would be associated with this functionality. A new [permission name](https://w3c.github.io/permissions/#permission-registry) such as `"idle-detection"` would be registered. The permission might be auto-granted based on heuristics, such as user engagement, having "installed" the web site as a bookmark or desktop/homescreen icon, or having granted similar permissions such as [Wake Lock](https://w3c.github.io/wake-lock/).
+The ability to use this API will be controlled by the [`"notifications"` permission].
 
 ## Security and Privacy
 
-See answers to [Self-Review Questionnaire: Security and Privacy](security-privacy-self-assessment.md)
+See answers to the W3C TAG's [security & privacy self-review questionnaire](https://www.w3.org/TR/security-privacy-questionnaire/) in [security-privacy-self-assessment.md](security-privacy-self-assessment.md).
 
-* There are definitely privacy implications here, mandating a new permission.
-* There is a new way of causing work to be scheduled, but no new network or storage functionality is offered.
-* The threshold to distinguish between "active" and "idle" must be coarse enough to preclude inferring too much about user activity
-    * At an extreme, typing cadence can be used to guess passwords.
-    * Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
+The idle state is a global system property and so care must be taken to prevent this from being used as a cross-origin communication or identification channel. This is similar to other APIs which provide access to system events such as [Generic Sensors](https://w3c.github.io/sensors/) and [Geolocation](https://w3c.github.io/geolocation-api/).
 
-An implication here is that if implementations clamp the detection threshold, they should also clamp how quickly responses to `query()` are delivered and/or ensure that the responses to `query()` are cached or otherwise provide some granularity that rapid polling with JS does not bypass the clamp.
+A short idle threshold could be used to identify user behavior in another tab. With a short enough threshold an idle state change could be used to measure typing cadence when the user is in another application and thus leak sensitive data such as passwords.
 
-At least initially, per [TAG review](https://github.com/w3ctag/design-reviews/issues/336#issuecomment-460482399), we don't see any major gains we would get allowing the API to be called outside of top-level frames, so restricting it seems like a good starting point (and/or, perhaps, delegation via Feature Policy or a `sandbox` attribute).
+Users with physical or cognitive impairments may require more time to interact with user agents and content. The API should not allow distinguishing such users, or limiting their ability to interact with content any more than existing observation of UI events.
 
-This API exposes a system-wide state, which could be used to correlate normal/regular profiles, two different profiles, or two different browsers on the same machine. To reduce multiple sites identifying me as the same person due to the time I idle, it should to introduce some fuzziness between reporting to the various observers.
+If an implementation restricts the detection threshold it should also restrict how quickly responses to `query()` are delivered or ensure that the response is cached or otherwise provide a guarantee that rapid polling does not bypass the restriction on data granularity.
+
+To mitigate the exposure of this global state the API should be restricted to top-level frames with the [`"notifications"` permission]. It could be delegationed to subframes via Feature Policy or a `sandbox` attribute. The top-level frame requirement significantly reduces the number of cross-origin contexts which can observe the a state event and thus identify the user through backend communication channels. The permission requirement further reduces this set to sites the user has engaged with before. The most compelling use cases for this capability involve messaging applications and so the [`"notifications"` permission] is appropriate.
 
 ## Prior Work
 
@@ -111,3 +109,5 @@ This API exposes a system-wide state, which could be used to correlate normal/re
 * Attempts to do this from JS running on the page:
   * [idle.ts](https://github.com/dropbox/idle.ts) from Dropbox
   * [Idle.js](http://shawnmclean.com/detecting-if-user-is-idle-away-or-back-by-using-idle-js/)
+
+[`"notifications"` permission]: https://w3c.github.io/permissions/#notifications

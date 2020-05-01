@@ -49,6 +49,45 @@ The model intentionally does not formally distinguish between interaction with p
 
 The API design is largely inspired by the [Sensors API](https://w3c.github.io/sensors). You can find more about alternatives considered [here](annex.md).
 
+### WebIDL
+
+```js
+dictionary IdleOptions {
+  unsigned long threshold = 60; /* seconds */
+};
+
+enum UserIdleState {
+    "active",
+    "idle"
+};
+
+enum ScreenIdleState {
+    "locked",
+    "unlocked"
+};
+
+[
+  SecureContext,
+  Exposed=(Window,DedicatedWorker),
+] interface IdleState {
+  readonly attribute UserIdleState user;
+  readonly attribute ScreenIdleState screen;
+};
+
+[
+  SecureContext,
+  Exposed=(Window,DedicatedWorker)
+] interface IdleDetector : EventTarget {
+  constructor(optional IdleOptions options = {});
+  readonly attribute IdleState state;
+  attribute EventHandler onchange;
+  Promise<void> start();
+  void stop();
+};
+```
+
+### Example
+
 Here is an example of how to use it (more detailed instructions [here](HOWTO.md)):
 
 ```js
@@ -63,8 +102,8 @@ async function main() {
   
   try {
     let idleDetector = new IdleDetector({ threshold: 60 });
-    idleDetector.addEventListener('change', ({user, screen}) => { 
-      console.log(`idle change: ${user}, ${screen}`);
+    idleDetector.addEventListener('change', () => { 
+      console.log(`idle change: ${this.state.user}, ${this.state.screen}`);
     });
     await idleDetector.start();
   } catch (e) {

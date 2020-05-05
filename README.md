@@ -53,7 +53,7 @@ The API design is largely inspired by the [Sensors API](https://w3c.github.io/se
 
 ```js
 dictionary IdleOptions {
-  unsigned long threshold = 60000; /* milliseconds */
+  [EnforceRange] unsigned long threshold = 60000; /* milliseconds */
 };
 
 enum UserIdleState {

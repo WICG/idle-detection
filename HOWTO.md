@@ -21,7 +21,7 @@ async function main() {
   
   try {
     // There is a minimum limit here of 60 seconds.
-    let idleDetector = new IdleDetector({threshold: 60});
+    let idleDetector = new IdleDetector({threshold: 60000});
     idleDetector.addEventListener('change', e => {
       let {user, screen} = idleDetector.state;
       console.log(`[${new Date().toLocaleString()}] idle change: ${user}, ${screen}`);

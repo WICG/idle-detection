@@ -53,7 +53,7 @@ The API design is largely inspired by the [Sensors API](https://w3c.github.io/se
 
 ```js
 dictionary IdleOptions {
-  unsigned long threshold = 60; /* seconds */
+  [EnforceRange] unsigned long threshold = 60000; /* milliseconds */
 };
 
 enum UserIdleState {
@@ -101,7 +101,7 @@ async function main() {
   console.log("IdleDetector is available! Go idle!");
   
   try {
-    let idleDetector = new IdleDetector({ threshold: 60 });
+    let idleDetector = new IdleDetector({ threshold: 60000 });
     idleDetector.addEventListener('change', () => { 
       console.log(`idle change: ${this.state.user}, ${this.state.screen}`);
     });

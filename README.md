@@ -57,11 +57,13 @@ dictionary IdleOptions {
 };
 
 enum UserIdleState {
+    "unknown",
     "active",
     "idle"
 };
 
 enum ScreenIdleState {
+    "unknown",
     "locked",
     "unlocked"
 };

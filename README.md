@@ -71,8 +71,8 @@ enum ScreenIdleState {
   Exposed=(Window,DedicatedWorker)
 ] interface IdleDetector : EventTarget {
   constructor(optional IdleOptions options = {});
-  readonly attribute UserIdleState userState;
-  readonly attribute ScreenIdleState screenState;
+  readonly attribute UserIdleState? userState;
+  readonly attribute ScreenIdleState? screenState;
   attribute EventHandler onchange;
   Promise<void> start();
   void stop();

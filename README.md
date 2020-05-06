@@ -93,7 +93,7 @@ Here is an example of how to use it (more detailed instructions [here](HOWTO.md)
 ```js
 async function main() {
   // feature detection.
-  if (!window.IdleDetector) {
+  if (!('IdleDetector' in window)) {
     console.log("IdleDetector is not available :(");
     return;
   }
@@ -101,16 +101,16 @@ async function main() {
   console.log("IdleDetector is available! Go idle!");
   
   try {
-    let idleDetector = new IdleDetector({ threshold: 60000 });
-    idleDetector.addEventListener('change', () => { 
-      console.log(`idle change: ${this.state.user}, ${this.state.screen}`);
+    const idleDetector = new IdleDetector({ threshold: 60000 });
+    idleDetector.addEventListener('change', () => {
+      console.log(`idle change: ${idleDetector.state.user}, ${idleDetector.state.screen}`);
     });
     await idleDetector.start();
   } catch (e) {
     // deal with initialization errors.
     // permission denied, running outside of top-level frame, etc
   }
-};
+}
 ```
 
 ## Platforms

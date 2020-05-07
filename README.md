@@ -69,18 +69,11 @@ enum ScreenIdleState {
 
 [
   SecureContext,
-  Exposed=(Window,DedicatedWorker),
-] interface IdleState {
-  readonly attribute UserIdleState user;
-  readonly attribute ScreenIdleState screen;
-};
-
-[
-  SecureContext,
   Exposed=(Window,DedicatedWorker)
 ] interface IdleDetector : EventTarget {
   constructor();
-  readonly attribute IdleState state;
+  readonly attribute UserIdleState? userState;
+  readonly attribute ScreenIdleState? screenState;
   attribute EventHandler onchange;
   Promise<void> start(optional IdleOptions options = {});
 };
@@ -103,7 +96,7 @@ async function main() {
   try {
     const idleDetector = new IdleDetector();
     idleDetector.addEventListener('change', () => {
-      console.log(`idle change: ${idleDetector.state.user}, ${idleDetector.state.screen}`);
+      console.log(`idle change: ${idleDetector.userState}, ${idleDetector.screenState}`);
     });
     await idleDetector.start({ threshold: 60000 });
   } catch (e) {

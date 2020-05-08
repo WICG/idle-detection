@@ -84,26 +84,41 @@ enum ScreenIdleState {
 Here is an example of how to use it (more detailed instructions [here](HOWTO.md)):
 
 ```js
-async function main() {
-  // feature detection.
+const main = async () => {
+  // Feature detection.
   if (!('IdleDetector' in window)) {
-    console.log("IdleDetector is not available :(");
-    return;
+    return console.log('IdleDetector is not available.');
   }
-  
-  console.log("IdleDetector is available! Go idle!");
-  
+  // Check if notifications permission is granted.
+  if ((await navigator.permissions.query({name: 'notifications'})).state !== 'granted') {
+    return console.log('Notifications permission not granted.');
+  }    
   try {
-    const idleDetector = new IdleDetector();
+    const controller = new AbortController();
+    const signal = controller.signal;
+    
+    const idleDetector = new IdleDetector({signal});
     idleDetector.addEventListener('change', () => {
-      console.log(`idle change: ${idleDetector.userState}, ${idleDetector.screenState}`);
+      console.log(`Idle change: ${idleDetector.userState}, ${idleDetector.screenState}.`);
+    });    
+    await idleDetector.start({
+      threshold: 60000,
+      signal,
     });
-    await idleDetector.start({ threshold: 60000 });
-  } catch (e) {
-    // deal with initialization errors.
-    // permission denied, running outside of top-level frame, etc
+    console.log('IdleDetector is active.');
+    
+    window.setTimeout(() => {
+      controller.abort();
+      console.log('IdleDetector is stopped.');
+    }, 120000);
+  } catch (err) {
+    // Deal with initialization errors like permission denied,
+    // running outside of top-level frame, etc.
+    console.error(err.name, err.message);
   }
-}
+};
+
+main();
 ```
 
 ## Platforms

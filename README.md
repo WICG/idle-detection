@@ -53,7 +53,8 @@ The API design is largely inspired by the [Sensors API](https://w3c.github.io/se
 
 ```js
 dictionary IdleOptions {
-  [EnforceRange] unsigned long threshold = 60000; /* milliseconds */
+  [EnforceRange] unsigned long threshold;
+  AbortSignal signal;
 };
 
 enum UserIdleState {
@@ -70,12 +71,11 @@ enum ScreenIdleState {
   SecureContext,
   Exposed=(Window,DedicatedWorker)
 ] interface IdleDetector : EventTarget {
-  constructor(optional IdleOptions options = {});
+  constructor();
   readonly attribute UserIdleState? userState;
   readonly attribute ScreenIdleState? screenState;
   attribute EventHandler onchange;
-  Promise<void> start();
-  void stop();
+  Promise<void> start(optional IdleOptions options = {});
 };
 ```
 
@@ -94,11 +94,11 @@ async function main() {
   console.log("IdleDetector is available! Go idle!");
   
   try {
-    const idleDetector = new IdleDetector({ threshold: 60000 });
+    const idleDetector = new IdleDetector();
     idleDetector.addEventListener('change', () => {
       console.log(`idle change: ${idleDetector.userState}, ${idleDetector.screenState}`);
     });
-    await idleDetector.start();
+    await idleDetector.start({ threshold: 60000 });
   } catch (e) {
     // deal with initialization errors.
     // permission denied, running outside of top-level frame, etc

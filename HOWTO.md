@@ -20,12 +20,12 @@ async function main() {
   log("IdleDetector is available! Go idle!");
   
   try {
-    // There is a minimum limit here of 60 seconds.
-    let idleDetector = new IdleDetector({threshold: 60000});
+    let idleDetector = new IdleDetector();
     idleDetector.addEventListener('change', e => {
       console.log(`[${new Date().toLocaleString()}] idle change: ${idleDetector.userState}, ${idleDetector.screenState}`);
     });
-    await idleDetector.start();
+    // There is a minimum limit here of 60 seconds.
+    await idleDetector.start({threshold: 60000});
   } catch (e) {
     // deal with initialization errors.
     // permission denied, running outside of top-level frame, etc

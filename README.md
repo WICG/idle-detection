@@ -149,6 +149,41 @@ To mitigate the exposure of this global state the API should be restricted to to
 
 Implementations that provide a "privacy browsing" mode should not enable this capability in such a mode. This may be satisfied incidentally by not allowing notification permission to be granted. Care should be taken to avoid allowing sites to detect this mode by, for example, randomly delaying the automatic disapproval of the notification permission so that it appears to have been denied by the user.
 
+## Alternative Permissions Models
+
+### Event Timing Fuzzing
+
+The current idle state and the timing of transitions between states are global state which could be used to identify a user across origin boundaries. For example, two cooperating sites could compare the timestamps at which they observed clients transitioning from `"active"` to `"idle"`. Two clients which appear to consistently make transitions at the same time have a high likelyhood of being the same user.
+
+A mitigation with the potential to directly address this attack is to add a random delay between when the specified threshold is passed and when the `"change"` event is fired.
+
+This mitigation was considered and determined to be unacceptable because:
+
+* Delaying the event by even a small amount drastically reduces the usefulness of the API in chat applications which want to ensure that messages are delivered to the correct device.
+* Even with a large fuzzing factor (e.g. 30 seconds) data collected over a long period of time is still sufficient to identify the user.
+
+### Dedicated Idle Detection Permission
+
+Rather than extending the `"notifications"` permission, a new `"idle-detection"` permission could be defined to control access to this particular capability.
+
+Requiring a permission does not directly mitigate the cross-origin identification issue described above, but does reduce the number of sites which are able to participate in such an attack. A number which is already limited to the number of top-level browsing contexts (i.e. tabs or windows) the user has open by not allowing this API to be used in cross-origin iframes.
+
+A new permission would better inform the user about the permission the page is requesting.
+
+> ![Screenshot of a permission request dialog](example-permission-dialog.png)
+> <br>
+> Example icon and text for an `"idle-detection"` permission request.
+
+Rather than expanding the definition of an existing permission, it would be clear to users which sites have access to additional capabilities.
+
+> ![Screenshot of Chromium's page information dialog](example-page-info.png)
+> <br>
+> Example page information dialog box showing a site with both `"notifications"` and `"idle-detection"` permissions granted.
+
+The advantage of defining a new permission type for this particular capability is that it keeps users informed of the capabilities being granted. This is important because this capability changes the privacy model by allowing the site to observe a limited amount of information about how the user interacts with their device outside the border of the site's content area. Sites using this permission should present the request in a context which explains the value to the user of being granted this capability.
+
+The disadvantage of defining a new permission type is that it contributes to "consent fatigue", in which users are presented with an endlessly increasing number of choices by operating systems, browsers, and web sites. Adding this capability to a related permission such as `"notifications"` can maintain a user's control while reducing the number of decisions that need to be made.
+
 ## Prior Work
 
 * Chrome's [chrome.idle](https://developer.chrome.com/apps/idle) API for apps/extensions, which is a direct inspiration for this proposal.

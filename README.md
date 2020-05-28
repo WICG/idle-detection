@@ -164,25 +164,25 @@ This mitigation was considered and determined to be unacceptable because:
 
 ### Dedicated Idle Detection Permission
 
-Rather than extending the `"notifications"` permission a new `"idle-detection"` permission could be defined to control access to this particular capability.
+Rather than extending the `"notifications"` permission, a new `"idle-detection"` permission could be defined to control access to this particular capability.
 
-Requiring a permission does not directly mitigate the cross-origin identification issue described above but does reduce the number of sites which are able to participate in such an attack. A number which is already limited to the number of top-level browsing contexts (i.e. tabs or windows) the user has open by not allowing this API to be used in cross-origin iframes.
+Requiring a permission does not directly mitigate the cross-origin identification issue described above, but does reduce the number of sites which are able to participate in such an attack. A number which is already limited to the number of top-level browsing contexts (i.e. tabs or windows) the user has open by not allowing this API to be used in cross-origin iframes.
 
 A new permission would better inform the user about the permission the page is requesting.
 
 > ![Screenshot of a permission request dialog](example-permission-dialog.png)
 > <br>
-> Example icon and text for and "idle-detection" permission request.
+> Example icon and text for an `"idle-detection"` permission request.
 
-Rather than expanding the definition of an existing permission it would be clear to users which sites have access to additional capabilities.
+Rather than expanding the definition of an existing permission, it would be clear to users which sites have access to additional capabilities.
 
 > ![Screenshot of Chromium's page information dialog](example-page-info.png)
 > <br>
-> Example page information dialog box showing a site with both "notifications" and "idle-detection" permissions granted.
+> Example page information dialog box showing a site with both `"notifications"` and `"idle-detection"` permissions granted.
 
 The advantage of defining a new permission type for this particular capability is that it keeps users informed of the capabilities being granted. This is important because this capability changes the privacy model by allowing the site to observe a limited amount of information about how the user interacts with their device outside the border of the site's content area. Sites using this permission should present the request in a context which explains the value to the user of being granted this capability.
 
-The disadvantage of defining a new permission type is that it contributes to "consent fatigue", in which users are presented with an endlessly incresing number of choices by operating systems, browsers and web sites. Adding this capability to a related permission such as `"notifications"` can maintain a user's control while reducing the number of decisions that need to be made.
+The disadvantage of defining a new permission type is that it contributes to "consent fatigue", in which users are presented with an endlessly increasing number of choices by operating systems, browsers, and web sites. Adding this capability to a related permission such as `"notifications"` can maintain a user's control while reducing the number of decisions that need to be made.
 
 ## Prior Work
 

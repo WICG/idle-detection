@@ -1225,7 +1225,7 @@ Possible extra rowspan handling
   <meta content="Bikeshed version 7c63c139, updated Fri Jul 17 17:12:19 2020 -0700" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="aad4bc2a0ee7af8db9ae34a8e06c7080765eec23" name="document-revision">
+  <meta content="7bd9cf79e08d3e633629b7ab24d386a1bbf117f1" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -1495,7 +1495,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Idle Detection API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2020-08-03">3 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2020-08-04">4 August 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1805,8 +1805,8 @@ feature</a> named <code>"idle-detection"</code>.</p>
       <p>Return <var>result</var>.</p>
     </ol>
    </div>
-   <div class="example" id="example-b593be6f">
-    <a class="self-link" href="#example-b593be6f"></a> 
+   <div class="example" id="example-3440c342">
+    <a class="self-link" href="#example-3440c342"></a> 
     <p>The availability of this API can be detected by looking for the <code class="idl"><a data-link-type="idl" href="#idledetector" id="ref-for-idledetector③">IdleDetector</a></code> constructor in the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/window-object.html#window" id="ref-for-window">Window</a></code> object.</p>
 <pre class="language-js highlight"><c- k>if</c-> <c- p>(</c-><c- o>!</c-><c- p>(</c-><c- t>'IdleDetector'</c-> <c- k>in</c-> window<c- p>))</c-> <c- p>{</c->
   console<c- p>.</c->log<c- p>(</c-><c- t>'Idle detection is not available.'</c-><c- p>);</c->
@@ -1814,13 +1814,16 @@ feature</a> named <code>"idle-detection"</code>.</p>
 <c- p>}</c->
 </pre>
     <p>Calling <code class="idl"><a data-link-type="idl" href="#dom-idledetector-start" id="ref-for-dom-idledetector-start②">start()</a></code> will fail if the <code class="idl"><a data-link-type="idl" href="#dom-permissionname-idle-detection" id="ref-for-dom-permissionname-idle-detection">"idle-detection"</a></code> permission has not
-been granted. The <code class="idl"><a data-link-type="idl" href="https://w3c.github.io/permissions/#dom-permissions-query" id="ref-for-dom-permissions-query">query()</a></code> method can be used to check if the
-permission must be requested first.</p>
-<pre class="language-js highlight"><c- k>if</c-> <c- p>((</c->await navigator<c- p>.</c->permissions<c- p>.</c->query<c- p>({</c->name<c- o>:</c-> <c- t>'notifications'</c-><c- p>})).</c->state <c- o>!==</c-> <c- t>'granted'</c-><c- p>)</c-> <c- p>{</c->
-  console<c- p>.</c->log<c- p>(</c-><c- t>'Notifications permission not granted.'</c-><c- p>);</c->
+been granted.</p>
+<pre class="language-js highlight"><c- k>if</c-> <c- p>((</c->await navigator<c- p>.</c->permissions<c- p>.</c->request<c- p>({</c->name<c- o>:</c-> <c- t>'idle-detection'</c-><c- p>})).</c->state <c- o>!==</c-> <c- t>'granted'</c-><c- p>)</c-> <c- p>{</c->
+  console<c- p>.</c->log<c- p>(</c-><c- t>'Idle detection permission not granted.'</c-><c- p>);</c->
   <c- k>return</c->
 <c- p>}</c->
 </pre>
+    <p class="note" role="note"><span>Note:</span> The <code>navigator.permissions.request()</code> method is a non-standard extension
+to <a data-link-type="biblio" href="#biblio-permissions">[PERMISSIONS]</a> and is only available in some implementations. Given this
+lack of consensus on a generic permission request API this specification should
+include a custom method in the style of <code>Notification.requestPermission()</code>.</p>
     <p>A set of options can be configured to control the threshold the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent" id="ref-for-user-agent④">user agent</a> uses to decide when the user has become idle.</p>
 <pre class="language-js highlight"><c- kr>const</c-> controller <c- o>=</c-> <c- k>new</c-> AbortController<c- p>();</c->
 <c- kr>const</c-> signal <c- o>=</c-> controller<c- p>.</c->signal<c- p>;</c->
@@ -2212,12 +2215,6 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-powerful-feature①">2.4.4. start() method</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-dom-permissions-query">
-   <a href="https://w3c.github.io/permissions/#dom-permissions-query">https://w3c.github.io/permissions/#dom-permissions-query</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-permissions-query">2.4.4. start() method</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-default-allowlist">
    <a href="https://w3c.github.io/webappsec-permissions-policy/#default-allowlist">https://w3c.github.io/webappsec-permissions-policy/#default-allowlist</a><b>Referenced in:</b>
    <ul>
@@ -2345,12 +2342,11 @@ for their help in crafting this proposal.</p>
      <li><span class="dfn-paneled" id="term-for-dom-document-onvisibilitychange" style="color:initial">onvisibilitychange</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[permissions]</a> defines the following terms:
+    <a data-link-type="biblio">[PERMISSIONS]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-boolean-feature" style="color:initial">boolean feature</span>
      <li><span class="dfn-paneled" id="term-for-permission-state" style="color:initial">permission state</span>
      <li><span class="dfn-paneled" id="term-for-powerful-feature" style="color:initial">powerful feature</span>
-     <li><span class="dfn-paneled" id="term-for-dom-permissions-query" style="color:initial">query(permissionDesc)</span>
     </ul>
    <li>
     <a data-link-type="biblio">[PERMISSIONS-POLICY]</a> defines the following terms:

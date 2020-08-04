@@ -329,15 +329,19 @@ if (!('IdleDetector' in window)) {
 ```
 
 Calling {{start()}} will fail if the {{"idle-detection"}} permission has not
-been granted. The {{Permissions/query()}} method can be used to check if the
-permission must be requested first.
+been granted.
 
 ```js
-if ((await navigator.permissions.query({name: 'notifications'})).state !== 'granted') {
-  console.log('Notifications permission not granted.');
+if ((await navigator.permissions.request({name: 'idle-detection'})).state !== 'granted') {
+  console.log('Idle detection permission not granted.');
   return
 }
 ```
+
+Note: The `navigator.permissions.request()` method is a non-standard extension
+to [[PERMISSIONS]] and is only available in some implementations. Given this
+lack of consensus on a generic permission request API this specification should
+include a custom method in the style of `Notification.requestPermission()`.
 
 A set of options can be configured to control the threshold the [=user agent=]
 uses to decide when the user has become idle.

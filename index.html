@@ -1225,7 +1225,7 @@ Possible extra rowspan handling
   <meta content="Bikeshed version 7c63c139, updated Fri Jul 17 17:12:19 2020 -0700" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="52f2b2734ec999596d72b6af3552d67a9b52921d" name="document-revision">
+  <meta content="f984d2db4a4c459cfb1bb855c32c952bab1fae65" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -1556,13 +1556,15 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
        </ol>
      </ol>
     <li>
-     <a href="#security-and-privacy"><span class="secno">3</span> <span class="content">Security and Privacy Considerations</span></a>
+     <a href="#security-and-privacy"><span class="secno">3</span> <span class="content">Security and privacy considerations</span></a>
      <ol class="toc">
       <li><a href="#privacy-cross-origin-leakage"><span class="secno">3.1</span> <span class="content">Cross-origin information leakage</span></a>
       <li><a href="#privacy-behavior-tracking"><span class="secno">3.2</span> <span class="content">Behavior tracking</span></a>
       <li><a href="#privacy-user-coercion"><span class="secno">3.3</span> <span class="content">User coercion</span></a>
      </ol>
-    <li><a href="#acknowledgements"><span class="secno">4</span> <span class="content">Acknowledgements</span></a>
+    <li><a href="#accessibility"><span class="secno">4</span> <span class="content">Accessibility considerations</span></a>
+    <li><a href="#internationalization"><span class="secno">5</span> <span class="content">Internationalization considerations</span></a>
+    <li><a href="#acknowledgements"><span class="secno">6</span> <span class="content">Acknowledgements</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1859,7 +1861,7 @@ removing its event listeners or using the <code class="idl"><a data-link-type="i
 console<c- p>.</c->log<c- p>(</c-><c- t>'IdleDetector is stopped.'</c-><c- p>);</c->
 </pre>
    </div>
-   <h2 class="heading settled" data-level="3" id="security-and-privacy"><span class="secno">3. </span><span class="content">Security and Privacy Considerations</span><a class="self-link" href="#security-and-privacy"></a></h2>
+   <h2 class="heading settled" data-level="3" id="security-and-privacy"><span class="secno">3. </span><span class="content">Security and privacy considerations</span><a class="self-link" href="#security-and-privacy"></a></h2>
    <p><em>This section is non-normative.</em></p>
    <h3 class="heading settled" data-level="3.1" id="privacy-cross-origin-leakage"><span class="secno">3.1. </span><span class="content">Cross-origin information leakage</span><a class="self-link" href="#privacy-cross-origin-leakage"></a></h3>
    <p>This interface exposes the state of global system properties and so care must be
@@ -1917,7 +1919,27 @@ user to take to get themselves out of it.</p>
    <p>The harm done by such a site is limited as tracking is only possible while the
 user is visiting that page. Tracking across multiple origins requires permission
 to be requested on each participating site.</p>
-   <h2 class="heading settled" data-level="4" id="acknowledgements"><span class="secno">4. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
+   <h2 class="heading settled" data-level="4" id="accessibility"><span class="secno">4. </span><span class="content">Accessibility considerations</span><a class="self-link" href="#accessibility"></a></h2>
+   <p><em>This section is non-normative.</em></p>
+   <p>Users with physical or cognitive impairments may require more time to interact
+with user agents and content. Implementations should not allow distinguishing
+such users, or limiting their ability to interact with content any more than
+existing observation of UI events. For example, implementation should ensure
+that interactions from assistive technologies count towards considering the user
+active.</p>
+   <p>The use of a permission also requires that user agents provide a user interface
+element to support requesting and managing that permission. Any such user
+interface elements must be designed with accessibility tools in mind. For
+example, a user interface describing the capability being requested should
+provide the same description to tools such as screen readers.</p>
+   <h2 class="heading settled" data-level="5" id="internationalization"><span class="secno">5. </span><span class="content">Internationalization considerations</span><a class="self-link" href="#internationalization"></a></h2>
+   <p><em>This section is non-normative.</em></p>
+   <p>The interface described by this specification has limited internationalization
+considerations, however the use of a permission does require that user agents
+provide a user interface element to support requesting and managing that
+permission. Any content displayed by the user agent in this context should be
+translated into the user’s native language.</p>
+   <h2 class="heading settled" data-level="6" id="acknowledgements"><span class="secno">6. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p><em>This section is non-normative.</em></p>
    <p>Many thanks to
 Samuel Goto,

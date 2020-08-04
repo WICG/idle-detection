@@ -385,7 +385,7 @@ console.log('IdleDetector is stopped.');
 ```
 </div>
 
-# Security and Privacy Considerations # {#security-and-privacy}
+# Security and privacy considerations # {#security-and-privacy}
 
 *This section is non-normative.*
 
@@ -459,6 +459,33 @@ user to take to get themselves out of it.
 The harm done by such a site is limited as tracking is only possible while the
 user is visiting that page. Tracking across multiple origins requires permission
 to be requested on each participating site.
+
+# Accessibility considerations # {#accessibility}
+
+*This section is non-normative.*
+
+Users with physical or cognitive impairments may require more time to interact
+with user agents and content. Implementations should not allow distinguishing
+such users, or limiting their ability to interact with content any more than
+existing observation of UI events. For example, implementation should ensure
+that interactions from assistive technologies count towards considering the user
+active.
+
+The use of a permission also requires that user agents provide a user interface
+element to support requesting and managing that permission. Any such user
+interface elements must be designed with accessibility tools in mind. For
+example, a user interface describing the capability being requested should
+provide the same description to tools such as screen readers.
+
+# Internationalization considerations # {#internationalization}
+
+*This section is non-normative.*
+
+The interface described by this specification has limited internationalization
+considerations, however the use of a permission does require that user agents
+provide a user interface element to support requesting and managing that
+permission. Any content displayed by the user agent in this context should be
+translated into the user's native language.
 
 # Acknowledgements # {#acknowledgements}
 

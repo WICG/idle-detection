@@ -389,6 +389,8 @@ console.log('IdleDetector is stopped.');
 
 *This section is non-normative.*
 
+## Cross-origin information leakage ## {#privacy-cross-origin-leakage}
+
 This interface exposes the state of global system properties and so care must be
 taken to prevent them from being used as cross-origin communication or
 identification channels. Similar concerns are present in specifications such as
@@ -402,18 +404,10 @@ To reduce the number of independent contexts with access to this interface this
 specification restricts it to top-level and same-origin contexts. Access can be
 delegated to a cross-origin context through [[PERMISSIONS-POLICY]].
 
-To further reduce the number of contexts, as well as mitigate the general
-concern that this interface can be used to build a profile of when and for how
-long the user typically interacts with their device, this specification requires
+To further reduce the number of contexts this specification requires
 a page to obtain the {{"idle-detection"}} permission. User agents should inform
 the user of the capability that this permission grants and encourage them to
 only grant it to trusted sites which have a legitimate purpose for this data.
-
-While this interface does not provide details of the user interaction which
-triggered an {{"idle"}} to {{"active"}} transition, with a sufficiently short
-threshold these events could be used to detect behavior such as typing. This
-specification therefore restricts the requested threshold to a minimum of at
-least 60 seconds.
 
 Implementations that provide a "private browsing" mode should not allow this
 capability in contexts where this mode is enabled. Implementations should be
@@ -421,7 +415,50 @@ careful however to avoid the lack of this capability from being used as a signal
 that this mode is enabled. This can be accomplished by refusing to allow the
 {{"idle-detection"}} permission to be granted but delaying the automatic
 dismissal of the permission request by a random interval so that it appears to
-have been a user action.  
+have been a user action.
+
+## Behavior tracking ## {#privacy-behavior-tracking}
+
+While this interface does not provide details of the user interaction which
+triggered an {{"idle"}} to {{"active"}} transition, with a sufficiently short
+threshold these events could be used to detect behavior such as typing. This
+specification therefore restricts the requested threshold to a minimum of at
+least 60 seconds.
+
+The permission requirement described previously also helps to mitigate the
+general concern that this interface can be used to build a profile of when and
+for how long the user typically interacts with their device.
+
+## User coercion ## {#privacy-user-coercion}
+
+Sites may require the user to grant them the {{"idle-detection"}} permission
+before unlocking some functionality. For example, a testing site could require
+this permission as part of an anti-cheating mechanism to detect the user
+consulting forbidden reference materials in another window. This type of
+"Contract of Adhesion" has been observed with other permissions such as
+notifications, FIDO attestation and DRM identifiers.
+
+A potential mitigation for this concern is to design that interface so that it
+is not possible for a site to determine whether the user has granted or denied
+the permission. An implementation could refuse to acknowledge that the user is
+idle, reducing a site to only the signals currently available. This mitigation
+could be detectable as it is unlikely that a user who has not interacted with a
+page for hours has nevertheless still been continuously interacting with
+something else. Implementations could instead insert fake idle transition events
+which correspond to plausible behavior given the other signals available to the
+page.
+
+This specification does not mandate this type of mitigation as it could create a
+poor user experience when sites take action based on this false data. For
+example, the message application mentioned previously would not deliver
+notifications to the user's mobile device because it believes the signals it has
+been given indicate that they are still at their desktop. As the site cannot
+detect that it is in this state it cannot directly recommend an action for the
+user to take to get themselves out of it.
+
+The harm done by such a site is limited as tracking is only possible while the
+user is visiting that page. Tracking across multiple origins requires permission
+to be requested on each participating site.
 
 # Acknowledgements # {#acknowledgements}
 

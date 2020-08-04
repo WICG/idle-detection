@@ -1225,7 +1225,7 @@ Possible extra rowspan handling
   <meta content="Bikeshed version 7c63c139, updated Fri Jul 17 17:12:19 2020 -0700" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="7bd9cf79e08d3e633629b7ab24d386a1bbf117f1" name="document-revision">
+  <meta content="52f2b2734ec999596d72b6af3552d67a9b52921d" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -1555,7 +1555,13 @@ A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/
         <li><a href="#api-idledetector-start"><span class="secno">2.4.4</span> <span class="content"><code class="idl"><span>start()</span></code> method</span></a>
        </ol>
      </ol>
-    <li><a href="#security-and-privacy"><span class="secno">3</span> <span class="content">Security and Privacy Considerations</span></a>
+    <li>
+     <a href="#security-and-privacy"><span class="secno">3</span> <span class="content">Security and Privacy Considerations</span></a>
+     <ol class="toc">
+      <li><a href="#privacy-cross-origin-leakage"><span class="secno">3.1</span> <span class="content">Cross-origin information leakage</span></a>
+      <li><a href="#privacy-behavior-tracking"><span class="secno">3.2</span> <span class="content">Behavior tracking</span></a>
+      <li><a href="#privacy-user-coercion"><span class="secno">3.3</span> <span class="content">User coercion</span></a>
+     </ol>
     <li><a href="#acknowledgements"><span class="secno">4</span> <span class="content">Acknowledgements</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
@@ -1855,6 +1861,7 @@ console<c- p>.</c->log<c- p>(</c-><c- t>'IdleDetector is stopped.'</c-><c- p>);<
    </div>
    <h2 class="heading settled" data-level="3" id="security-and-privacy"><span class="secno">3. </span><span class="content">Security and Privacy Considerations</span><a class="self-link" href="#security-and-privacy"></a></h2>
    <p><em>This section is non-normative.</em></p>
+   <h3 class="heading settled" data-level="3.1" id="privacy-cross-origin-leakage"><span class="secno">3.1. </span><span class="content">Cross-origin information leakage</span><a class="self-link" href="#privacy-cross-origin-leakage"></a></h3>
    <p>This interface exposes the state of global system properties and so care must be
 taken to prevent them from being used as cross-origin communication or
 identification channels. Similar concerns are present in specifications such as <a data-link-type="biblio" href="#biblio-device-orientation">[DEVICE-ORIENTATION]</a> and <a data-link-type="biblio" href="#biblio-geolocation-api">[GEOLOCATION-API]</a>, which mitigate them by requiring
@@ -1865,23 +1872,51 @@ form of tracking in blurred and hidden contexts.</p>
    <p>To reduce the number of independent contexts with access to this interface this
 specification restricts it to top-level and same-origin contexts. Access can be
 delegated to a cross-origin context through <a data-link-type="biblio" href="#biblio-permissions-policy">[PERMISSIONS-POLICY]</a>.</p>
-   <p>To further reduce the number of contexts, as well as mitigate the general
-concern that this interface can be used to build a profile of when and for how
-long the user typically interacts with their device, this specification requires
+   <p>To further reduce the number of contexts this specification requires
 a page to obtain the <code class="idl"><a data-link-type="idl" href="#dom-permissionname-idle-detection" id="ref-for-dom-permissionname-idle-detection①">"idle-detection"</a></code> permission. User agents should inform
 the user of the capability that this permission grants and encourage them to
 only grant it to trusted sites which have a legitimate purpose for this data.</p>
-   <p>While this interface does not provide details of the user interaction which
-triggered an <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle③">"idle"</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active③">"active"</a></code> transition, with a sufficiently short
-threshold these events could be used to detect behavior such as typing. This
-specification therefore restricts the requested threshold to a minimum of at
-least 60 seconds.</p>
    <p>Implementations that provide a "private browsing" mode should not allow this
 capability in contexts where this mode is enabled. Implementations should be
 careful however to avoid the lack of this capability from being used as a signal
 that this mode is enabled. This can be accomplished by refusing to allow the <code class="idl"><a data-link-type="idl" href="#dom-permissionname-idle-detection" id="ref-for-dom-permissionname-idle-detection②">"idle-detection"</a></code> permission to be granted but delaying the automatic
 dismissal of the permission request by a random interval so that it appears to
 have been a user action.</p>
+   <h3 class="heading settled" data-level="3.2" id="privacy-behavior-tracking"><span class="secno">3.2. </span><span class="content">Behavior tracking</span><a class="self-link" href="#privacy-behavior-tracking"></a></h3>
+   <p>While this interface does not provide details of the user interaction which
+triggered an <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle③">"idle"</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active③">"active"</a></code> transition, with a sufficiently short
+threshold these events could be used to detect behavior such as typing. This
+specification therefore restricts the requested threshold to a minimum of at
+least 60 seconds.</p>
+   <p>The permission requirement described previously also helps to mitigate the
+general concern that this interface can be used to build a profile of when and
+for how long the user typically interacts with their device.</p>
+   <h3 class="heading settled" data-level="3.3" id="privacy-user-coercion"><span class="secno">3.3. </span><span class="content">User coercion</span><a class="self-link" href="#privacy-user-coercion"></a></h3>
+   <p>Sites may require the user to grant them the <code class="idl"><a data-link-type="idl" href="#dom-permissionname-idle-detection" id="ref-for-dom-permissionname-idle-detection③">"idle-detection"</a></code> permission
+before unlocking some functionality. For example, a testing site could require
+this permission as part of an anti-cheating mechanism to detect the user
+consulting forbidden reference materials in another window. This type of
+"Contract of Adhesion" has been observed with other permissions such as
+notifications, FIDO attestation and DRM identifiers.</p>
+   <p>A potential mitigation for this concern is to design that interface so that it
+is not possible for a site to determine whether the user has granted or denied
+the permission. An implementation could refuse to acknowledge that the user is
+idle, reducing a site to only the signals currently available. This mitigation
+could be detectable as it is unlikely that a user who has not interacted with a
+page for hours has nevertheless still been continuously interacting with
+something else. Implementations could instead insert fake idle transition events
+which correspond to plausible behavior given the other signals available to the
+page.</p>
+   <p>This specification does not mandate this type of mitigation as it could create a
+poor user experience when sites take action based on this false data. For
+example, the message application mentioned previously would not deliver
+notifications to the user’s mobile device because it believes the signals it has
+been given indicate that they are still at their desktop. As the site cannot
+detect that it is in this state it cannot directly recommend an action for the
+user to take to get themselves out of it.</p>
+   <p>The harm done by such a site is limited as tracking is only possible while the
+user is visiting that page. Tracking across multiple origins requires permission
+to be requested on each participating site.</p>
    <h2 class="heading settled" data-level="4" id="acknowledgements"><span class="secno">4. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements"></a></h2>
    <p><em>This section is non-normative.</em></p>
    <p>Many thanks to
@@ -2443,7 +2478,7 @@ for their help in crafting this proposal.</p>
    <ul>
     <li><a href="#ref-for-dom-useridlestate-active">2.1.1. The UserIdleState enum</a>
     <li><a href="#ref-for-dom-useridlestate-active①">2.4.1. userState attribute</a> <a href="#ref-for-dom-useridlestate-active②">(2)</a>
-    <li><a href="#ref-for-dom-useridlestate-active③">3. Security and Privacy Considerations</a>
+    <li><a href="#ref-for-dom-useridlestate-active③">3.2. Behavior tracking</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-useridlestate-idle">
@@ -2451,7 +2486,7 @@ for their help in crafting this proposal.</p>
    <ul>
     <li><a href="#ref-for-dom-useridlestate-idle">2.1.1. The UserIdleState enum</a>
     <li><a href="#ref-for-dom-useridlestate-idle①">2.4.1. userState attribute</a> <a href="#ref-for-dom-useridlestate-idle②">(2)</a>
-    <li><a href="#ref-for-dom-useridlestate-idle③">3. Security and Privacy Considerations</a>
+    <li><a href="#ref-for-dom-useridlestate-idle③">3.2. Behavior tracking</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="enumdef-screenidlestate">
@@ -2479,7 +2514,8 @@ for their help in crafting this proposal.</p>
    <b><a href="#dom-permissionname-idle-detection">#dom-permissionname-idle-detection</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-permissionname-idle-detection">2.4.4. start() method</a>
-    <li><a href="#ref-for-dom-permissionname-idle-detection①">3. Security and Privacy Considerations</a> <a href="#ref-for-dom-permissionname-idle-detection②">(2)</a>
+    <li><a href="#ref-for-dom-permissionname-idle-detection①">3.1. Cross-origin information leakage</a> <a href="#ref-for-dom-permissionname-idle-detection②">(2)</a>
+    <li><a href="#ref-for-dom-permissionname-idle-detection③">3.3. User coercion</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-idleoptions">

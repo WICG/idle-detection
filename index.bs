@@ -10,6 +10,8 @@ Group: wicg
 Repository: https://github.com/WICG/idle-detection/
 Favicon: logo-idle.png
 Markup Shorthands: css no, markdown yes
+WPT Display: inline
+WPT Path Prefix: /idle-detection/
 </pre>
 
 <pre class="anchors">
@@ -215,6 +217,11 @@ in the following table:
   </tr>
 </table>
 
+<wpt>
+  idlharness-worker.https.window.html
+  idlharness.https.window.html
+</wpt>
+
 ### {{IdleDetector/userState}} attribute ### {#api-idledetector-userstate}
 
 The <dfn attribute for=IdleDetector>userState</dfn> attribute MUST be
@@ -231,6 +238,9 @@ steps:
 1.  [=Fire an event=] named {{"change"}} using the {{Event}} interface at
     |this|.
 
+<wpt>
+  interceptor.https.html
+</wpt>
 </div>
 
 <div algorithm="user becomes active">
@@ -243,6 +253,9 @@ to run the following steps:
 1.  [=Fire an event=] named {{"change"}} using the {{Event}} interface at
     |this|.
 
+<wpt>
+  interceptor.https.html
+</wpt>
 </div>
 
 ### {{IdleDetector/screenState}} attribute ### {#api-idledetector-screenstate}
@@ -260,6 +273,9 @@ run the following steps:
 1.  [=Fire an event=] named {{"change"}} using the {{Event}} interface at
     |this|.
 
+<wpt>
+  interceptor.https.html
+</wpt>
 </div>
 
 <div algorithm="screen unlocked">
@@ -272,6 +288,9 @@ following steps:
 1.  [=Fire an event=] named {{"change"}} using the {{Event}} interface at
     |this|.
 
+<wpt>
+  interceptor.https.html
+</wpt>
 </div>
 
 ### {{IdleDetector/onchange}} attribute ### {#api-idledetector-onchange}
@@ -290,11 +309,24 @@ MUST run these steps:
 1.  If the [=active document=] is not [=allowed to use=] the [=policy-controlled
     feature=] named `"idle-detection"` [=reject=] |result| with
     {{NotAllowedError}} and abort these steps.
+    <wpt>
+      idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html
+      idle-detection-allowed-by-feature-policy-attribute.https.sub.html
+      idle-detection-allowed-by-feature-policy.https.sub.html
+      idle-detection-default-feature-policy.https.sub.html
+      idle-detection-disabled-by-feature-policy.https.sub.html
+    </wpt>
 1.  If |this|.{{IdleDetector/[[state]]}} is not `"stopped"`, [=reject=] |result|
     with {{InvalidStateError}} and return |result|.
+    <wpt>
+      interceptor.https.html
+    </wpt>
 1.  Set |this|.{{IdleDetector/[[state]]}} to `"starting"`.
 1.  If |options|.{{threshold}} is less than 60,000 [=reject=] |result| with
     {{TypeError}} and abort these steps.
+    <wpt>
+      basics.tentative.https.window.html
+    </wpt>
 1.  If |options|.{{signal}} is present, then perform the following sub-steps:
     1.  If |options|.{{signal}}'s [=AbortSignal/aborted flag=] is set, then
         [=reject=] |result| with {{AbortError}} and return |result|.
@@ -302,6 +334,9 @@ MUST run these steps:
         |options|.{{signal}}:
         1. Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
         1. [=Reject=] |result| with {{AbortError}}.
+    <wpt>
+      interceptor.https.html
+    </wpt>
 1.  [=Queue a task=] to perform the following steps, but [=abort when=]
     |this|.{{IdleDetector/[[state]]}} becomes `"stopped"`.
     1.  Let |permissionState| be the [=permission state=] the [=powerful
@@ -309,6 +344,9 @@ MUST run these steps:
     1.  If |permissionState| is `"denied"`, [=reject=] |result| with
         {{NotAllowedError}}, set |this|.{{IdleDetector/[[state]]}} to
         `"stopped"` and abort these steps.
+        <wpt>
+          idle-permission.tentative.https.window.html
+        </wpt>
     1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
     1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|.{{threshold}}.
     1.  [=Resolve=] |result|.

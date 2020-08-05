@@ -1,8 +1,8 @@
 # How to use the IdleDetector API
 
-The IdleDetector API is currently available in chrome canaries under a flag:
+The IdleDetector API is currently available in Chrome 84 and later behind a flag or by registering your domain for [the Origin Trial](https://developers.chrome.com/origintrials/#/view_trial/551690954352885761) (available until November 10th, 2020).
 
-1) Download chrome canary ([android](https://play.google.com/store/apps/details?id=com.chrome.canary), [desktop](https://www.google.com/chrome/canary/)).
+1) Download Chrome ([Android](https://play.google.com/store/apps/details?id=com.android.chrome), [Desktop](https://www.google.com/chrome/)).
 2) Navigate to `chrome://flags` and enable `Experimental Web Platform features`.
 3) Navigate to a test page, e.g. https://code.sgo.to/tmp/idle.html
 4) Go idle (e.g. stop moving your mouse, typing on your keyboard or lock your screen)

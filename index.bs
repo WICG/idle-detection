@@ -192,6 +192,7 @@ dictionary IdleOptions {
   readonly attribute UserIdleState? userState;
   readonly attribute ScreenIdleState? screenState;
   attribute EventHandler onchange;
+  [Exposed=Window] static Promise<PermissionState> requestPermission();
   Promise<void> start(optional IdleOptions options = {});
 };
 </xmp>
@@ -218,8 +219,8 @@ in the following table:
 </table>
 
 <wpt>
-  idlharness-worker.https.window.html
-  idlharness.https.window.html
+  idlharness-worker.https.window.js
+  idlharness.https.window.js
 </wpt>
 
 ### {{IdleDetector/userState}} attribute ### {#api-idledetector-userstate}
@@ -298,6 +299,23 @@ following steps:
 <dfn attribute for="IdleDetector">onchange</dfn> is an <a>Event handler IDL
 attribute</a> for the {{change}} event type.
 
+### {{IdleDetector/requestPermission()}} method ### {#api-idledetector-requestpermission}
+
+<div algorithm>
+The <dfn method for=IdleDetector>requestPermission()</dfn> method, when invoked, MUST run these steps:
+
+1.  Let |result| be [=a new promise=].
+1.  Run these steps [=in parallel=].
+    1.  If the [=relevant global object=] of [=this=] does not have [=transient
+        activation=], [=reject=] |result| with {{NotAllowedError}} and abort
+        there steps.
+    1.  Let |permissionState| be the result of [=requesting permission to use=]
+        the [=powerful feature=] named `"idle-detection"`.
+    1.  Resolve |result| with |permissionState|.
+1. Return |result|.
+
+</div>
+
 ### {{IdleDetector/start()}} method ### {#api-idledetector-start}
 
 <div algorithm>
@@ -308,7 +326,7 @@ MUST run these steps:
 1.  Let |result| be [=a new promise=].
 1.  If the [=active document=] is not [=allowed to use=] the [=policy-controlled
     feature=] named `"idle-detection"` [=reject=] |result| with
-    {{NotAllowedError}} and abort these steps.
+    {{NotAllowedError}} and return |result|.
     <wpt>
       idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html
       idle-detection-allowed-by-feature-policy-attribute.https.sub.html
@@ -323,9 +341,9 @@ MUST run these steps:
     </wpt>
 1.  Set |this|.{{IdleDetector/[[state]]}} to `"starting"`.
 1.  If |options|.{{threshold}} is less than 60,000 [=reject=] |result| with
-    {{TypeError}} and abort these steps.
+    {{TypeError}} and return |result|.
     <wpt>
-      basics.tentative.https.window.html
+      basics.tentative.https.window.js
     </wpt>
 1.  If |options|.{{signal}} is present, then perform the following sub-steps:
     1.  If |options|.{{signal}}'s [=AbortSignal/aborted flag=] is set, then
@@ -334,6 +352,7 @@ MUST run these steps:
         |options|.{{signal}}:
         1. Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
         1. [=Reject=] |result| with {{AbortError}}.
+
     <wpt>
       interceptor.https.html
     </wpt>
@@ -345,7 +364,7 @@ MUST run these steps:
         {{NotAllowedError}}, set |this|.{{IdleDetector/[[state]]}} to
         `"stopped"` and abort these steps.
         <wpt>
-          idle-permission.tentative.https.window.html
+          idle-permission.tentative.https.window.js
         </wpt>
     1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
     1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|.{{threshold}}.
@@ -370,16 +389,11 @@ Calling {{start()}} will fail if the {{"idle-detection"}} permission has not
 been granted.
 
 ```js
-if ((await navigator.permissions.request({name: 'idle-detection'})).state !== 'granted') {
+if ((await IdleDetector.requestPermission()) !== 'granted') {
   console.log('Idle detection permission not granted.');
-  return
+  return;
 }
 ```
-
-Note: The `navigator.permissions.request()` method is a non-standard extension
-to [[PERMISSIONS]] and is only available in some implementations. Given this
-lack of consensus on a generic permission request API this specification should
-include a custom method in the style of `Notification.requestPermission()`.
 
 A set of options can be configured to control the threshold the [=user agent=]
 uses to decide when the user has become idle.

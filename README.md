@@ -135,9 +135,9 @@ const main = async () => {
   if (!('IdleDetector' in window)) {
     return console.log('IdleDetector is not available.');
   }
-  // Try to request permission.
+  // Check if permission is granted.
   if ((await navigator.permissions.query({name: 'idle-detection'})).state !== 'granted') {
-    return console.log('Notifications permission not granted.');
+    return console.log('Idle detection permission not granted.');
   }    
   try {
     const controller = new AbortController();

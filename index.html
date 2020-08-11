@@ -1225,7 +1225,7 @@ Possible extra rowspan handling
   <meta content="Bikeshed version f539c4af, updated Mon Aug 10 11:34:58 2020 -0700" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="3b3b56650af9efe54d4c1e9b3a71e853a485caf2" name="document-revision">
+  <meta content="7ce9b8a377275a9c64a0ec1b71e58f27f161418c" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -1521,7 +1521,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Idle Detection API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2020-08-10">10 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2020-08-11">11 August 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1686,7 +1686,7 @@ prevents content from being seen or interacted with.</p>
 feature</a> is a <a data-link-type="dfn" href="https://w3c.github.io/permissions/#boolean-feature" id="ref-for-boolean-feature">boolean feature</a>.</p>
    <h3 class="heading settled" data-level="2.3" id="api-permissions-policy"><span class="secno">2.3. </span><span class="content">Permissions policy</span><a class="self-link" href="#api-permissions-policy"></a></h3>
    <p>This specification defines a <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature">policy-controlled feature</a> identified by the
-string <code>"idle-detection"</code>. Its <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#default-allowlist" id="ref-for-default-allowlist">default allowlist</a> is <code>["self"]</code>.</p>
+string <code>"idle-detection"</code>. Its <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#default-allowlist" id="ref-for-default-allowlist">default allowlist</a> is <code>'self'</code>.</p>
    <div class="note" role="note">
      The <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#default-allowlist" id="ref-for-default-allowlist①">default allowlist</a> of <code>["self"]</code> allows usage of this feature on
 same-origin nested frames by default but prevents access by third-party content. 
@@ -1707,7 +1707,7 @@ by specifying the permissions policy in an HTTP response header:</p>
    </div>
    <h3 class="heading settled" data-level="2.4" id="api-idledetector"><span class="secno">2.4. </span><span class="content">The <code class="idl"><a data-link-type="idl" href="#idledetector" id="ref-for-idledetector">IdleDetector</a></code> interface</span><a class="self-link" href="#api-idledetector"></a></h3>
 <pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-idleoptions"><code><c- g>IdleOptions</c-></code></dfn> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#EnforceRange" id="ref-for-EnforceRange"><c- g>EnforceRange</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long" id="ref-for-idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="IdleOptions" data-dfn-type="dict-member" data-export data-type="unsigned long " id="dom-idleoptions-threshold"><code><c- g>threshold</c-></code></dfn>;
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#EnforceRange" id="ref-for-EnforceRange"><c- g>EnforceRange</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long-long" id="ref-for-idl-unsigned-long-long"><c- b>unsigned</c-> <c- b>long</c-> <c- b>long</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="IdleOptions" data-dfn-type="dict-member" data-export data-type="unsigned long long " id="dom-idleoptions-threshold"><code><c- g>threshold</c-></code></dfn>;
   <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#abortsignal" id="ref-for-abortsignal"><c- n>AbortSignal</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="IdleOptions" data-dfn-type="dict-member" data-export data-type="AbortSignal " id="dom-idleoptions-signal"><code><c- g>signal</c-></code></dfn>;
 };
 
@@ -1739,53 +1739,72 @@ in the following table:</p>
       <td><dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-threshold-slot"><code>[[threshold]]</code></dfn> 
       <td><code>undefined</code>
       <td>The configured idle detection threshold
+     <tr>
+      <td><dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-userstate-slot"><code>[[userState]]</code></dfn>
+      <td><code>undefined</code>
+      <td>The last known user idle state
+     <tr>
+      <td><dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-screenstate-slot"><code>[[screenState]]</code></dfn>
+      <td><code>undefined</code>
+      <td>The last known screen idle state
    </table>
    <ul class="wpt-tests-block">
     <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/idlharness-worker.https.window.js">idlharness-worker.https.window.js</a> <a href="https://web-platform-tests.live/idle-detection/idlharness-worker.https.window.js" title="idle-detection/idlharness-worker.https.window.js"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idlharness-worker.https.window.js"><small>(source)</small></a>
     <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/idlharness.https.window.js">idlharness.https.window.js</a> <a href="https://web-platform-tests.live/idle-detection/idlharness.https.window.js" title="idle-detection/idlharness.https.window.js"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idlharness.https.window.js"><small>(source)</small></a>
    </ul>
    <h4 class="heading settled" data-level="2.4.1" id="api-idledetector-userstate"><span class="secno">2.4.1. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate①">userState</a></code> attribute</span><a class="self-link" href="#api-idledetector-userstate"></a></h4>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-userstate"><code>userState</code></dfn> attribute MUST be
-initialized to <code>null</code>.</p>
+   <div class="algorithm" data-algorithm="userState" data-algorithm-for="IdleDetector">
+     The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-userstate"><code>userState</code></dfn> getter steps are: 
+    <ol>
+     <li data-md>
+      <p>Return <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this">this</a>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot">[[userState]]</a></code>.</p>
+    </ol>
+   </div>
    <div class="algorithm" data-algorithm="user becomes idle">
     <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot">[[state]]</a></code> is <code>"started"</code>, <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate②">userState</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active①">"active"</a></code> and
 the user has not interacted with the device in at least <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-threshold-slot" id="ref-for-dom-idledetector-threshold-slot">[[threshold]]</a></code> milliseconds, the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent" id="ref-for-user-agent">user agent</a> MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queue a task</a> to run the following
 steps:</p>
     <ol>
      <li data-md>
-      <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate③">userState</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle①">"idle"</a></code>.</p>
+      <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot①">[[userState]]</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle①">"idle"</a></code>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change">"change"</a></code> using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> interface at <var>this</var>.</p>
+      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change">"change"</a></code> at <var>this</var>.</p>
     </ol>
     <ul class="wpt-tests-block">
      <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/interceptor.https.html">interceptor.https.html</a> <a href="https://web-platform-tests.live/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
     </ul>
    </div>
    <div class="algorithm" data-algorithm="user becomes active">
-    <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot①">[[state]]</a></code> is <code>"started"</code>, <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate④">userState</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle②">"idle"</a></code> and
-the user interacts with the device in, the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent" id="ref-for-user-agent①">user agent</a> MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to run the following steps:</p>
+    <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot①">[[state]]</a></code> is <code>"started"</code>, <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate③">userState</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle②">"idle"</a></code> and
+the user interacts with the device, the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent" id="ref-for-user-agent①">user agent</a> MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> to
+run the following steps:</p>
     <ol>
      <li data-md>
-      <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate⑤">userState</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active②">"active"</a></code>.</p>
+      <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot②">[[userState]]</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active②">"active"</a></code>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change①">"change"</a></code> using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code> interface at <var>this</var>.</p>
+      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change①">"change"</a></code> at <var>this</var>.</p>
     </ol>
     <ul class="wpt-tests-block">
      <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/interceptor.https.html">interceptor.https.html</a> <a href="https://web-platform-tests.live/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
     </ul>
    </div>
    <h4 class="heading settled" data-level="2.4.2" id="api-idledetector-screenstate"><span class="secno">2.4.2. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate①">screenState</a></code> attribute</span><a class="self-link" href="#api-idledetector-screenstate"></a></h4>
-   <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-screenstate"><code>screenState</code></dfn> attribute MUST be
-initialized to <code>null</code>.</p>
+   <div class="algorithm" data-algorithm="screenState" data-algorithm-for="IdleDetector">
+     The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-screenstate"><code>screenState</code></dfn> getter steps are: 
+    <ol>
+     <li data-md>
+      <p>Return <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this①">this</a>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot">[[screenState]]</a></code>.</p>
+    </ol>
+   </div>
    <div class="algorithm" data-algorithm="screen locked">
     <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot②">[[state]]</a></code> is <code>"started"</code> and the device is locked by the user, an
 automatic timeout or any other event, the <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#user-agent" id="ref-for-user-agent②">user agent</a> MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task②">queue a task</a> to
 run the following steps:</p>
     <ol>
      <li data-md>
-      <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate②">screenState</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-locked" id="ref-for-dom-screenidlestate-locked①">"locked"</a></code>.</p>
+      <p>Set <var>this</var>.[[<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate②">screenState</a></code>]] to <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-locked" id="ref-for-dom-screenidlestate-locked①">"locked"</a></code>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire②">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change②">"change"</a></code> using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code> interface at <var>this</var>.</p>
+      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire②">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change②">"change"</a></code> at <var>this</var>.</p>
     </ol>
     <ul class="wpt-tests-block">
      <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/interceptor.https.html">interceptor.https.html</a> <a href="https://web-platform-tests.live/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
@@ -1797,9 +1816,9 @@ for any other reason, the <a data-link-type="dfn" href="https://infra.spec.whatw
 following steps:</p>
     <ol>
      <li data-md>
-      <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate③">screenState</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-unlocked" id="ref-for-dom-screenidlestate-unlocked①">"unlocked"</a></code>.</p>
+      <p>Set <var>this</var>.[[<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate③">screenState</a></code>]] to <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-unlocked" id="ref-for-dom-screenidlestate-unlocked①">"unlocked"</a></code>.</p>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire③">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change③">"change"</a></code> using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code> interface at <var>this</var>.</p>
+      <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire③">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change③">"change"</a></code> at <var>this</var>.</p>
     </ol>
     <ul class="wpt-tests-block">
      <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/interceptor.https.html">interceptor.https.html</a> <a href="https://web-platform-tests.live/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
@@ -1810,17 +1829,16 @@ following steps:</p>
 attribute</a> for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change④">change</a></code> event type.</p>
    <h4 class="heading settled" data-level="2.4.4" id="api-idledetector-requestpermission"><span class="secno">2.4.4. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-idledetector-requestpermission" id="ref-for-dom-idledetector-requestpermission①">requestPermission()</a></code> method</span><a class="self-link" href="#api-idledetector-requestpermission"></a></h4>
    <div class="algorithm" data-algorithm="requestPermission()" data-algorithm-for="IdleDetector">
-     The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="method" data-export id="dom-idledetector-requestpermission"><code>requestPermission()</code></dfn> method, when invoked, MUST run these steps: 
+     The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="method" data-export id="dom-idledetector-requestpermission"><code>requestPermission()</code></dfn> method steps are: 
     <ol>
      <li data-md>
       <p>Let <var>result</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#a-new-promise" id="ref-for-a-new-promise">a new promise</a>.</p>
      <li data-md>
-      <p>Run these steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel">in parallel</a>.</p>
+      <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task④">Queue a task</a> to run these steps:</p>
       <ol>
        <li data-md>
-        <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this">this</a> does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient
-activation</a>, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject">reject</a> <var>result</var> with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror">NotAllowedError</a></code> and abort
-there steps.</p>
+        <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this②">this</a> does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient
+activation</a>, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject">reject</a> <var>result</var> with a "<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code> and abort these steps.</p>
        <li data-md>
         <p>Let <var>permissionState</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use">requesting permission to use</a> the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#powerful-feature" id="ref-for-powerful-feature①">powerful feature</a> named <code>"idle-detection"</code>.</p>
        <li data-md>
@@ -1838,8 +1856,8 @@ MUST run these steps:</p>
      <li data-md>
       <p>Let <var>result</var> be <a data-link-type="dfn" href="https://heycam.github.io/webidl/#a-new-promise" id="ref-for-a-new-promise①">a new promise</a>.</p>
      <li data-md>
-      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#active-document" id="ref-for-active-document">active document</a> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use">allowed to use</a> the <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature①">policy-controlled
-feature</a> named <code>"idle-detection"</code> <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject①">reject</a> <var>result</var> with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror①">NotAllowedError</a></code> and return <var>result</var>.</p>
+      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a>'s associated <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document">Document</a></code> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use">allowed
+to use</a> the <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature①">policy-controlled feature</a> named <code>"idle-detection"</code> <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject①">reject</a> <var>result</var> with a "<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror①">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code> and return <var>result</var>.</p>
       <ul class="wpt-tests-block">
        <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html">idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html</a> <a href="https://web-platform-tests.live/idle-detection/idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html" title="idle-detection/idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html"><small>(source)</small></a>
        <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/idle-detection-allowed-by-feature-policy-attribute.https.sub.html">idle-detection-allowed-by-feature-policy-attribute.https.sub.html</a> <a href="https://web-platform-tests.live/idle-detection/idle-detection-allowed-by-feature-policy-attribute.https.sub.html" title="idle-detection/idle-detection-allowed-by-feature-policy-attribute.https.sub.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-allowed-by-feature-policy-attribute.https.sub.html"><small>(source)</small></a>
@@ -1848,7 +1866,7 @@ feature</a> named <code>"idle-detection"</code> <a data-link-type="dfn" href="ht
        <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/idle-detection-disabled-by-feature-policy.https.sub.html">idle-detection-disabled-by-feature-policy.https.sub.html</a> <a href="https://web-platform-tests.live/idle-detection/idle-detection-disabled-by-feature-policy.https.sub.html" title="idle-detection/idle-detection-disabled-by-feature-policy.https.sub.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-disabled-by-feature-policy.https.sub.html"><small>(source)</small></a>
       </ul>
      <li data-md>
-      <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot④">[[state]]</a></code> is not <code>"stopped"</code>, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject②">reject</a> <var>result</var> with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code> and return <var>result</var>.</p>
+      <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot④">[[state]]</a></code> is not <code>"stopped"</code>, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject②">reject</a> <var>result</var> with an "<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>" <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException②">DOMException</a></code> and return <var>result</var>.</p>
       <ul class="wpt-tests-block">
        <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/interceptor.https.html">interceptor.https.html</a> <a href="https://web-platform-tests.live/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
       </ul>
@@ -1863,27 +1881,28 @@ feature</a> named <code>"idle-detection"</code> <a data-link-type="dfn" href="ht
       <p>If <var>options</var>.<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal">signal</a></code> is present, then perform the following sub-steps:</p>
       <ol>
        <li data-md>
-        <p>If <var>options</var>.<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal①">signal</a></code>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-aborted-flag" id="ref-for-abortsignal-aborted-flag">aborted flag</a> is set, then <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject④">reject</a> <var>result</var> with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#aborterror" id="ref-for-aborterror">AbortError</a></code> and return <var>result</var>.</p>
+        <p>If <var>options</var>.<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal①">signal</a></code>'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-aborted-flag" id="ref-for-abortsignal-aborted-flag">aborted flag</a> is set, then <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject④">reject</a> <var>result</var> with an "<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#aborterror" id="ref-for-aborterror">AbortError</a></code>" <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException③">DOMException</a></code> and return <var>result</var>.</p>
        <li data-md>
         <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">Add the following abort steps</a> to <var>options</var>.<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal②">signal</a></code>:</p>
         <ol>
          <li data-md>
           <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑥">[[state]]</a></code> to <code>"stopped"</code>.</p>
          <li data-md>
-          <p><a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject⑤">Reject</a> <var>result</var> with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#aborterror" id="ref-for-aborterror①">AbortError</a></code>.</p>
+          <p><a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject⑤">Reject</a> <var>result</var> with an "<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#aborterror" id="ref-for-aborterror①">AbortError</a></code>" <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException④">DOMException</a></code>.</p>
         </ol>
       </ol>
       <ul class="wpt-tests-block">
        <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/interceptor.https.html">interceptor.https.html</a> <a href="https://web-platform-tests.live/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
       </ul>
      <li data-md>
-      <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task④">Queue a task</a> to perform the following steps, but <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#abort-when" id="ref-for-abort-when">abort when</a> <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑦">[[state]]</a></code> becomes <code>"stopped"</code>.</p>
+      <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task⑤">Queue a task</a> to perform the following steps, but <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#abort-when" id="ref-for-abort-when">abort when</a> <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑦">[[state]]</a></code> becomes <code>"stopped"</code>.</p>
       <ol>
        <li data-md>
         <p>Let <var>permissionState</var> be the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#permission-state" id="ref-for-permission-state">permission state</a> the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#powerful-feature" id="ref-for-powerful-feature②">powerful
 feature</a> named <code>"idle-detection"</code>.</p>
        <li data-md>
-        <p>If <var>permissionState</var> is <code>"denied"</code>, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject⑥">reject</a> <var>result</var> with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror②">NotAllowedError</a></code>, set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑧">[[state]]</a></code> to <code>"stopped"</code> and abort these steps.</p>
+        <p>If <var>permissionState</var> is <code>"denied"</code>, <a data-link-type="dfn" href="https://heycam.github.io/webidl/#reject" id="ref-for-reject⑥">reject</a> <var>result</var> with a
+"<code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror②">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#idl-DOMException" id="ref-for-idl-DOMException⑤">DOMException</a></code>, set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑧">[[state]]</a></code> to <code>"stopped"</code> and abort these steps.</p>
         <ul class="wpt-tests-block">
          <li class="wpt-test"><a href="https://wpt.fyi/results/idle-detection/idle-permission.tentative.https.window.js">idle-permission.tentative.https.window.js</a> <a href="https://web-platform-tests.live/idle-detection/idle-permission.tentative.https.window.js" title="idle-detection/idle-permission.tentative.https.window.js"><small>(live test)</small></a> <a href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-permission.tentative.https.window.js"><small>(source)</small></a>
         </ul>
@@ -1922,7 +1941,7 @@ been granted.</p>
   signal<c- p>,</c->
 <c- p>};</c->
 </pre>
-    <p>The <code class="idl"><a data-link-type="idl" href="#idledetector" id="ref-for-idledetector④">IdleDetector</a></code> can now be created and started. An listener for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change⑤">"change"</a></code> event is added and will be fired if the <code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate⑥">userState</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate④">screenState</a></code> attributes change.</p>
+    <p>The <code class="idl"><a data-link-type="idl" href="#idledetector" id="ref-for-idledetector④">IdleDetector</a></code> can now be created and started. An listener for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change⑤">"change"</a></code> event is added and will be fired if the <code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate④">userState</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate④">screenState</a></code> attributes change.</p>
 <pre class="language-js highlight"><c- k>try</c-> <c- p>{</c->
   <c- kr>const</c-> idleDetector <c- o>=</c-> <c- k>new</c-> IdleDetector<c- p>();</c->
   idleDetector<c- p>.</c->addEventListener<c- p>(</c-><c- t>'change'</c-><c- p>,</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
@@ -2188,6 +2207,7 @@ for their help in crafting this proposal.</p>
    <li><a href="#dom-idledetector-onchange">onchange</a><span>, in §2.4.3</span>
    <li><a href="#dom-idledetector-requestpermission">requestPermission()</a><span>, in §2.4.4</span>
    <li><a href="#enumdef-screenidlestate">ScreenIdleState</a><span>, in §2.1.2</span>
+   <li><a href="#dom-idledetector-screenstate-slot">[[screenState]]</a><span>, in §2.4</span>
    <li><a href="#dom-idledetector-screenstate">screenState</a><span>, in §2.4.2</span>
    <li><a href="#dom-idleoptions-signal">signal</a><span>, in §2.4</span>
    <li><a href="#dom-idledetector-start">start()</a><span>, in §2.4.5</span>
@@ -2197,6 +2217,7 @@ for their help in crafting this proposal.</p>
    <li><a href="#dom-idleoptions-threshold">threshold</a><span>, in §2.4</span>
    <li><a href="#dom-screenidlestate-unlocked">"unlocked"</a><span>, in §2.1.2</span>
    <li><a href="#enumdef-useridlestate">UserIdleState</a><span>, in §2.1.1</span>
+   <li><a href="#dom-idledetector-userstate-slot">[[userState]]</a><span>, in §2.4</span>
    <li><a href="#dom-idledetector-userstate">userState</a><span>, in §2.4.1</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-abortsignal">
@@ -2206,11 +2227,10 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-abortsignal①">2.4.5. start() method</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-event">
-   <a href="https://dom.spec.whatwg.org/#event">https://dom.spec.whatwg.org/#event</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-document">
+   <a href="https://dom.spec.whatwg.org/#document">https://dom.spec.whatwg.org/#document</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event">2.4.1. userState attribute</a> <a href="#ref-for-event①">(2)</a>
-    <li><a href="#ref-for-event②">2.4.2. screenState attribute</a> <a href="#ref-for-event③">(2)</a>
+    <li><a href="#ref-for-document">2.4.5. start() method</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-eventtarget">
@@ -2262,12 +2282,6 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-window">2.4.5. start() method</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-active-document">
-   <a href="https://html.spec.whatwg.org/multipage/browsers.html#active-document">https://html.spec.whatwg.org/multipage/browsers.html#active-document</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-active-document">2.4.5. start() method</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-allowed-to-use">
    <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use</a><b>Referenced in:</b>
    <ul>
@@ -2289,12 +2303,6 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-event-handler-idl-attributes">2.4.3. onchange attribute</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-in-parallel">
-   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel">https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-in-parallel">2.4.4. requestPermission() method</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-handler-onkeypress">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#handler-onkeypress">https://html.spec.whatwg.org/multipage/webappapis.html#handler-onkeypress</a><b>Referenced in:</b>
    <ul>
@@ -2312,13 +2320,15 @@ for their help in crafting this proposal.</p>
    <ul>
     <li><a href="#ref-for-queue-a-task">2.4.1. userState attribute</a> <a href="#ref-for-queue-a-task①">(2)</a>
     <li><a href="#ref-for-queue-a-task②">2.4.2. screenState attribute</a> <a href="#ref-for-queue-a-task③">(2)</a>
-    <li><a href="#ref-for-queue-a-task④">2.4.5. start() method</a>
+    <li><a href="#ref-for-queue-a-task④">2.4.4. requestPermission() method</a>
+    <li><a href="#ref-for-queue-a-task⑤">2.4.5. start() method</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-relevant-global">
    <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-concept-relevant-global">2.4.4. requestPermission() method</a>
+    <li><a href="#ref-for-concept-relevant-global①">2.4.5. start() method</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-transient-activation">
@@ -2404,6 +2414,13 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-aborterror">2.4.5. start() method</a> <a href="#ref-for-aborterror①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-DOMException">
+   <a href="https://heycam.github.io/webidl/#idl-DOMException">https://heycam.github.io/webidl/#idl-DOMException</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-DOMException">2.4.4. requestPermission() method</a>
+    <li><a href="#ref-for-idl-DOMException①">2.4.5. start() method</a> <a href="#ref-for-idl-DOMException②">(2)</a> <a href="#ref-for-idl-DOMException③">(3)</a> <a href="#ref-for-idl-DOMException④">(4)</a> <a href="#ref-for-idl-DOMException⑤">(5)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-EnforceRange">
    <a href="https://heycam.github.io/webidl/#EnforceRange">https://heycam.github.io/webidl/#EnforceRange</a><b>Referenced in:</b>
    <ul>
@@ -2464,13 +2481,15 @@ for their help in crafting this proposal.</p>
   <aside class="dfn-panel" data-for="term-for-this">
    <a href="https://heycam.github.io/webidl/#this">https://heycam.github.io/webidl/#this</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-this">2.4.4. requestPermission() method</a>
+    <li><a href="#ref-for-this">2.4.1. userState attribute</a>
+    <li><a href="#ref-for-this①">2.4.2. screenState attribute</a>
+    <li><a href="#ref-for-this②">2.4.4. requestPermission() method</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-idl-unsigned-long">
-   <a href="https://heycam.github.io/webidl/#idl-unsigned-long">https://heycam.github.io/webidl/#idl-unsigned-long</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-idl-unsigned-long-long">
+   <a href="https://heycam.github.io/webidl/#idl-unsigned-long-long">https://heycam.github.io/webidl/#idl-unsigned-long-long</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-idl-unsigned-long">2.4. The IdleDetector interface</a>
+    <li><a href="#ref-for-idl-unsigned-long-long">2.4. The IdleDetector interface</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2479,7 +2498,7 @@ for their help in crafting this proposal.</p>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-abortsignal" style="color:initial">AbortSignal</span>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
+     <li><span class="dfn-paneled" id="term-for-document" style="color:initial">Document</span>
      <li><span class="dfn-paneled" id="term-for-eventtarget" style="color:initial">EventTarget</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-aborted-flag" style="color:initial">aborted flag</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-add" style="color:initial">add</span>
@@ -2500,11 +2519,9 @@ for their help in crafting this proposal.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
      <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
-     <li><span class="dfn-paneled" id="term-for-active-document" style="color:initial">active document</span>
      <li><span class="dfn-paneled" id="term-for-allowed-to-use" style="color:initial">allowed to use</span>
      <li><span class="dfn-paneled" id="term-for-event-change" style="color:initial">change</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attribute</span>
-     <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-handler-onkeypress" style="color:initial">onkeypress</span>
      <li><span class="dfn-paneled" id="term-for-handler-onmousemove" style="color:initial">onmousemove</span>
      <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
@@ -2542,6 +2559,7 @@ for their help in crafting this proposal.</p>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
      <li><span class="dfn-paneled" id="term-for-aborterror" style="color:initial">AbortError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMException" style="color:initial">DOMException</span>
      <li><span class="dfn-paneled" id="term-for-EnforceRange" style="color:initial">EnforceRange</span>
      <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
      <li><span class="dfn-paneled" id="term-for-invalidstateerror" style="color:initial">InvalidStateError</span>
@@ -2552,7 +2570,7 @@ for their help in crafting this proposal.</p>
      <li><span class="dfn-paneled" id="term-for-reject" style="color:initial">reject</span>
      <li><span class="dfn-paneled" id="term-for-resolve" style="color:initial">resolve</span>
      <li><span class="dfn-paneled" id="term-for-this" style="color:initial">this</span>
-     <li><span class="dfn-paneled" id="term-for-idl-unsigned-long" style="color:initial">unsigned long</span>
+     <li><span class="dfn-paneled" id="term-for-idl-unsigned-long-long" style="color:initial">unsigned long long</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2600,7 +2618,7 @@ for their help in crafting this proposal.</p>
 };
 
 <c- b>dictionary</c-> <a href="#dictdef-idleoptions"><code><c- g>IdleOptions</c-></code></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#EnforceRange"><c- g>EnforceRange</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long"><c- b>unsigned</c-> <c- b>long</c-></a> <a data-type="unsigned long " href="#dom-idleoptions-threshold"><code><c- g>threshold</c-></code></a>;
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#EnforceRange"><c- g>EnforceRange</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-long-long"><c- b>unsigned</c-> <c- b>long</c-> <c- b>long</c-></a> <a data-type="unsigned long long " href="#dom-idleoptions-threshold"><code><c- g>threshold</c-></code></a>;
   <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#abortsignal"><c- n>AbortSignal</c-></a> <a data-type="AbortSignal " href="#dom-idleoptions-signal"><code><c- g>signal</c-></code></a>;
 };
 
@@ -2710,12 +2728,24 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-dom-idledetector-threshold-slot①">2.4.5. start() method</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="dom-idledetector-userstate-slot">
+   <b><a href="#dom-idledetector-userstate-slot">#dom-idledetector-userstate-slot</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-idledetector-userstate-slot">2.4.1. userState attribute</a> <a href="#ref-for-dom-idledetector-userstate-slot①">(2)</a> <a href="#ref-for-dom-idledetector-userstate-slot②">(3)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-idledetector-screenstate-slot">
+   <b><a href="#dom-idledetector-screenstate-slot">#dom-idledetector-screenstate-slot</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-idledetector-screenstate-slot">2.4.2. screenState attribute</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="dom-idledetector-userstate">
    <b><a href="#dom-idledetector-userstate">#dom-idledetector-userstate</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-idledetector-userstate">2.4. The IdleDetector interface</a>
-    <li><a href="#ref-for-dom-idledetector-userstate①">2.4.1. userState attribute</a> <a href="#ref-for-dom-idledetector-userstate②">(2)</a> <a href="#ref-for-dom-idledetector-userstate③">(3)</a> <a href="#ref-for-dom-idledetector-userstate④">(4)</a> <a href="#ref-for-dom-idledetector-userstate⑤">(5)</a>
-    <li><a href="#ref-for-dom-idledetector-userstate⑥">2.4.5. start() method</a>
+    <li><a href="#ref-for-dom-idledetector-userstate①">2.4.1. userState attribute</a> <a href="#ref-for-dom-idledetector-userstate②">(2)</a> <a href="#ref-for-dom-idledetector-userstate③">(3)</a>
+    <li><a href="#ref-for-dom-idledetector-userstate④">2.4.5. start() method</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-idledetector-screenstate">

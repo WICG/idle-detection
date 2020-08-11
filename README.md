@@ -223,7 +223,7 @@ To mitigate the exposure of this global state the API should be restricted to
 top-level frames with a new `"idle-detection"` permission. This permission can
 be delegated to sub-frames via [Permissions Policy] or the [`sandbox`
 attribute]. The top-level frame requirement significantly reduces the number of
-cross-origin contexts which can observe the a state event and thus identify the
+cross-origin contexts which can observe the state event and thus identify the
 user through backend communication channels.
 
 Requiring a permission does not completely mitigate the cross-origin
@@ -282,10 +282,10 @@ This mitigation was considered and determined to be unacceptable because:
 
 ### Combined with Notification Permission
 
-Rather than defining a new `"idle-detection"` permission the definition of the
+Rather than defining a new `"idle-detection"` permission, the definition of the
 existing `"notifications"` permission could be expanded to control access to
 this capability. The most compelling use cases for this capability involve
-messaging applications and so the [`"notifications"` permission] seems
+messaging applications, so the [`"notifications"` permission] seems
 appropriate.
 
 The advantage of not defining a new permission type is that it helps to avoid

@@ -302,13 +302,13 @@ attribute</a> for the {{change}} event type.
 ### {{IdleDetector/requestPermission()}} method ### {#api-idledetector-requestpermission}
 
 <div algorithm>
-The <dfn method for=IdleDetector>requestPermission()</dfn> method, when invoked, MUST run these steps:
+The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
 1.  Let |result| be [=a new promise=].
 1.  Run these steps [=in parallel=].
     1.  If the [=relevant global object=] of [=this=] does not have [=transient
         activation=], [=reject=] |result| with {{NotAllowedError}} and abort
-        there steps.
+        these steps.
     1.  Let |permissionState| be the result of [=requesting permission to use=]
         the [=powerful feature=] named `"idle-detection"`.
     1.  Resolve |result| with |permissionState|.

@@ -152,7 +152,7 @@ This specification defines a [=policy-controlled feature=] identified by the
 string `"idle-detection"`. Its [=default allowlist=] is `'self'`.
 
 <div class="note">
-The [=default allowlist=] of `["self"]` allows usage of this feature on
+The [=default allowlist=] of `'self'` allows usage of this feature on
 same-origin nested frames by default but prevents access by third-party content.
 
 Third-party usage can be selectively enabled by adding the
@@ -218,12 +218,12 @@ in the following table:
   </tr>
   <tr>
     <td><dfn>\[[userState]]</dfn></td>
-    <td>`undefined`</td>
+    <td>`null`</td>
     <td>The last known user idle state</td>
   </tr>
   <tr>
     <td><dfn>\[[screenState]]</dfn></td>
-    <td>`undefined`</td>
+    <td>`null`</td>
     <td>The last known screen idle state</td>
   </tr>
 </table>
@@ -334,11 +334,10 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
 <div algorithm>
 
-The <dfn method for=IdleDetector>start(|options|)</dfn> method, when invoked,
-MUST run these steps:
+The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 
 1.  Let |result| be [=a new promise=].
-1.  If the [=relevant global object=]'s associated {{Document}} is not [=allowed
+1.  If the [=relevant global object=]'s [=associated Document=] is not [=allowed
     to use=] the [=policy-controlled feature=] named `"idle-detection"`
     [=reject=] |result| with a "{{NotAllowedError}}" {{DOMException}} and return
     |result|.
@@ -356,17 +355,17 @@ MUST run these steps:
       interceptor.https.html
     </wpt>
 1.  Set |this|.{{IdleDetector/[[state]]}} to `"starting"`.
-1.  If |options|.{{threshold}} is less than 60,000 [=reject=] |result| with
+1.  If |options|[{{"threshold"}}] is less than 60,000 [=reject=] |result| with
     {{TypeError}} and return |result|.
     <wpt>
       basics.tentative.https.window.js
     </wpt>
-1.  If |options|.{{signal}} is present, then perform the following sub-steps:
-    1.  If |options|.{{signal}}'s [=AbortSignal/aborted flag=] is set, then
+1.  If |options|["{{signal}}"] is present, then perform the following sub-steps:
+    1.  If |options|["{{signal}"}'s [=AbortSignal/aborted flag=] is set, then
         [=reject=] |result| with an "{{AbortError}}" {{DOMException}} and return
         |result|.
     1.  [=AbortSignal/add|Add the following abort steps=] to
-        |options|.{{signal}}:
+        |options|["{{signal}}"]:
         1. Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
         1. [=Reject=] |result| with an "{{AbortError}}" {{DOMException}}.
 
@@ -382,7 +381,7 @@ MUST run these steps:
         |this|.{{IdleDetector/[[state]]}} to `"stopped"` and abort these steps.
         <wpt>idle-permission.tentative.https.window.js</wpt>
     1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
-    1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|.{{threshold}}.
+    1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|["{{threshold}}"].
     1.  [=Resolve=] |result|.
 1.  Return |result|.
 

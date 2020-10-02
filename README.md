@@ -120,6 +120,7 @@ enum ScreenIdleState {
   readonly attribute UserIdleState? userState;
   readonly attribute ScreenIdleState? screenState;
   attribute EventHandler onchange;
+  [Exposed=Window] static Promise<PermissionState> requestPermission();
   Promise<void> start(optional IdleOptions options = {});
 };
 ```
@@ -135,10 +136,10 @@ const main = async () => {
   if (!('IdleDetector' in window)) {
     return console.log('IdleDetector is not available.');
   }
-  // Check if permission is granted.
-  if ((await navigator.permissions.query({name: 'idle-detection'})).state !== 'granted') {
+  // Request permission to use the feature.
+  if ((await IdleDetector.requestPermission() !== 'granted') {
     return console.log('Idle detection permission not granted.');
-  }    
+  }
   try {
     const controller = new AbortController();
     const signal = controller.signal;
@@ -189,7 +190,7 @@ although it can be configured to be left off but unlocked.
 
 ## Permissions
 
-The ability to use this API will be controlled by the [`"notifications"`
+The ability to use this API will be controlled by the new [`"idle-detection"`
 permission].
 
 ## Security and Privacy
@@ -215,7 +216,7 @@ users, or limiting their ability to interact with content any more than existing
 observation of UI events.
 
 If an implementation restricts the detection threshold it should also restrict
-how quickly responses to `query()` are delivered or ensure that the response is
+how quickly responses to `start()` are delivered or ensure that the response is
 cached or otherwise provide a guarantee that rapid polling does not bypass the
 restriction on data granularity.
 

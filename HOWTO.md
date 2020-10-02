@@ -4,7 +4,7 @@ The IdleDetector API is currently available in Chrome 84 and later behind a flag
 
 1) Download Chrome ([Android](https://play.google.com/store/apps/details?id=com.android.chrome), [Desktop](https://www.google.com/chrome/)).
 2) Navigate to `chrome://flags` and enable `Experimental Web Platform features`.
-3) Navigate to a test page, e.g. https://code.sgo.to/tmp/idle.html
+3) Navigate to a test page, e.g. https://reillyeon.github.io/idle.html
 4) Go idle (e.g. stop moving your mouse, typing on your keyboard or lock your screen)
 
 Here is an example of how to use the API:
@@ -20,6 +20,8 @@ async function main() {
   log("IdleDetector is available! Go idle!");
   
   try {
+    await IdleDetector.requestPermission();
+
     let idleDetector = new IdleDetector();
     idleDetector.addEventListener('change', e => {
       console.log(`[${new Date().toLocaleString()}] idle change: ${idleDetector.userState}, ${idleDetector.screenState}`);

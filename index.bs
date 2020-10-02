@@ -233,6 +233,9 @@ in the following table:
   idlharness.https.window.js
 </wpt>
 
+Methods on this interface typically complete asynchronously, queuing work on the
+<dfn>idle detection task source</dfn>.
+
 ### {{IdleDetector/userState}} attribute ### {#api-idledetector-userstate}
 
 <div algorithm>
@@ -244,13 +247,20 @@ The <dfn attribute for=IdleDetector>userState</dfn> getter steps are:
 
 <div algorithm="user becomes idle">
 
-If |this|.{{[[state]]}} is `"started"`, |this|.{{userState}} is {{"active"}} and
-the user has not interacted with the device in at least |this|.{{[[threshold]]}}
-milliseconds, the [=user agent=] MUST [=queue a task=] to run the following
-steps:
+For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
+continuously monitor the following conditions:
 
-1.  Set |this|.{{[[userState]]}} to {{"idle"}}.
-1.  [=Fire an event=] named {{"change"}} at |this|.
+*   |detector|.{{[[state]]}} is `"started"`.
+*   |detector|.{{[[userState]]}} is {{"active"}}.
+*   The user has not interacted with the device is at least
+    |detector|.{{[[threshold]]}} milliseconds.
+
+If all of these conditions are true the [=user agent=] MUST [=queue a global
+task=] on the [=relevant global object=] of |detector| using the [=idle
+detection task source=] to run the following steps:
+
+1.  Set |detector|.{{[[userState]]}} to {{"idle"}}.
+1.  [=Fire an event=] named {{"change"}} at |detector|.
 
 <wpt>
   interceptor.https.html
@@ -259,12 +269,20 @@ steps:
 
 <div algorithm="user becomes active">
 
-If |this|.{{[[state]]}} is `"started"`, |this|.{{userState}} is {{"idle"}} and
-the user interacts with the device, the [=user agent=] MUST [=queue a task=] to
-run the following steps:
+For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
+continuously monitor the following conditions:
 
-1.  Set |this|.{{[[userState]]}} to {{"active"}}.
-1.  [=Fire an event=] named {{"change"}} at |this|.
+*   |detector|.{{[[state]]}} is `"started"`.
+*   |detector|.{{[[userState]]}} is {{"idle"}}.
+*   The user has interacted with the device is at least
+    |detector|.{{[[threshold]]}} milliseconds.
+
+If all of these conditions are true the [=user agent=] MUST [=queue a global
+task=] on the [=relevant global object=] of |detector| using the [=idle
+detection task source=] to run the following steps:
+
+1.  Set |detector|.{{[[userState]]}} to {{"active"}}.
+1.  [=Fire an event=] named {{"change"}} at |detector|.
 
 <wpt>
   interceptor.https.html
@@ -282,12 +300,19 @@ The <dfn attribute for=IdleDetector>screenState</dfn> getter steps are:
 
 <div algorithm="screen locked">
 
-If |this|.{{[[state]]}} is `"started"` and the device is locked by the user, an
-automatic timeout or any other event, the [=user agent=] MUST [=queue a task=] to
-run the following steps:
+For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
+continuously monitor the following conditions:
 
-1.  Set |this|.[[{{screenState}}]] to {{"locked"}}.
-1.  [=Fire an event=] named {{"change"}} at |this|.
+*   |detector|.{{[[state]]}} is `"started"`.
+*   |detector|.{{[[screenState]]}} is {{"unlocked"}}.
+*   The screen is locked.
+
+If all of these conditions are true the [=user agent=] MUST [=queue a global
+task=] on the [=relevant global object=] of |detector| using the [=idle
+detection task source=] to run the following steps:
+
+1.  Set |detector|.{{[[screenState]]}} to {{"locked"}}.
+1.  [=Fire an event=] named {{"change"}} at |detector|.
 
 <wpt>
   interceptor.https.html
@@ -296,12 +321,19 @@ run the following steps:
 
 <div algorithm="screen unlocked">
 
-If |this|.{{[[state]]}} is `"started"` and the device is unlocked by the user or
-for any other reason, the [=user agent=] MUST [=queue a task=] to run the
-following steps:
+For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
+continuously monitor the following conditions:
 
-1.  Set |this|.[[{{screenState}}]] to {{"unlocked"}}.
-1.  [=Fire an event=] named {{"change"}} at |this|.
+*   |detector|.{{[[state]]}} is `"started"`.
+*   |detector|.{{[[screenState]]}} is {{"locked"}}.
+*   The screen is unlocked.
+
+If all of these conditions are true the [=user agent=] MUST [=queue a global
+task=] on the [=relevant global object=] of |detector| using the [=idle
+detection task source=] to run the following steps:
+
+1.  Set |detector|.{{[[screenState]]}} to {{"unlocked"}}.
+1.  [=Fire an event=] named {{"change"}} at |detector|.
 
 <wpt>
   interceptor.https.html
@@ -318,21 +350,23 @@ attribute</a> for the {{change}} event type.
 <div algorithm>
 The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
+1.  If the [=relevant global object=] of [=this=] does not have [=transient
+    activation=], return [=a new promise=] [=rejected=] with a "{{NotAllowedError}}"
+    {{DOMException}}.
 1.  Let |result| be [=a new promise=].
-1.  [=Queue a task=] to run these steps:
-    1.  If the [=relevant global object=] of [=this=] does not have [=transient
-        activation=], [=reject=] |result| with a "{{NotAllowedError}}"
-        {{DOMException}} and abort these steps.
+1.  [=In parallel=]:
     1.  Let |permissionState| be the result of [=requesting permission to use=]
         the [=powerful feature=] named `"idle-detection"`.
-    1.  Resolve |result| with |permissionState|.
+    1.  [=Queue a global task=] on the [=relevant global object=] of [=this=]
+        using the [=permission task source=] to [=resolve=] |result| with
+        |permissionState|.
 1. Return |result|.
 
 </div>
 
 ### {{IdleDetector/start()}} method ### {#api-idledetector-start}
 
-<div algorithm>
+<div algorithm for="IdleDetector">
 
 The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 
@@ -372,8 +406,9 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
     <wpt>
       interceptor.https.html
     </wpt>
-1.  [=Queue a task=] to perform the following steps, but [=abort when=]
-    |this|.{{IdleDetector/[[state]]}} becomes `"stopped"`.
+1.  [=Queue a global task=] on the [=relevant global object=] of [=this=] using
+    the [=idle detection task source=] to perform the following steps, but
+    [=abort when=] |this|.{{IdleDetector/[[state]]}} becomes `"stopped"`.
     1.  Let |permissionState| be the [=permission state=] the [=powerful
         feature=] named `"idle-detection"`.
     1.  If |permissionState| is `"denied"`, [=reject=] |result| with a

@@ -135,9 +135,9 @@ const main = async () => {
   if (!('IdleDetector' in window)) {
     return console.log('IdleDetector is not available.');
   }
-  // Check if notifications permission is granted.
-  if ((await navigator.permissions.query({name: 'notifications'})).state !== 'granted') {
-    return console.log('Notifications permission not granted.');
+  // Check if permission is granted.
+  if ((await navigator.permissions.query({name: 'idle-detection'})).state !== 'granted') {
+    return console.log('Idle detection permission not granted.');
   }    
   try {
     const controller = new AbortController();
@@ -220,14 +220,35 @@ cached or otherwise provide a guarantee that rapid polling does not bypass the
 restriction on data granularity.
 
 To mitigate the exposure of this global state the API should be restricted to
-top-level frames with the [`"notifications"` permission]. It could be
-delegationed to subframes via Feature Policy or a `sandbox` attribute. The
-top-level frame requirement significantly reduces the number of cross-origin
-contexts which can observe the a state event and thus identify the user through
-backend communication channels. The permission requirement further reduces this
-set to sites the user has engaged with before. The most compelling use cases for
-this capability involve messaging applications and so the [`"notifications"`
-permission] is appropriate.
+top-level frames with a new `"idle-detection"` permission. This permission can
+be delegated to sub-frames via [Permissions Policy] or the [`sandbox`
+attribute]. The top-level frame requirement significantly reduces the number of
+cross-origin contexts which can observe the state event and thus identify the
+user through backend communication channels.
+
+Requiring a permission does not completely mitigate the cross-origin
+identification issue but further reduces the number of sites which are able to
+participate in such an attack.
+
+A new permission informs the user about the permission the page is requesting.
+
+> ![Screenshot of a permission request dialog](example-permission-dialog.png)
+> <br>
+> Example icon and text for an `"idle-detection"` permission request.
+
+Rather than expanding the definition of an existing permission, it is clear to
+users which sites have access to additional capabilities.
+
+> ![Screenshot of Chromium's page information dialog](example-page-info.png)
+> <br>
+> Example page information dialog box showing a site with both
+> `"notifications"` and `"idle-detection"` permissions granted.
+
+This capability changes the web privacy model by allowing the site to observe a
+limited amount of information about how the user interacts with their device
+outside the border of the site's content area. Sites using this permission
+should present the request in a context which explains the value to the user of
+being granted this capability.
 
 Implementations that provide a "privacy browsing" mode should not enable this
 capability in such a mode. This may be satisfied incidentally by not allowing
@@ -259,44 +280,31 @@ This mitigation was considered and determined to be unacceptable because:
 * Even with a large fuzzing factor (e.g. 30 seconds) data collected over a long
   period of time is still sufficient to identify the user.
 
-### Dedicated Idle Detection Permission
+### Combined with Notification Permission
 
-Rather than extending the `"notifications"` permission, a new `"idle-detection"`
-permission could be defined to control access to this particular capability.
+Rather than defining a new `"idle-detection"` permission, the definition of the
+existing `"notifications"` permission could be expanded to control access to
+this capability. The most compelling use cases for this capability involve
+messaging applications, so the [`"notifications"` permission] seems
+appropriate.
 
-Requiring a permission does not directly mitigate the cross-origin
-identification issue described above, but does reduce the number of sites which
-are able to participate in such an attack. A number which is already limited to
-the number of top-level browsing contexts (i.e. tabs or windows) the user has
-open by not allowing this API to be used in cross-origin iframes.
-
-A new permission would better inform the user about the permission the page is
-requesting.
-
-> ![Screenshot of a permission request dialog](example-permission-dialog.png)
-> <br>
-> Example icon and text for an `"idle-detection"` permission request.
-
-Rather than expanding the definition of an existing permission, it would be
-clear to users which sites have access to additional capabilities.
-
-> ![Screenshot of Chromium's page information dialog](example-page-info.png)
-> <br>
-> Example page information dialog box showing a site with both `"notifications"` and `"idle-detection"` permissions granted.
-
-The advantage of defining a new permission type for this particular capability
-is that it keeps users informed of the capabilities being granted. This is
-important because this capability changes the privacy model by allowing the site
-to observe a limited amount of information about how the user interacts with
-their device outside the border of the site's content area. Sites using this
-permission should present the request in a context which explains the value to
-the user of being granted this capability.
-
-The disadvantage of defining a new permission type is that it contributes to
+The advantage of not defining a new permission type is that it helps to avoid
 "consent fatigue", in which users are presented with an endlessly increasing
 number of choices by operating systems, browsers, and web sites. Adding this
 capability to a related permission such as `"notifications"` can maintain a
 user's control while reducing the number of decisions that need to be made.
+
+The disadvantage of not defining a new permission is that it changes the meaning
+of permission decisions the user had made in the past. While notifications are
+related to signals of user presence the ability to monitor this state may not be
+something the user considers when granting this permission.
+
+There is a middle-ground in which the permission prompt text for the
+[`"notifications"` permission] is updated to explain this new capability but
+both capabilities are still controlled by a single permission. Implementations
+could internally track whether the user has seen the updated prompt and require
+a site re-request the [`"notifications"` permission] before it has access to the
+new capability.
 
 ## Prior Work
 
@@ -314,3 +322,5 @@ user's control while reducing the number of decisions that need to be made.
   * [Idle.js](http://shawnmclean.com/detecting-if-user-is-idle-away-or-back-by-using-idle-js/)
 
 [`"notifications"` permission]: https://w3c.github.io/permissions/#notifications
+[Permissions Policy]: https://w3c.github.io/webappsec-permissions-policy/
+[`sandbox` attribute]: https://html.spec.whatwg.org/multipage/iframe-embed-object.html#attr-iframe-sandbox

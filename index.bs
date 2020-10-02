@@ -499,7 +499,11 @@ identification channels. Similar concerns are present in specifications such as
 a visible or focused context. This prevents multiple origins from observing the
 global state at the same time. These mitigations are unfortunately inappropriate
 here because the intent of this specification is precisely to allow a limited
-form of tracking in blurred and hidden contexts.
+form of tracking in blurred and hidden contexts. A malicious page could notify a
+tracking server whenever the user is detected as idle or active. If multiple
+pages the user was visiting notified the same server it could use the timing of
+the events to guess which sessions corresponded to a single user as they would
+arrive roughly simultaneously.
 
 To reduce the number of independent contexts with access to this interface this
 specification restricts it to top-level and same-origin contexts. Access can be

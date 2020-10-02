@@ -1225,7 +1225,7 @@ Possible extra rowspan handling
   <meta content="Bikeshed version f539c4af, updated Mon Aug 10 11:34:58 2020 -0700" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="b9a87f05265b422e1d3dc2f3a7cc4eb7896a214e" name="document-revision">
+  <meta content="7a5fffa9927c8d9af79c808cfa9c41662d45f3bf" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -2011,7 +2011,11 @@ identification channels. Similar concerns are present in specifications such as 
 a visible or focused context. This prevents multiple origins from observing the
 global state at the same time. These mitigations are unfortunately inappropriate
 here because the intent of this specification is precisely to allow a limited
-form of tracking in blurred and hidden contexts.</p>
+form of tracking in blurred and hidden contexts. A malicious page could notify a
+tracking server whenever the user is detected as idle or active. If multiple
+pages the user was visiting notified the same server it could use the timing of
+the events to guess which sessions corresponded to a single user as they would
+arrive roughly simultaneously.</p>
    <p>To reduce the number of independent contexts with access to this interface this
 specification restricts it to top-level and same-origin contexts. Access can be
 delegated to a cross-origin context through <a data-link-type="biblio" href="#biblio-permissions-policy">[PERMISSIONS-POLICY]</a>.</p>

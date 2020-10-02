@@ -120,7 +120,7 @@ enum UserIdleState {
 
 : {{"idle"}}
 
-::  Indicates that the user has no interacted with the device in at least
+::  Indicates that the user has not interacted with the device in at least
     {{IdleOptions/threshold}} milliseconds.
 
 ### The {{ScreenIdleState}} enum ### {#api-screenidlestate}
@@ -252,7 +252,7 @@ continuously monitor the following conditions:
 
 *   |detector|.{{[[state]]}} is `"started"`.
 *   |detector|.{{[[userState]]}} is {{"active"}}.
-*   The user has not interacted with the device is at least
+*   The user has not interacted with the device in at least
     |detector|.{{[[threshold]]}} milliseconds.
 
 If all of these conditions are true the [=user agent=] MUST [=queue a global

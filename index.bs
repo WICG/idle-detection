@@ -245,50 +245,6 @@ The <dfn attribute for=IdleDetector>userState</dfn> getter steps are:
 
 </div>
 
-<div algorithm="user becomes idle">
-
-For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
-continuously monitor the following conditions:
-
-*   |detector|.{{[[state]]}} is `"started"`.
-*   |detector|.{{[[userState]]}} is {{"active"}}.
-*   The user has not interacted with the device in at least
-    |detector|.{{[[threshold]]}} milliseconds.
-
-If all of these conditions are true the [=user agent=] MUST [=queue a global
-task=] on the [=relevant global object=] of |detector| using the [=idle
-detection task source=] to run the following steps:
-
-1.  Set |detector|.{{[[userState]]}} to {{"idle"}}.
-1.  [=Fire an event=] named {{"change"}} at |detector|.
-
-<wpt>
-  interceptor.https.html
-</wpt>
-</div>
-
-<div algorithm="user becomes active">
-
-For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
-continuously monitor the following conditions:
-
-*   |detector|.{{[[state]]}} is `"started"`.
-*   |detector|.{{[[userState]]}} is {{"idle"}}.
-*   The user has interacted with the device is at least
-    |detector|.{{[[threshold]]}} milliseconds.
-
-If all of these conditions are true the [=user agent=] MUST [=queue a global
-task=] on the [=relevant global object=] of |detector| using the [=idle
-detection task source=] to run the following steps:
-
-1.  Set |detector|.{{[[userState]]}} to {{"active"}}.
-1.  [=Fire an event=] named {{"change"}} at |detector|.
-
-<wpt>
-  interceptor.https.html
-</wpt>
-</div>
-
 ### {{IdleDetector/screenState}} attribute ### {#api-idledetector-screenstate}
 
 <div algorithm>
@@ -296,48 +252,6 @@ The <dfn attribute for=IdleDetector>screenState</dfn> getter steps are:
 
 1.  Return [=this=].{{[[screenState]]}}.
 
-</div>
-
-<div algorithm="screen locked">
-
-For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
-continuously monitor the following conditions:
-
-*   |detector|.{{[[state]]}} is `"started"`.
-*   |detector|.{{[[screenState]]}} is {{"unlocked"}}.
-*   The screen is locked.
-
-If all of these conditions are true the [=user agent=] MUST [=queue a global
-task=] on the [=relevant global object=] of |detector| using the [=idle
-detection task source=] to run the following steps:
-
-1.  Set |detector|.{{[[screenState]]}} to {{"locked"}}.
-1.  [=Fire an event=] named {{"change"}} at |detector|.
-
-<wpt>
-  interceptor.https.html
-</wpt>
-</div>
-
-<div algorithm="screen unlocked">
-
-For each {{IdleDetector}} instance |detector| the [=user agent=] MUST
-continuously monitor the following conditions:
-
-*   |detector|.{{[[state]]}} is `"started"`.
-*   |detector|.{{[[screenState]]}} is {{"locked"}}.
-*   The screen is unlocked.
-
-If all of these conditions are true the [=user agent=] MUST [=queue a global
-task=] on the [=relevant global object=] of |detector| using the [=idle
-detection task source=] to run the following steps:
-
-1.  Set |detector|.{{[[screenState]]}} to {{"unlocked"}}.
-1.  [=Fire an event=] named {{"change"}} at |detector|.
-
-<wpt>
-  interceptor.https.html
-</wpt>
 </div>
 
 ### {{IdleDetector/onchange}} attribute ### {#api-idledetector-onchange}
@@ -485,6 +399,54 @@ controller.abort();
 console.log('IdleDetector is stopped.');
 ```
 </div>
+
+### Reacting to state changes ### {#state-changes}
+
+<div algorithm="state changes">
+
+For each {{IdleDetector}} instance |detector| where |detector|.{{[[state]]}} is
+`"started"` the [=user agent=] MUST continuously monitor the following
+conditions:
+
+*   If |detector|.{{[[userState]]}} is {{"active"}} and the user has not
+    interacted with the device within the last |detector|.{{[[threshold]]}}
+    milliseconds, it MUST [=queue a global task=] on the [=relevant global
+    object=] of |detector| using the [=idle detection task source=] to run the
+    following steps:
+
+    1.  Set |detector|.{{[[userState]]}} to {{"idle"}}.
+    1.  [=Fire an event=] named {{"change"}} at |detector|.
+
+
+*   If |detector|.{{[[userState]]}} is {{"idle"}} and the user interacts with
+    the device, it MUST [=queue a global task=] on the [=relevant global
+    object=] of |detector| using the [=idle detection task source=] to run the
+    following steps:
+
+    1.  Set |detector|.{{[[userState]]}} to {{"active"}}.
+    1.  [=Fire an event=] named {{"change"}} at |detector|.
+
+*   If |detector|.{{[[screenState]]}} is {{"unlocked"}} and the screen is
+    locked, it MUST [=queue a global task=] on the [=relevant global object=] of
+    |detector| using the [=idle detection task source=] to run the following
+    steps:
+
+    1.  Set |detector|.{{[[screenState]]}} to {{"locked"}}.
+    1.  [=Fire an event=] named {{"change"}} at |detector|.
+
+*   If |detector|.{{[[screenState]]}} is {{"locked"}} and the screen is
+    unlocked, it MUST [=queue a global task=] on the [=relevant global object=]
+    of |detector| using the [=idle detection task source=] to run the following
+    steps:
+
+    1.  Set |detector|.{{[[screenState]]}} to {{"unlocked"}}.
+    1.  [=Fire an event=] named {{"change"}} at |detector|.
+
+</div>
+
+<wpt>
+  interceptor.https.html
+</wpt>
 
 # Security and privacy considerations # {#security-and-privacy}
 

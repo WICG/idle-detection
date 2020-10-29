@@ -2,6 +2,8 @@
 
 # User Idle Detection
 
+[Read the draft specification](https://wicg.github.io/idle-detection).
+
 This proposed API allows developers to add an event listener for when the user
 becomes idle (e.g. they don’t interact with the keyboard, mouse or touchscreen,
 when a screensaver activates or when the screen is locked). Unlike solutions

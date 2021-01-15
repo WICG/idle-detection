@@ -26,7 +26,7 @@ spec: page-visibility-2; urlPrefix: https://www.w3.org/TR/page-visibility-2/#
 </pre>
 
 <pre class="link-defaults">
-spec:html; type:event; text:change
+spec:html; type:event; for:HTMLElement; text:change
 spec:infra; type:dfn; text:user agent
 spec:service-workers; type:dfn; for:/; text:service worker
 spec:webidl; type:dfn; text:resolve

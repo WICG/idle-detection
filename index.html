@@ -1488,7 +1488,7 @@ Possible extra rowspan handling
   <meta content="Bikeshed version c5172e83, updated Fri Nov 20 15:35:20 2020 -0800" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="ccc373735881ef6ffe76c59c8365c613930e30a5" name="document-revision">
+  <meta content="33345dc809017c01b7faa049559aa97f26ba01e2" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -2112,7 +2112,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Idle Detection API</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-01-14">14 January 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="2021-01-19">19 January 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -2368,7 +2368,7 @@ in the following table:</p>
    </div>
    <h4 class="heading settled" data-level="2.4.3" id="api-idledetector-onchange"><span class="secno">2.4.3. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-idledetector-onchange" id="ref-for-dom-idledetector-onchange①">onchange</a></code> attribute</span><a class="self-link" href="#api-idledetector-onchange"></a></h4>
    <p><dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="attribute" data-export id="dom-idledetector-onchange"><code>onchange</code></dfn> is an <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes">Event handler IDL
-attribute</a> for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-change" id="ref-for-event-media-change">change</a></code> event type.</p>
+attribute</a> for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change">change</a></code> event type.</p>
    <h4 class="heading settled" data-level="2.4.4" id="api-idledetector-requestpermission"><span class="secno">2.4.4. </span><span class="content"><code class="idl"><a data-link-type="idl" href="#dom-idledetector-requestpermission" id="ref-for-dom-idledetector-requestpermission①">requestPermission()</a></code> method</span><a class="self-link" href="#api-idledetector-requestpermission"></a></h4>
    <div class="algorithm" data-algorithm="requestPermission()" data-algorithm-for="IdleDetector">
      The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="method" data-export id="dom-idledetector-requestpermission"><code>requestPermission()</code></dfn> method steps are: 
@@ -2483,7 +2483,7 @@ been granted.</p>
   signal<c- p>,</c->
 <c- p>};</c->
 </pre>
-    <p>The <code class="idl"><a data-link-type="idl" href="#idledetector" id="ref-for-idledetector④">IdleDetector</a></code> can now be created and started. An listener for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-change" id="ref-for-event-media-change①">"change"</a></code> event is added and will be fired if the <code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate②">userState</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate②">screenState</a></code> attributes change.</p>
+    <p>The <code class="idl"><a data-link-type="idl" href="#idledetector" id="ref-for-idledetector④">IdleDetector</a></code> can now be created and started. An listener for the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change①">"change"</a></code> event is added and will be fired if the <code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate" id="ref-for-dom-idledetector-userstate②">userState</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate" id="ref-for-dom-idledetector-screenstate②">screenState</a></code> attributes change.</p>
 <pre class="language-js highlight"><c- k>try</c-> <c- p>{</c->
   <c- kr>const</c-> idleDetector <c- o>=</c-> <c- k>new</c-> IdleDetector<c- p>();</c->
   idleDetector<c- p>.</c->addEventListener<c- p>(</c-><c- t>'change'</c-><c- p>,</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
@@ -2517,7 +2517,7 @@ following steps:</p>
        <li data-md>
         <p>Set <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot②">[[userState]]</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle①">"idle"</a></code>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-change" id="ref-for-event-media-change②">"change"</a></code> at <var>detector</var>.</p>
+        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change②">"change"</a></code> at <var>detector</var>.</p>
       </ol>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot③">[[userState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle②">"idle"</a></code> and the user interacts with
@@ -2528,7 +2528,7 @@ following steps:</p>
        <li data-md>
         <p>Set <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot④">[[userState]]</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active②">"active"</a></code>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-change" id="ref-for-event-media-change③">"change"</a></code> at <var>detector</var>.</p>
+        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change③">"change"</a></code> at <var>detector</var>.</p>
       </ol>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot①">[[screenState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-unlocked" id="ref-for-dom-screenidlestate-unlocked①">"unlocked"</a></code> and the screen is
@@ -2538,7 +2538,7 @@ steps:</p>
        <li data-md>
         <p>Set <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot②">[[screenState]]</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-locked" id="ref-for-dom-screenidlestate-locked①">"locked"</a></code>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire②">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-change" id="ref-for-event-media-change④">"change"</a></code> at <var>detector</var>.</p>
+        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire②">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change④">"change"</a></code> at <var>detector</var>.</p>
       </ol>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot③">[[screenState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-locked" id="ref-for-dom-screenidlestate-locked②">"locked"</a></code> and the screen is
@@ -2548,7 +2548,7 @@ steps:</p>
        <li data-md>
         <p>Set <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot④">[[screenState]]</a></code> to <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-unlocked" id="ref-for-dom-screenidlestate-unlocked②">"unlocked"</a></code>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire③">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#event-media-change" id="ref-for-event-media-change⑤">"change"</a></code> at <var>detector</var>.</p>
+        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire③">Fire an event</a> named <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/indices.html#event-change" id="ref-for-event-change⑤">"change"</a></code> at <var>detector</var>.</p>
       </ol>
     </ul>
    </div>
@@ -2783,12 +2783,12 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-concept-document-window">2.4.5. start() method</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-event-media-change">
-   <a href="https://html.spec.whatwg.org/multipage/media.html#event-media-change">https://html.spec.whatwg.org/multipage/media.html#event-media-change</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-event-change">
+   <a href="https://html.spec.whatwg.org/multipage/indices.html#event-change">https://html.spec.whatwg.org/multipage/indices.html#event-change</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event-media-change">2.4.3. onchange attribute</a>
-    <li><a href="#ref-for-event-media-change①">2.4.5. start() method</a>
-    <li><a href="#ref-for-event-media-change②">2.4.6. Reacting to state changes</a> <a href="#ref-for-event-media-change③">(2)</a> <a href="#ref-for-event-media-change④">(3)</a> <a href="#ref-for-event-media-change⑤">(4)</a>
+    <li><a href="#ref-for-event-change">2.4.3. onchange attribute</a>
+    <li><a href="#ref-for-event-change①">2.4.5. start() method</a>
+    <li><a href="#ref-for-event-change②">2.4.6. Reacting to state changes</a> <a href="#ref-for-event-change③">(2)</a> <a href="#ref-for-event-change④">(3)</a> <a href="#ref-for-event-change⑤">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event-handler-idl-attributes">
@@ -3039,7 +3039,7 @@ for their help in crafting this proposal.</p>
      <li><span class="dfn-paneled" id="term-for-window">Window</span>
      <li><span class="dfn-paneled" id="term-for-allowed-to-use">allowed to use</span>
      <li><span class="dfn-paneled" id="term-for-concept-document-window">associated document</span>
-     <li><span class="dfn-paneled" id="term-for-event-media-change">change</span>
+     <li><span class="dfn-paneled" id="term-for-event-change">change</span>
      <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes">event handler idl attribute</span>
      <li><span class="dfn-paneled" id="term-for-in-parallel">in parallel</span>
      <li><span class="dfn-paneled" id="term-for-handler-onkeypress">onkeypress</span>

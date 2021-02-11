@@ -6,7 +6,8 @@ specifications: https://wicg.github.io/idle-detection/#api-idledetector
 browser_compatibility: api.IdleDetector
 ---
 
-**When this feature ships, the content below will live on MDN under
+**This is a rough draft of content that will eventually live on MDN. When this
+feature ships, the content below will live on MDN under
 [developer.mozilla.org/en-US/docs/Web/API](https://developer.mozilla.org/en-US/docs/Web/API).**
 
 ## Description

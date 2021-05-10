@@ -54,7 +54,7 @@ acceptance and `"denied"` on refusal.
 
 Returns a `Promise` that resolves when the detector has started listening for
 changes in the user's idle state. `userState` and `screenState` are populated
-with their initial values. Takes an optioanl options object with the
+with their initial values. Takes an optional options object with the
 `threshold` in milliseconds where inactivity should be reported and `signal`
 for an `AbortSignal` to abort the idle detector.
 

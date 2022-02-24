@@ -143,8 +143,7 @@ enum ScreenIdleState {
 
 ## Permissions ## {#api-permissions}
 
-The <dfn for=PermissionName enum-value>"idle-detection"</dfn> [=powerful
-feature=] is a [=boolean feature=].
+The <dfn export>"idle-detection"</dfn> [=powerful feature=] is a [=boolean feature=].
 
 ## Permissions policy ## {#api-permissions-policy}
 
@@ -265,15 +264,13 @@ attribute</a> for the {{change}} event type.
 The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
 1.  If the [=relevant global object=] of [=this=] does not have [=transient
-    activation=], return [=a new promise=] [=rejected=] with a "{{NotAllowedError}}"
+    activation=], return [=a promise rejected with=] a "{{NotAllowedError}}"
     {{DOMException}}.
 1.  Let |result| be [=a new promise=].
 1.  [=In parallel=]:
     1.  Let |permissionState| be the result of [=requesting permission to use=]
-        the [=powerful feature=] named `"idle-detection"`.
-    1.  [=Queue a global task=] on the [=relevant global object=] of [=this=]
-        using the [=permission task source=] to [=resolve=] |result| with
-        |permissionState|.
+        `"idle-detection"`.
+    1.  [=Resolve=] |result| with |permissionState|.
 1. Return |result|.
 
 </div>
@@ -284,12 +281,9 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
 The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 
-1.  Let |result| be [=a new promise=].
 1.  If the [=relevant global object=]'s [=associated Document=] is not [=allowed
-    to use=] the [=policy-controlled feature=] named `"idle-detection"`
-    [=reject=] |result| with a "{{NotAllowedError}}" {{DOMException}} and return
-    |result|.
-
+    to use=] `"idle-detection"`, return [=a promise rejected with=] a
+    "{{NotAllowedError}}" {{DOMException}}.
     <wpt>
       idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html
       idle-detection-allowed-by-feature-policy-attribute.https.sub.html
@@ -297,17 +291,18 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
       idle-detection-default-feature-policy.https.sub.html
       idle-detection-disabled-by-feature-policy.https.sub.html
     </wpt>
-1.  If |this|.{{IdleDetector/[[state]]}} is not `"stopped"`, [=reject=] |result|
-    with an "{{InvalidStateError}}" {{DOMException}} and return |result|.
+1.  If |this|.{{IdleDetector/[[state]]}} is not `"stopped"`,
+    return [=a promise rejected with=] an "{{InvalidStateError}}" {{DOMException}}.
     <wpt>
       interceptor.https.html
     </wpt>
 1.  Set |this|.{{IdleDetector/[[state]]}} to `"starting"`.
-1.  If |options|[{{"threshold"}}] is less than 60,000 [=reject=] |result| with
-    {{TypeError}} and return |result|.
+1.  If |options|[{{"threshold"}}] is less than 60,000, return [=a promise rejected with=]
+    a {{TypeError}}.
     <wpt>
       basics.tentative.https.window.js
     </wpt>
+1.  Let |result| be [=a new promise=].
 1.  If |options|["{{signal}}"] is present, then perform the following sub-steps:
     1.  If |options|["{{signal}}"]'s [=AbortSignal/aborted flag=] is set, then
         [=reject=] |result| with an "{{AbortError}}" {{DOMException}} and return
@@ -320,18 +315,18 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
     <wpt>
       interceptor.https.html
     </wpt>
-1.  [=Queue a global task=] on the [=relevant global object=] of [=this=] using
-    the [=idle detection task source=] to perform the following steps, but
-    [=abort when=] |this|.{{IdleDetector/[[state]]}} becomes `"stopped"`.
-    1.  Let |permissionState| be the [=permission state=] the [=powerful
-        feature=] named `"idle-detection"`.
+1. [=In parallel=]:
+    1.  Let |permissionState| be the [=permission state=] of `"idle-detection"`.
     1.  If |permissionState| is `"denied"`, [=reject=] |result| with a
         "{{NotAllowedError}}" {{DOMException}}, set
         |this|.{{IdleDetector/[[state]]}} to `"stopped"` and abort these steps.
         <wpt>idle-permission.tentative.https.window.js</wpt>
-    1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
-    1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|["{{threshold}}"].
-    1.  [=Resolve=] |result|.
+    1.  [=Queue a task=] on the [=idle detection task source=] to perform the
+        following steps, but [=abort when=] |this|.{{IdleDetector/[[state]]}}
+        becomes `"stopped"`.
+        1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
+        1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|["{{threshold}}"].
+        1.  [=Resolve=] |result|.
 1.  Return |result|.
 
 </div>
@@ -348,7 +343,7 @@ if (!('IdleDetector' in window)) {
 }
 ```
 
-Calling {{start()}} will fail if the {{"idle-detection"}} permission has not
+Calling {{start()}} will fail if the `"idle-detection"` permission has not
 been granted.
 
 ```js
@@ -472,7 +467,7 @@ specification restricts it to top-level and same-origin contexts. Access can be
 delegated to a cross-origin context through [[PERMISSIONS-POLICY]].
 
 To further reduce the number of contexts this specification requires
-a page to obtain the {{"idle-detection"}} permission. User agents should inform
+a page to obtain the `"idle-detection"` permission. User agents should inform
 the user of the capability that this permission grants and encourage them to
 only grant it to trusted sites which have a legitimate purpose for this data.
 
@@ -480,7 +475,7 @@ Implementations that provide a "private browsing" mode should not allow this
 capability in contexts where this mode is enabled. Implementations should be
 careful however to avoid the lack of this capability from being used as a signal
 that this mode is enabled. This can be accomplished by refusing to allow the
-{{"idle-detection"}} permission to be granted but delaying the automatic
+`"idle-detection"` permission to be granted but delaying the automatic
 dismissal of the permission request by a random interval so that it appears to
 have been a user action.
 
@@ -498,7 +493,7 @@ for how long the user typically interacts with their device.
 
 ## User coercion ## {#privacy-user-coercion}
 
-Sites may require the user to grant them the {{"idle-detection"}} permission
+Sites may require the user to grant them the `"idle-detection"` permission
 before unlocking some functionality. For example, a testing site could require
 this permission as part of an anti-cheating mechanism to detect the user
 consulting forbidden reference materials in another window. This type of

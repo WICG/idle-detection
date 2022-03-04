@@ -143,8 +143,7 @@ enum ScreenIdleState {
 
 ## Permissions ## {#api-permissions}
 
-The <dfn permission export>"idle-detection"</permission> [=powerful feature=]
-is a [=boolean feature=].
+The <dfn permission export>"idle-detection"</dfn> is a [=default powerful feature=].
 
 ## Permissions policy ## {#api-permissions-policy}
 
@@ -344,8 +343,8 @@ if (!('IdleDetector' in window)) {
 }
 ```
 
-Calling {{start()}} will fail if the `"idle-detection"` permission has not
-been granted.
+Calling {{start()}} will fail if the <a permission>"idle-detection"</a> permission
+has not been granted.
 
 ```js
 if ((await IdleDetector.requestPermission()) !== 'granted') {

@@ -467,7 +467,7 @@ specification restricts it to top-level and same-origin contexts. Access can be
 delegated to a cross-origin context through [[PERMISSIONS-POLICY]].
 
 To further reduce the number of contexts this specification requires
-a page to obtain the `"idle-detection"` permission. User agents should inform
+a page to obtain the <a permission>"idle-detection"</a> permission. User agents should inform
 the user of the capability that this permission grants and encourage them to
 only grant it to trusted sites which have a legitimate purpose for this data.
 

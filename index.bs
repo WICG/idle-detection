@@ -282,7 +282,7 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 
 1.  If the [=relevant global object=]'s [=associated Document=] is not [=allowed
-    to use=] `"idle-detection"`, return [=a promise rejected with=] a
+    to use=] <a permission>"idle-detection"</a>, return [=a promise rejected with=] a
     "{{NotAllowedError}}" {{DOMException}}.
     <wpt>
       idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html

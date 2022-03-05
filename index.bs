@@ -475,7 +475,7 @@ Implementations that provide a "private browsing" mode should not allow this
 capability in contexts where this mode is enabled. Implementations should be
 careful however to avoid the lack of this capability from being used as a signal
 that this mode is enabled. This can be accomplished by refusing to allow the
-`"idle-detection"` permission to be granted but delaying the automatic
+<a permission>"idle-detection"</a> permission to be granted but delaying the automatic
 dismissal of the permission request by a random interval so that it appears to
 have been a user action.
 

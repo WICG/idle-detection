@@ -269,7 +269,7 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 1.  Let |result| be [=a new promise=].
 1.  [=In parallel=]:
     1.  Let |permissionState| be the result of [=requesting permission to use=]
-        `"idle-detection"`.
+        <a permission>"idle-detection"</a>.
     1.  [=Resolve=] |result| with |permissionState|.
 1. Return |result|.
 

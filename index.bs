@@ -317,11 +317,13 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
     </wpt>
 1. [=In parallel=]:
     1.  Let |permissionState| be the [=permission state=] of `"idle-detection"`.
-    1.  If |permissionState| is `"denied"`, [=reject=] |result| with a
-        "{{NotAllowedError}}" {{DOMException}}, set
-        |this|.{{IdleDetector/[[state]]}} to `"stopped"` and abort these steps.
         <wpt>idle-permission.tentative.https.window.js</wpt>
-    1.  [=Queue a task=] on the [=idle detection task source=] to perform the
+    1.  If |permissionState| is `"denied"`, [=queue a task=] on the
+        [=idle detection task source=] to perform the following steps:
+          1.  Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
+          1.  [=Reject=] |result| with a "{{NotAllowedError}}" {{DOMException}}.
+          1.  Abort these steps.
+    1.  Otherwise, [=queue a task=] on the [=idle detection task source=] to perform the
         following steps, but [=abort when=] |this|.{{IdleDetector/[[state]]}}
         becomes `"stopped"`.
         1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.

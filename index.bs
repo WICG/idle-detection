@@ -493,7 +493,7 @@ for how long the user typically interacts with their device.
 
 ## User coercion ## {#privacy-user-coercion}
 
-Sites may require the user to grant them the `"idle-detection"` permission
+Sites may require the user to grant them the <a permission>"idle-detection"</a> permission
 before unlocking some functionality. For example, a testing site could require
 this permission as part of an anti-cheating mechanism to detect the user
 consulting forbidden reference materials in another window. This type of

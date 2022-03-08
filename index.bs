@@ -322,7 +322,6 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
         [=idle detection task source=] to perform the following steps:
           1.  Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
           1.  [=Reject=] |result| with a "{{NotAllowedError}}" {{DOMException}}.
-          1.  Abort these steps.
     1.  Otherwise, [=queue a task=] on the [=idle detection task source=] to perform the
         following steps, but [=abort when=] |this|.{{IdleDetector/[[state]]}}
         becomes `"stopped"`.

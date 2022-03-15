@@ -304,13 +304,13 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
     </wpt>
 1.  Let |result| be [=a new promise=].
 1.  If |options|["{{signal}}"] is present, then perform the following sub-steps:
-    1.  If |options|["{{signal}}"]'s [=AbortSignal/aborted flag=] is set, then
-        [=reject=] |result| with an "{{AbortError}}" {{DOMException}} and return
-        |result|.
+    1.  If |options|["{{signal}}"] is [=AbortSignal/aborted=], then
+        [=reject=] |result| with |options|["{{signal}}"]'s [=AbortSignal/abort reason=]
+        and return |result|.
     1.  [=AbortSignal/add|Add the following abort steps=] to
         |options|["{{signal}}"]:
         1. Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
-        1. [=Reject=] |result| with an "{{AbortError}}" {{DOMException}}.
+        1. [=Reject=] |result| with |options|["{{signal}}"]'s [=AbortSignal/abort reason=].
 
     <wpt>
       interceptor.https.html

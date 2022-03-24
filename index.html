@@ -7,7 +7,7 @@
   <meta content="Bikeshed version fb1e763a4, updated Tue Mar 1 13:13:50 2022 -0800" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="a6257898299b1d7b80ea7a226ad101c0420c08bb" name="document-revision">
+  <meta content="6035b7d23f49572042bf7e25fe008e0f951faf08" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -795,7 +795,7 @@ dd:not(:last-child) > .wpt-tests-block:not([open]):last-child {
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Idle Detection API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2022-03-08">8 March 2022</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2022-03-24">24 March 2022</time></p>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1121,7 +1121,7 @@ in the following table:</p>
    <div class="mdn-anno wrapped after">
     <button class="mdn-anno-btn"><b class="less-than-two-engines-flag" title="This feature is in less than two current engines.">⚠</b><span>MDN</span></button>
     <div class="feature">
-     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/IdleDetector/onchange" title="The onchange EventHandler of the IdleDetector interface is called when the value of userState or screenState has changed. This method receives an Event object.">IdleDetector/onchange</a></p>
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/IdleDetector/change_event" title="The change event of the IdleDetector interface fires when the value of userState or screenState has changed.">IdleDetector/change_event</a></p>
      <p class="less-than-two-engines-text">In only one current engine.</p>
      <div class="support">
       <span class="firefox no"><span>Firefox</span><span>None</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>94+</span></span>
@@ -1232,14 +1232,14 @@ return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-r
       <p>If <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal">signal</a></code>"] is present, then perform the following sub-steps:</p>
       <ol>
        <li data-md>
-        <p>If <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal①">signal</a></code>"]'s <a data-link-type="dfn">aborted flag</a> is set, then <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject">reject</a> <var>result</var> with an "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#aborterror" id="ref-for-aborterror">AbortError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException③">DOMException</a></code> and return <var>result</var>.</p>
+        <p>If <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal①">signal</a></code>"] is <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-aborted" id="ref-for-abortsignal-aborted">aborted</a>, then <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject">reject</a> <var>result</var> with <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal②">signal</a></code>"]'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-abort-reason" id="ref-for-abortsignal-abort-reason">abort reason</a> and return <var>result</var>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">Add the following abort steps</a> to <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal②">signal</a></code>"]:</p>
+        <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-add" id="ref-for-abortsignal-add">Add the following abort steps</a> to <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal③">signal</a></code>"]:</p>
         <ol>
          <li data-md>
           <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot②">[[state]]</a></code> to <code>"stopped"</code>.</p>
          <li data-md>
-          <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject①">Reject</a> <var>result</var> with an "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#aborterror" id="ref-for-aborterror①">AbortError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException④">DOMException</a></code>.</p>
+          <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject①">Reject</a> <var>result</var> with <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-signal" id="ref-for-dom-idleoptions-signal④">signal</a></code>"]'s <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#abortsignal-abort-reason" id="ref-for-abortsignal-abort-reason①">abort reason</a>.</p>
         </ol>
       </ol>
       <details class="wpt-tests-block" dir="ltr" lang="en" open>
@@ -1265,7 +1265,7 @@ return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-r
          <li data-md>
           <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot③">[[state]]</a></code> to <code>"stopped"</code>.</p>
          <li data-md>
-          <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject②">Reject</a> <var>result</var> with a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror②">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException⑤">DOMException</a></code>.</p>
+          <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject②">Reject</a> <var>result</var> with a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror②">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException③">DOMException</a></code>.</p>
         </ol>
        <li data-md>
         <p>Otherwise, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> on the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source①">idle detection task source</a> to perform the
@@ -1565,6 +1565,18 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-eventtarget">2.4. The IdleDetector interface</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-abortsignal-abort-reason">
+   <a href="https://dom.spec.whatwg.org/#abortsignal-abort-reason">https://dom.spec.whatwg.org/#abortsignal-abort-reason</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-abortsignal-abort-reason">2.4.5. start() method</a> <a href="#ref-for-abortsignal-abort-reason①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-abortsignal-aborted">
+   <a href="https://dom.spec.whatwg.org/#abortsignal-aborted">https://dom.spec.whatwg.org/#abortsignal-aborted</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-abortsignal-aborted">2.4.5. start() method</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-abortsignal-add">
    <a href="https://dom.spec.whatwg.org/#abortsignal-add">https://dom.spec.whatwg.org/#abortsignal-add</a><b>Referenced in:</b>
    <ul>
@@ -1761,17 +1773,11 @@ for their help in crafting this proposal.</p>
     <li><a href="#ref-for-policy-controlled-feature">2.3. Permissions policy</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-aborterror">
-   <a href="https://webidl.spec.whatwg.org/#aborterror">https://webidl.spec.whatwg.org/#aborterror</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-aborterror">2.4.5. start() method</a> <a href="#ref-for-aborterror①">(2)</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMException">
    <a href="https://webidl.spec.whatwg.org/#idl-DOMException">https://webidl.spec.whatwg.org/#idl-DOMException</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-idl-DOMException">2.4.4. requestPermission() method</a>
-    <li><a href="#ref-for-idl-DOMException①">2.4.5. start() method</a> <a href="#ref-for-idl-DOMException②">(2)</a> <a href="#ref-for-idl-DOMException③">(3)</a> <a href="#ref-for-idl-DOMException④">(4)</a> <a href="#ref-for-idl-DOMException⑤">(5)</a>
+    <li><a href="#ref-for-idl-DOMException①">2.4.5. start() method</a> <a href="#ref-for-idl-DOMException②">(2)</a> <a href="#ref-for-idl-DOMException③">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-EnforceRange">
@@ -1871,6 +1877,8 @@ for their help in crafting this proposal.</p>
     <ul>
      <li><span class="dfn-paneled" id="term-for-abortsignal">AbortSignal</span>
      <li><span class="dfn-paneled" id="term-for-eventtarget">EventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-abort-reason">abort reason</span>
+     <li><span class="dfn-paneled" id="term-for-abortsignal-aborted">aborted</span>
      <li><span class="dfn-paneled" id="term-for-abortsignal-add">add</span>
      <li><span class="dfn-paneled" id="term-for-concept-event-fire">fire an event</span>
     </ul>
@@ -1934,7 +1942,6 @@ for their help in crafting this proposal.</p>
    <li>
     <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-aborterror">AbortError</span>
      <li><span class="dfn-paneled" id="term-for-idl-DOMException">DOMException</span>
      <li><span class="dfn-paneled" id="term-for-EnforceRange">EnforceRange</span>
      <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
@@ -1966,7 +1973,7 @@ for their help in crafting this proposal.</p>
    <dt id="biblio-page-visibility-2">[PAGE-VISIBILITY-2]
    <dd>Ilya Grigorik; Marcos Caceres. <a href="https://www.w3.org/TR/page-visibility-2/"><cite>Page Visibility Level 2</cite></a>. 18 May 2021. CR. URL: <a href="https://www.w3.org/TR/page-visibility-2/">https://www.w3.org/TR/page-visibility-2/</a>
    <dt id="biblio-permissions">[PERMISSIONS]
-   <dd>Marcos Caceres; Mike Taylor. <a href="https://www.w3.org/TR/permissions/"><cite>Permissions</cite></a>. 3 March 2022. WD. URL: <a href="https://www.w3.org/TR/permissions/">https://www.w3.org/TR/permissions/</a>
+   <dd>Marcos Caceres; Mike Taylor. <a href="https://www.w3.org/TR/permissions/"><cite>Permissions</cite></a>. 11 March 2022. WD. URL: <a href="https://www.w3.org/TR/permissions/">https://www.w3.org/TR/permissions/</a>
    <dt id="biblio-permissions-policy">[PERMISSIONS-POLICY]
    <dd>Ian Clelland. <a href="https://www.w3.org/TR/permissions-policy-1/"><cite>Permissions Policy</cite></a>. 16 July 2020. WD. URL: <a href="https://www.w3.org/TR/permissions-policy-1/">https://www.w3.org/TR/permissions-policy-1/</a>
    <dt id="biblio-rfc2119">[RFC2119]
@@ -1983,7 +1990,7 @@ for their help in crafting this proposal.</p>
    <dt id="biblio-geolocation-api">[GEOLOCATION-API]
    <dd>Andrei Popescu. <a href="https://www.w3.org/TR/geolocation-API/"><cite>Geolocation API Specification 2nd Edition</cite></a>. 8 November 2016. REC. URL: <a href="https://www.w3.org/TR/geolocation-API/">https://www.w3.org/TR/geolocation-API/</a>
    <dt id="biblio-push-api">[PUSH-API]
-   <dd>Peter Beverloo; Martin Thomson. <a href="https://www.w3.org/TR/push-api/"><cite>Push API</cite></a>. 3 November 2021. WD. URL: <a href="https://www.w3.org/TR/push-api/">https://www.w3.org/TR/push-api/</a>
+   <dd>Peter Beverloo; Martin Thomson. <a href="https://www.w3.org/TR/push-api/"><cite>Push API</cite></a>. 23 March 2022. WD. URL: <a href="https://www.w3.org/TR/push-api/">https://www.w3.org/TR/push-api/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
 <pre class="idl highlight def"><c- b>enum</c-> <a href="#enumdef-useridlestate"><code><c- g>UserIdleState</c-></code></a> {
@@ -2083,7 +2090,7 @@ for their help in crafting this proposal.</p>
   <aside class="dfn-panel" data-for="dom-idleoptions-signal">
    <b><a href="#dom-idleoptions-signal">#dom-idleoptions-signal</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-idleoptions-signal">2.4.5. start() method</a> <a href="#ref-for-dom-idleoptions-signal①">(2)</a> <a href="#ref-for-dom-idleoptions-signal②">(3)</a>
+    <li><a href="#ref-for-dom-idleoptions-signal">2.4.5. start() method</a> <a href="#ref-for-dom-idleoptions-signal①">(2)</a> <a href="#ref-for-dom-idleoptions-signal②">(3)</a> <a href="#ref-for-dom-idleoptions-signal③">(4)</a> <a href="#ref-for-dom-idleoptions-signal④">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="idledetector">

@@ -375,7 +375,7 @@ The {{IdleDetector}} can now be created and started. An listener for the
 try {
   const idleDetector = new IdleDetector();
   idleDetector.addEventListener('change', () => {
-    console.log(\`Idle change: ${idleDetector.userState}, ${idleDetector.screenState}.\`);
+    console.log(`Idle change: ${idleDetector.userState}, ${idleDetector.screenState}.`);
   });
   await idleDetector.start(options);
   console.log('IdleDetector is active.');

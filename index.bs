@@ -281,6 +281,12 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
 The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 
+1.  If the [=relevant global object=] of [=this=] is a {{Window}} object whose
+    [=associated Document=] is not [=fully active=], return [=a promise rejected with=]
+    an "{{InvalidStateError}}" {{DOMException}}.
+    <wpt>
+      idle-detection-detached-frame.https.html
+    </wpt>
 1.  If the [=relevant global object=]'s [=associated Document=] is not [=allowed
     to use=] <a permission>"idle-detection"</a>, return [=a promise rejected with=] a
     "{{NotAllowedError}}" {{DOMException}}.

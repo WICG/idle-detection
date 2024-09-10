@@ -345,6 +345,9 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
             1.  [=Resolve=] |result|.
 1.  Return |result|.
 
+Note: The steps above are performed [=in parallel=] to enable implementations
+      to check the permission state asynchronously.
+
 </div>
 
 <div class="example">

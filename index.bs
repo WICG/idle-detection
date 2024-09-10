@@ -270,7 +270,9 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 1.  [=In parallel=]:
     1.  Let |permissionState| be the result of [=requesting permission to use=]
         <a permission>"idle-detection"</a>.
-    1.  [=Resolve=] |result| with |permissionState|.
+    1.  [=Queue a global task=] on the [=relevant global object=] of [=this=]
+        using the [=idle detection task source=] to [=resolve=] |result| with
+        |permissionState|.
 1. Return |result|.
 
 </div>
@@ -318,16 +320,17 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 1. [=In parallel=]:
     1.  Let |permissionState| be the [=permission state=] of `"idle-detection"`.
         <wpt>idle-permission.tentative.https.window.js</wpt>
-    1.  If |permissionState| is `"denied"`, [=queue a task=] on the
-        [=idle detection task source=] to perform the following steps:
-          1.  Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
-          1.  [=Reject=] |result| with a "{{NotAllowedError}}" {{DOMException}}.
-    1.  Otherwise, [=queue a task=] on the [=idle detection task source=] to perform the
-        following steps, but [=abort when=] |this|.{{IdleDetector/[[state]]}}
-        becomes `"stopped"`.
-        1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
-        1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|["{{threshold}}"].
-        1.  [=Resolve=] |result|.
+    1.  [=Queue a global task=] on the [=relevant global object=] of [=this=]
+        using the [=idle detection task source=] to perform the following steps:
+        1.  If |permissionState| is `"denied"`,
+            1.  Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
+            1.  [=Reject=] |result| with a "{{NotAllowedError}}" {{DOMException}}.
+        1.  Otherwise,
+            1.  If |this|.{{IdleDetector/[[state]]}} is `"stopped"`, abort these
+                steps.
+            1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
+            1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|["{{threshold}}"].
+            1.  [=Resolve=] |result|.
 1.  Return |result|.
 
 </div>

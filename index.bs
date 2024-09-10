@@ -457,6 +457,7 @@ conditions:
 
 <wpt>
   interceptor.https.html
+  page-visibility.https.html
 </wpt>
 
 # Security and privacy considerations # {#security-and-privacy}
@@ -468,7 +469,7 @@ conditions:
 This interface exposes the state of global system properties and so care must be
 taken to prevent them from being used as cross-origin communication or
 identification channels. Similar concerns are present in specifications such as
-[[DEVICE-ORIENTATION]] and [[GEOLOCATION-API]], which mitigate them by requiring
+[[DEVICE-ORIENTATION]] and [[GEOLOCATION]], which mitigate them by requiring
 a visible or focused context. This prevents multiple origins from observing the
 global state at the same time. These mitigations are unfortunately inappropriate
 here because the intent of this specification is precisely to allow a limited

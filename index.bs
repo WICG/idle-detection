@@ -287,11 +287,11 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
     to use=] <a permission>"idle-detection"</a>, return [=a promise rejected with=] a
     "{{NotAllowedError}}" {{DOMException}}.
     <wpt>
-      idle-detection-allowed-by-feature-policy-attribute-redirect-on-load.https.sub.html
-      idle-detection-allowed-by-feature-policy-attribute.https.sub.html
-      idle-detection-allowed-by-feature-policy.https.sub.html
-      idle-detection-default-feature-policy.https.sub.html
-      idle-detection-disabled-by-feature-policy.https.sub.html
+      idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html
+      idle-detection-allowed-by-permissions-policy-attribute.https.sub.html
+      idle-detection-allowed-by-permissions-policy.https.sub.html
+      idle-detection-default-permissions-policy.https.sub.html
+      idle-detection-disabled-by-permissions-policy.https.sub.html
     </wpt>
 1.  If |this|.{{IdleDetector/[[state]]}} is not `"stopped"`,
     return [=a promise rejected with=] an "{{InvalidStateError}}" {{DOMException}}.

@@ -263,6 +263,12 @@ attribute</a> for the {{change}} event type.
 <div algorithm>
 The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
+1.  If [=this=]'s [=relevant global object=]'s [=associated Document=] is not
+    [=fully active=], return [=a promise rejected with=] a
+    "{{InvalidStateError}}" {{DOMException}}.
+    <wpt>
+      idle-detection-detached-frame.https.html
+    </wpt>
 1.  If the [=relevant global object=] of [=this=] does not have [=transient
     activation=], return [=a promise rejected with=] a "{{NotAllowedError}}"
     {{DOMException}}.
@@ -283,9 +289,15 @@ The <dfn method for=IdleDetector>requestPermission()</dfn> method steps are:
 
 The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
 
-1.  If the [=relevant global object=]'s [=associated Document=] is not [=allowed
-    to use=] <a permission>"idle-detection"</a>, return [=a promise rejected with=] a
-    "{{NotAllowedError}}" {{DOMException}}.
+1.  Let |document| be [=this=]'s [=relevant global object=]'s [=associated
+    Document=].
+1.  If |document| is not [=fully active=], return [=a promise rejected with=] a
+    "{{InvalidStateError}}" {{DOMException}}.
+    <wpt>
+      idle-detection-detached-frame.https.html
+    </wpt>
+1.  If |document| is not [=allowed to use=] <a permission>"idle-detection"</a>,
+    return [=a promise rejected with=] a "{{NotAllowedError}}" {{DOMException}}.
     <wpt>
       idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html
       idle-detection-allowed-by-permissions-policy-attribute.https.sub.html

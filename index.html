@@ -4,10 +4,10 @@
   <title>Idle Detection API</title>
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <link href="https://www.w3.org/StyleSheets/TR/2021/cg-draft" rel="stylesheet">
-  <meta content="Bikeshed version b06c00b8e, updated Tue Jul 11 13:41:16 2023 -0700" name="generator">
+  <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://wicg.github.io/idle-detection/" rel="canonical">
   <link href="logo-idle.png" rel="icon">
-  <meta content="3537859c8226d3a328c421b6a2802135a274be6b" name="document-revision">
+  <meta content="6c7be3c59497fffd9442561286e9e95cafc1bed7" name="document-revision">
 <style>
   table {
     border-collapse: collapse;
@@ -1038,7 +1038,7 @@ dd:not(:last-child) > .wpt-tests-block:not([open]):last-child {
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">Idle Detection API</h1>
-   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2023-07-11">11 July 2023</time></p>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#CG-DRAFT">Draft Community Group Report</a>, <time class="dt-updated" datetime="2024-09-10">10 September 2024</time></p>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1052,7 +1052,7 @@ dd:not(:last-child) > .wpt-tests-block:not([open]):last-child {
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2023 the Contributors to the Idle Detection API Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/policies/#copyright">Copyright</a> © 2024 the Contributors to the Idle Detection API Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
 A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available. </p>
    <hr title="Separator for header">
   </div>
@@ -1303,8 +1303,17 @@ attribute</a> for the <code class="idl"><a data-link-type="idl" href="https://ht
      The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="method" data-export id="dom-idledetector-requestpermission"><code>requestPermission()</code></dfn> method steps are: 
     <ol>
      <li data-md>
-      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this②">this</a> does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient
-activation</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with">a promise rejected with</a> a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.</p>
+      <p>If <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this②">this</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window">associated Document</a> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active">fully active</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with">a promise rejected with</a> a
+"<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException">DOMException</a></code>.</p>
+      <details class="wpt-tests-block" dir="ltr" lang="en" open>
+       <summary>Tests</summary>
+       <ul class="wpt-tests-list">
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-detached-frame.https.html" title="idle-detection/idle-detection-detached-frame.https.html">idle-detection-detached-frame.https.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-detached-frame.https.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-detached-frame.https.html"><small>(source)</small></a>
+       </ul>
+      </details>
+     <li data-md>
+      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this③">this</a> does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient
+activation</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with①">a promise rejected with</a> a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.</p>
      <li data-md>
       <p>Let <var>result</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-new-promise" id="ref-for-a-new-promise">a new promise</a>.</p>
      <li data-md>
@@ -1313,7 +1322,7 @@ activation</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.
        <li data-md>
         <p>Let <var>permissionState</var> be the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dfn-request-permission-to-use" id="ref-for-dfn-request-permission-to-use">requesting permission to use</a> <a class="idl-code" data-link-type="permission" href="#permissiondef-idle-detection" id="ref-for-permissiondef-idle-detection">"idle-detection"</a>.</p>
        <li data-md>
-        <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#resolve" id="ref-for-resolve">Resolve</a> <var>result</var> with <var>permissionState</var>.</p>
+        <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task">Queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global②">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this④">this</a> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source">idle detection task source</a> to <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#resolve" id="ref-for-resolve">resolve</a> <var>result</var> with <var>permissionState</var>.</p>
       </ol>
      <li data-md>
       <p>Return <var>result</var>.</p>
@@ -1324,16 +1333,33 @@ activation</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.
     <p>The <dfn class="dfn-paneled idl-code" data-dfn-for="IdleDetector" data-dfn-type="method" data-export data-lt="start(options)|start()" id="dom-idledetector-start"><code>start(<var>options</var>)</code></dfn> method steps are:</p>
     <ol>
      <li data-md>
-      <p>If the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window">associated Document</a> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use">allowed
-to use</a> <a class="idl-code" data-link-type="permission" href="#permissiondef-idle-detection" id="ref-for-permissiondef-idle-detection①">"idle-detection"</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with①">a promise rejected with</a> a
-"<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror①">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException①">DOMException</a></code>.</p>
+      <p>Let <var>document</var> be <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑤">this</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global③">relevant global object</a>'s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window" id="ref-for-concept-document-window①">associated
+Document</a>.</p>
+     <li data-md>
+      <p>If <var>document</var> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active" id="ref-for-fully-active①">fully active</a>, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with②">a promise rejected with</a> a
+"<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror①">InvalidStateError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException②">DOMException</a></code>.</p>
       <details class="wpt-tests-block" dir="ltr" lang="en" open>
        <summary>Tests</summary>
-       <ul class="wpt-tests-list"></ul>
+       <ul class="wpt-tests-list">
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-detached-frame.https.html" title="idle-detection/idle-detection-detached-frame.https.html">idle-detection-detached-frame.https.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-detached-frame.https.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-detached-frame.https.html"><small>(source)</small></a>
+       </ul>
+      </details>
+     <li data-md>
+      <p>If <var>document</var> is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use">allowed to use</a> <a class="idl-code" data-link-type="permission" href="#permissiondef-idle-detection" id="ref-for-permissiondef-idle-detection①">"idle-detection"</a>,
+return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with③">a promise rejected with</a> a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror①">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException③">DOMException</a></code>.</p>
+      <details class="wpt-tests-block" dir="ltr" lang="en" open>
+       <summary>Tests</summary>
+       <ul class="wpt-tests-list">
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html" title="idle-detection/idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html">idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-allowed-by-permissions-policy-attribute-redirect-on-load.https.sub.html"><small>(source)</small></a>
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-allowed-by-permissions-policy-attribute.https.sub.html" title="idle-detection/idle-detection-allowed-by-permissions-policy-attribute.https.sub.html">idle-detection-allowed-by-permissions-policy-attribute.https.sub.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-allowed-by-permissions-policy-attribute.https.sub.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-allowed-by-permissions-policy-attribute.https.sub.html"><small>(source)</small></a>
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-allowed-by-permissions-policy.https.sub.html" title="idle-detection/idle-detection-allowed-by-permissions-policy.https.sub.html">idle-detection-allowed-by-permissions-policy.https.sub.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-allowed-by-permissions-policy.https.sub.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-allowed-by-permissions-policy.https.sub.html"><small>(source)</small></a>
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-default-permissions-policy.https.sub.html" title="idle-detection/idle-detection-default-permissions-policy.https.sub.html">idle-detection-default-permissions-policy.https.sub.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-default-permissions-policy.https.sub.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-default-permissions-policy.https.sub.html"><small>(source)</small></a>
+        <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/idle-detection-disabled-by-permissions-policy.https.sub.html" title="idle-detection/idle-detection-disabled-by-permissions-policy.https.sub.html">idle-detection-disabled-by-permissions-policy.https.sub.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/idle-detection-disabled-by-permissions-policy.https.sub.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/idle-detection-disabled-by-permissions-policy.https.sub.html"><small>(source)</small></a>
+       </ul>
       </details>
      <li data-md>
       <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot">[[state]]</a></code> is not <code>"stopped"</code>,
-return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with②">a promise rejected with</a> an "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException②">DOMException</a></code>.</p>
+return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with④">a promise rejected with</a> an "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#invalidstateerror" id="ref-for-invalidstateerror②">InvalidStateError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException④">DOMException</a></code>.</p>
       <details class="wpt-tests-block" dir="ltr" lang="en" open>
        <summary>Tests</summary>
        <ul class="wpt-tests-list">
@@ -1343,7 +1369,7 @@ return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-r
      <li data-md>
       <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot①">[[state]]</a></code> to <code>"starting"</code>.</p>
      <li data-md>
-      <p>If <var>options</var>[<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-threshold" id="ref-for-dom-idleoptions-threshold②">"threshold"</a></code>] is less than 60,000, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with③">a promise rejected with</a> a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>.</p>
+      <p>If <var>options</var>[<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-threshold" id="ref-for-dom-idleoptions-threshold②">"threshold"</a></code>] is less than 60,000, return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-rejected-with" id="ref-for-a-promise-rejected-with⑤">a promise rejected with</a> a <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#exceptiondef-typeerror" id="ref-for-exceptiondef-typeerror">TypeError</a></code>.</p>
       <details class="wpt-tests-block" dir="ltr" lang="en" open>
        <summary>Tests</summary>
        <ul class="wpt-tests-list">
@@ -1384,28 +1410,36 @@ return <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#a-promise-r
          </ul>
         </details>
        <li data-md>
-        <p>If <var>permissionState</var> is <code>"denied"</code>, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">queue a task</a> on the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source">idle detection task source</a> to perform the following steps:</p>
+        <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task①">Queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global④">relevant global object</a> of <a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#this" id="ref-for-this⑥">this</a> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source①">idle detection task source</a> to perform the following steps:</p>
         <ol>
          <li data-md>
-          <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot③">[[state]]</a></code> to <code>"stopped"</code>.</p>
+          <p>If <var>permissionState</var> is <code>"denied"</code>,</p>
+          <ol>
+           <li data-md>
+            <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot③">[[state]]</a></code> to <code>"stopped"</code>.</p>
+           <li data-md>
+            <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject②">Reject</a> <var>result</var> with a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror②">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException⑤">DOMException</a></code>.</p>
+          </ol>
          <li data-md>
-          <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#reject" id="ref-for-reject②">Reject</a> <var>result</var> with a "<code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#notallowederror" id="ref-for-notallowederror②">NotAllowedError</a></code>" <code class="idl"><a data-link-type="idl" href="https://webidl.spec.whatwg.org/#idl-DOMException" id="ref-for-idl-DOMException③">DOMException</a></code>.</p>
-        </ol>
-       <li data-md>
-        <p>Otherwise, <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">queue a task</a> on the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source①">idle detection task source</a> to perform the
-following steps, but <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#abort-when" id="ref-for-abort-when">abort when</a> <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot④">[[state]]</a></code> becomes <code>"stopped"</code>.</p>
-        <ol>
-         <li data-md>
-          <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑤">[[state]]</a></code> to <code>"started"</code>.</p>
-         <li data-md>
-          <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-threshold-slot" id="ref-for-dom-idledetector-threshold-slot">[[threshold]]</a></code> to <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-threshold" id="ref-for-dom-idleoptions-threshold③">threshold</a></code>"].</p>
-         <li data-md>
-          <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#resolve" id="ref-for-resolve①">Resolve</a> <var>result</var>.</p>
+          <p>Otherwise,</p>
+          <ol>
+           <li data-md>
+            <p>If <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot④">[[state]]</a></code> is <code>"stopped"</code>, abort these
+steps.</p>
+           <li data-md>
+            <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-state-slot" id="ref-for-dom-idledetector-state-slot⑤">[[state]]</a></code> to <code>"started"</code>.</p>
+           <li data-md>
+            <p>Set <var>this</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-threshold-slot" id="ref-for-dom-idledetector-threshold-slot">[[threshold]]</a></code> to <var>options</var>["<code class="idl"><a data-link-type="idl" href="#dom-idleoptions-threshold" id="ref-for-dom-idleoptions-threshold③">threshold</a></code>"].</p>
+           <li data-md>
+            <p><a data-link-type="dfn" href="https://webidl.spec.whatwg.org/#resolve" id="ref-for-resolve①">Resolve</a> <var>result</var>.</p>
+          </ol>
         </ol>
       </ol>
      <li data-md>
       <p>Return <var>result</var>.</p>
     </ol>
+    <p class="note" role="note"><span class="marker">Note:</span> The steps above are performed <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel②">in parallel</a> to enable implementations
+      to check the permission state asynchronously.</p>
    </div>
    <div class="example" id="example-eaf26322">
     <a class="self-link" href="#example-eaf26322"></a> 
@@ -1458,7 +1492,7 @@ conditions:</p>
     <ul>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot①">[[userState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-active" id="ref-for-dom-useridlestate-active①">"active"</a></code> and the user has not
-interacted with the device within the last <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-threshold-slot" id="ref-for-dom-idledetector-threshold-slot①">[[threshold]]</a></code> milliseconds, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global②">relevant global
+interacted with the device within the last <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-threshold-slot" id="ref-for-dom-idledetector-threshold-slot①">[[threshold]]</a></code> milliseconds, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task②">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global⑤">relevant global
 object</a> of <var>detector</var> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source②">idle detection task source</a> to run the
 following steps:</p>
       <ol>
@@ -1469,7 +1503,7 @@ following steps:</p>
       </ol>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-userstate-slot" id="ref-for-dom-idledetector-userstate-slot③">[[userState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-useridlestate-idle" id="ref-for-dom-useridlestate-idle②">"idle"</a></code> and the user interacts with
-the device, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task①">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global③">relevant global
+the device, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task③">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global⑥">relevant global
 object</a> of <var>detector</var> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source③">idle detection task source</a> to run the
 following steps:</p>
       <ol>
@@ -1480,7 +1514,7 @@ following steps:</p>
       </ol>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot①">[[screenState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-unlocked" id="ref-for-dom-screenidlestate-unlocked①">"unlocked"</a></code> and the screen is
-locked, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task②">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global④">relevant global object</a> of <var>detector</var> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source④">idle detection task source</a> to run the following
+locked, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task④">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global⑦">relevant global object</a> of <var>detector</var> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source④">idle detection task source</a> to run the following
 steps:</p>
       <ol>
        <li data-md>
@@ -1490,7 +1524,7 @@ steps:</p>
       </ol>
      <li data-md>
       <p>If <var>detector</var>.<code class="idl"><a data-link-type="idl" href="#dom-idledetector-screenstate-slot" id="ref-for-dom-idledetector-screenstate-slot③">[[screenState]]</a></code> is <code class="idl"><a data-link-type="idl" href="#dom-screenidlestate-locked" id="ref-for-dom-screenidlestate-locked②">"locked"</a></code> and the screen is
-unlocked, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task③">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global⑤">relevant global object</a> of <var>detector</var> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source⑤">idle detection task source</a> to run the following
+unlocked, it MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task" id="ref-for-queue-a-global-task⑤">queue a global task</a> on the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global⑧">relevant global object</a> of <var>detector</var> using the <a data-link-type="dfn" href="#idle-detection-task-source" id="ref-for-idle-detection-task-source⑤">idle detection task source</a> to run the following
 steps:</p>
       <ol>
        <li data-md>
@@ -1504,6 +1538,7 @@ steps:</p>
     <summary>Tests</summary>
     <ul class="wpt-tests-list">
      <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/interceptor.https.html" title="idle-detection/interceptor.https.html">interceptor.https.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/interceptor.https.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/interceptor.https.html"><small>(source)</small></a>
+     <li class="wpt-test"><a class="wpt-name" href="https://wpt.fyi/results/idle-detection/page-visibility.https.html" title="idle-detection/page-visibility.https.html">page-visibility.https.html</a> <a class="wpt-live" href="https://wpt.live/idle-detection/page-visibility.https.html"><small>(live test)</small></a> <a class="wpt-source" href="https://github.com/web-platform-tests/wpt/blob/master/idle-detection/page-visibility.https.html"><small>(source)</small></a>
     </ul>
    </details>
    <h2 class="heading settled" data-level="3" id="security-and-privacy"><span class="secno">3. </span><span class="content">Security and privacy considerations</span><a class="self-link" href="#security-and-privacy"></a></h2>
@@ -1511,7 +1546,7 @@ steps:</p>
    <h3 class="heading settled" data-level="3.1" id="privacy-cross-origin-leakage"><span class="secno">3.1. </span><span class="content">Cross-origin information leakage</span><a class="self-link" href="#privacy-cross-origin-leakage"></a></h3>
    <p>This interface exposes the state of global system properties and so care must be
 taken to prevent them from being used as cross-origin communication or
-identification channels. Similar concerns are present in specifications such as <a data-link-type="biblio" href="#biblio-device-orientation" title="DeviceOrientation Event Specification">[DEVICE-ORIENTATION]</a> and <a data-link-type="biblio" href="#biblio-geolocation-api" title="Geolocation API Specification 2nd Edition">[GEOLOCATION-API]</a>, which mitigate them by requiring
+identification channels. Similar concerns are present in specifications such as <a data-link-type="biblio" href="#biblio-device-orientation" title="Device Orientation and Motion">[DEVICE-ORIENTATION]</a> and <a data-link-type="biblio" href="#biblio-geolocation" title="Geolocation">[GEOLOCATION]</a>, which mitigate them by requiring
 a visible or focused context. This prevents multiple origins from observing the
 global state at the same time. These mitigations are unfortunately inappropriate
 here because the intent of this specification is precisely to allow a limited
@@ -1691,18 +1726,17 @@ for their help in crafting this proposal.</p>
      <li><span class="dfn-paneled" id="3349d69f">associated document</span>
      <li><span class="dfn-paneled" id="2b619939">change</span>
      <li><span class="dfn-paneled" id="03675365">event handler idl attribute</span>
+     <li><span class="dfn-paneled" id="0e3ba9f8">fully active</span>
      <li><span class="dfn-paneled" id="a72449dd">in parallel</span>
      <li><span class="dfn-paneled" id="384a2229">onkeypress</span>
      <li><span class="dfn-paneled" id="541116eb">onmousemove</span>
      <li><span class="dfn-paneled" id="48438eb3">queue a global task</span>
-     <li><span class="dfn-paneled" id="9a517a7d">queue a task</span>
      <li><span class="dfn-paneled" id="e99bd18e">relevant global object</span>
      <li><span class="dfn-paneled" id="47fe679e">transient activation</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="1adcc035">abort when</span>
      <li><span class="dfn-paneled" id="6d19ac93">user agent</span>
     </ul>
    <li>
@@ -1774,11 +1808,11 @@ for their help in crafting this proposal.</p>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-device-orientation">[DEVICE-ORIENTATION]
-   <dd>Reilly Grant; Raphael Kubo da Costa. <a href="https://w3c.github.io/deviceorientation/"><cite>DeviceOrientation Event Specification</cite></a>. URL: <a href="https://w3c.github.io/deviceorientation/">https://w3c.github.io/deviceorientation/</a>
+   <dd>Reilly Grant; Raphael Kubo da Costa; Marcos Caceres. <a href="https://w3c.github.io/deviceorientation/"><cite>Device Orientation and Motion</cite></a>. URL: <a href="https://w3c.github.io/deviceorientation/">https://w3c.github.io/deviceorientation/</a>
    <dt id="biblio-fetch">[FETCH]
    <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/"><cite>Fetch Standard</cite></a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
-   <dt id="biblio-geolocation-api">[GEOLOCATION-API]
-   <dd>Andrei Popescu. <a href="https://w3c.github.io/geolocation-api/"><cite>Geolocation API Specification 2nd Edition</cite></a>. URL: <a href="https://w3c.github.io/geolocation-api/">https://w3c.github.io/geolocation-api/</a>
+   <dt id="biblio-geolocation">[GEOLOCATION]
+   <dd>Marcos Caceres; Reilly Grant. <a href="https://w3c.github.io/geolocation/"><cite>Geolocation</cite></a>. URL: <a href="https://w3c.github.io/geolocation/">https://w3c.github.io/geolocation/</a>
    <dt id="biblio-push-api">[PUSH-API]
    <dd>Peter Beverloo; Martin Thomson; Marcos Caceres. <a href="https://w3c.github.io/push-api/"><cite>Push API</cite></a>. URL: <a href="https://w3c.github.io/push-api/">https://w3c.github.io/push-api/</a>
   </dl>
@@ -2258,17 +2292,16 @@ window.dfnpanelData['7691dbb6'] = {"dfnID": "7691dbb6", "url": "https://fetch.sp
 window.dfnpanelData['f0951476'] = {"dfnID": "f0951476", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler", "dfnText": "EventHandler", "refSections": [{"refs": [{"id": "ref-for-eventhandler"}], "title": "2.4. The IdleDetector interface"}], "external": true};
 window.dfnpanelData['5d7209e9'] = {"dfnID": "5d7209e9", "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#window", "dfnText": "Window", "refSections": [{"refs": [{"id": "ref-for-window"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['3610bd67'] = {"dfnID": "3610bd67", "url": "https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use", "dfnText": "allowed to use", "refSections": [{"refs": [{"id": "ref-for-allowed-to-use"}], "title": "2.4.5. start() method"}], "external": true};
-window.dfnpanelData['3349d69f'] = {"dfnID": "3349d69f", "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window", "dfnText": "associated document", "refSections": [{"refs": [{"id": "ref-for-concept-document-window"}], "title": "2.4.5. start() method"}], "external": true};
+window.dfnpanelData['3349d69f'] = {"dfnID": "3349d69f", "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#concept-document-window", "dfnText": "associated document", "refSections": [{"refs": [{"id": "ref-for-concept-document-window"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-concept-document-window\u2460"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['2b619939'] = {"dfnID": "2b619939", "url": "https://html.spec.whatwg.org/multipage/indices.html#event-change", "dfnText": "change", "refSections": [{"refs": [{"id": "ref-for-event-change"}], "title": "2.4.3. onchange attribute"}, {"refs": [{"id": "ref-for-event-change\u2460"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-event-change\u2461"}, {"id": "ref-for-event-change\u2462"}, {"id": "ref-for-event-change\u2463"}, {"id": "ref-for-event-change\u2464"}], "title": "2.4.6. Reacting to state changes"}], "external": true};
 window.dfnpanelData['03675365'] = {"dfnID": "03675365", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes", "dfnText": "event handler idl attribute", "refSections": [{"refs": [{"id": "ref-for-event-handler-idl-attributes"}], "title": "2.4.3. onchange attribute"}], "external": true};
-window.dfnpanelData['a72449dd'] = {"dfnID": "a72449dd", "url": "https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel", "dfnText": "in parallel", "refSections": [{"refs": [{"id": "ref-for-in-parallel"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-in-parallel\u2460"}], "title": "2.4.5. start() method"}], "external": true};
+window.dfnpanelData['0e3ba9f8'] = {"dfnID": "0e3ba9f8", "url": "https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active", "dfnText": "fully active", "refSections": [{"refs": [{"id": "ref-for-fully-active"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-fully-active\u2460"}], "title": "2.4.5. start() method"}], "external": true};
+window.dfnpanelData['a72449dd'] = {"dfnID": "a72449dd", "url": "https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel", "dfnText": "in parallel", "refSections": [{"refs": [{"id": "ref-for-in-parallel"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-in-parallel\u2460"}, {"id": "ref-for-in-parallel\u2461"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['384a2229'] = {"dfnID": "384a2229", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#handler-onkeypress", "dfnText": "onkeypress", "refSections": [{"refs": [{"id": "ref-for-handler-onkeypress"}], "title": "1. Introduction"}], "external": true};
 window.dfnpanelData['541116eb'] = {"dfnID": "541116eb", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#handler-onmousemove", "dfnText": "onmousemove", "refSections": [{"refs": [{"id": "ref-for-handler-onmousemove"}], "title": "1. Introduction"}], "external": true};
-window.dfnpanelData['48438eb3'] = {"dfnID": "48438eb3", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task", "dfnText": "queue a global task", "refSections": [{"refs": [{"id": "ref-for-queue-a-global-task"}, {"id": "ref-for-queue-a-global-task\u2460"}, {"id": "ref-for-queue-a-global-task\u2461"}, {"id": "ref-for-queue-a-global-task\u2462"}], "title": "2.4.6. Reacting to state changes"}], "external": true};
-window.dfnpanelData['9a517a7d'] = {"dfnID": "9a517a7d", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task", "dfnText": "queue a task", "refSections": [{"refs": [{"id": "ref-for-queue-a-task"}, {"id": "ref-for-queue-a-task\u2460"}], "title": "2.4.5. start() method"}], "external": true};
-window.dfnpanelData['e99bd18e'] = {"dfnID": "e99bd18e", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global", "dfnText": "relevant global object", "refSections": [{"refs": [{"id": "ref-for-concept-relevant-global"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2460"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2461"}, {"id": "ref-for-concept-relevant-global\u2462"}, {"id": "ref-for-concept-relevant-global\u2463"}, {"id": "ref-for-concept-relevant-global\u2464"}], "title": "2.4.6. Reacting to state changes"}], "external": true};
+window.dfnpanelData['48438eb3'] = {"dfnID": "48438eb3", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-global-task", "dfnText": "queue a global task", "refSections": [{"refs": [{"id": "ref-for-queue-a-global-task"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-queue-a-global-task\u2460"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-queue-a-global-task\u2461"}, {"id": "ref-for-queue-a-global-task\u2462"}, {"id": "ref-for-queue-a-global-task\u2463"}, {"id": "ref-for-queue-a-global-task\u2464"}], "title": "2.4.6. Reacting to state changes"}], "external": true};
+window.dfnpanelData['e99bd18e'] = {"dfnID": "e99bd18e", "url": "https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global", "dfnText": "relevant global object", "refSections": [{"refs": [{"id": "ref-for-concept-relevant-global"}, {"id": "ref-for-concept-relevant-global\u2460"}, {"id": "ref-for-concept-relevant-global\u2461"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2462"}, {"id": "ref-for-concept-relevant-global\u2463"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-concept-relevant-global\u2464"}, {"id": "ref-for-concept-relevant-global\u2465"}, {"id": "ref-for-concept-relevant-global\u2466"}, {"id": "ref-for-concept-relevant-global\u2467"}], "title": "2.4.6. Reacting to state changes"}], "external": true};
 window.dfnpanelData['47fe679e'] = {"dfnID": "47fe679e", "url": "https://html.spec.whatwg.org/multipage/interaction.html#transient-activation", "dfnText": "transient activation", "refSections": [{"refs": [{"id": "ref-for-transient-activation"}], "title": "2.4.4. requestPermission() method"}], "external": true};
-window.dfnpanelData['1adcc035'] = {"dfnID": "1adcc035", "url": "https://infra.spec.whatwg.org/#abort-when", "dfnText": "abort when", "refSections": [{"refs": [{"id": "ref-for-abort-when"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['6d19ac93'] = {"dfnID": "6d19ac93", "url": "https://infra.spec.whatwg.org/#user-agent", "dfnText": "user agent", "refSections": [{"refs": [{"id": "ref-for-user-agent"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-user-agent\u2460"}], "title": "2.4.6. Reacting to state changes"}], "external": true};
 window.dfnpanelData['ac36400f'] = {"dfnID": "ac36400f", "url": "https://www.w3.org/TR/page-visibility-2/#dom-document-hidden", "dfnText": "hidden", "refSections": [{"refs": [{"id": "ref-for-dom-document-hidden"}, {"id": "ref-for-dom-document-hidden\u2460"}], "title": "1. Introduction"}], "external": true};
 window.dfnpanelData['922b9e73'] = {"dfnID": "922b9e73", "url": "https://www.w3.org/TR/page-visibility-2/#dom-document-onvisibilitychange", "dfnText": "onvisibilitychange", "refSections": [{"refs": [{"id": "ref-for-dom-document-onvisibilitychange"}], "title": "1. Introduction"}], "external": true};
@@ -2282,19 +2315,19 @@ window.dfnpanelData['d124397f'] = {"dfnID": "d124397f", "url": "https://w3c.gith
 window.dfnpanelData['d357c753'] = {"dfnID": "d357c753", "url": "https://w3c.github.io/permissions/#dfn-request-permission-to-use", "dfnText": "requesting permission to use", "refSections": [{"refs": [{"id": "ref-for-dfn-request-permission-to-use"}], "title": "2.4.4. requestPermission() method"}], "external": true};
 window.dfnpanelData['1570624a'] = {"dfnID": "1570624a", "url": "https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature-default-allowlist", "dfnText": "default allowlist", "refSections": [{"refs": [{"id": "ref-for-policy-controlled-feature-default-allowlist"}, {"id": "ref-for-policy-controlled-feature-default-allowlist\u2460"}], "title": "2.3. Permissions policy"}], "external": true};
 window.dfnpanelData['cc890cc1'] = {"dfnID": "cc890cc1", "url": "https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature", "dfnText": "policy-controlled feature", "refSections": [{"refs": [{"id": "ref-for-policy-controlled-feature"}], "title": "2.3. Permissions policy"}], "external": true};
-window.dfnpanelData['dca2de17'] = {"dfnID": "dca2de17", "url": "https://webidl.spec.whatwg.org/#idl-DOMException", "dfnText": "DOMException", "refSections": [{"refs": [{"id": "ref-for-idl-DOMException"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-idl-DOMException\u2460"}, {"id": "ref-for-idl-DOMException\u2461"}, {"id": "ref-for-idl-DOMException\u2462"}], "title": "2.4.5. start() method"}], "external": true};
+window.dfnpanelData['dca2de17'] = {"dfnID": "dca2de17", "url": "https://webidl.spec.whatwg.org/#idl-DOMException", "dfnText": "DOMException", "refSections": [{"refs": [{"id": "ref-for-idl-DOMException"}, {"id": "ref-for-idl-DOMException\u2460"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-idl-DOMException\u2461"}, {"id": "ref-for-idl-DOMException\u2462"}, {"id": "ref-for-idl-DOMException\u2463"}, {"id": "ref-for-idl-DOMException\u2464"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['c01cbda0'] = {"dfnID": "c01cbda0", "url": "https://webidl.spec.whatwg.org/#EnforceRange", "dfnText": "EnforceRange", "refSections": [{"refs": [{"id": "ref-for-EnforceRange"}], "title": "2.4. The IdleDetector interface"}], "external": true};
 window.dfnpanelData['889e932f'] = {"dfnID": "889e932f", "url": "https://webidl.spec.whatwg.org/#Exposed", "dfnText": "Exposed", "refSections": [{"refs": [{"id": "ref-for-Exposed"}, {"id": "ref-for-Exposed\u2460"}], "title": "2.4. The IdleDetector interface"}], "external": true};
-window.dfnpanelData['797018a7'] = {"dfnID": "797018a7", "url": "https://webidl.spec.whatwg.org/#invalidstateerror", "dfnText": "InvalidStateError", "refSections": [{"refs": [{"id": "ref-for-invalidstateerror"}], "title": "2.4.5. start() method"}], "external": true};
+window.dfnpanelData['797018a7'] = {"dfnID": "797018a7", "url": "https://webidl.spec.whatwg.org/#invalidstateerror", "dfnText": "InvalidStateError", "refSections": [{"refs": [{"id": "ref-for-invalidstateerror"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-invalidstateerror\u2460"}, {"id": "ref-for-invalidstateerror\u2461"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['ba556545'] = {"dfnID": "ba556545", "url": "https://webidl.spec.whatwg.org/#notallowederror", "dfnText": "NotAllowedError", "refSections": [{"refs": [{"id": "ref-for-notallowederror"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-notallowederror\u2460"}, {"id": "ref-for-notallowederror\u2461"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['bdbd19d1'] = {"dfnID": "bdbd19d1", "url": "https://webidl.spec.whatwg.org/#idl-promise", "dfnText": "Promise", "refSections": [{"refs": [{"id": "ref-for-idl-promise"}, {"id": "ref-for-idl-promise\u2460"}], "title": "2.4. The IdleDetector interface"}], "external": true};
 window.dfnpanelData['b75bb3bd'] = {"dfnID": "b75bb3bd", "url": "https://webidl.spec.whatwg.org/#SecureContext", "dfnText": "SecureContext", "refSections": [{"refs": [{"id": "ref-for-SecureContext"}], "title": "2.4. The IdleDetector interface"}], "external": true};
 window.dfnpanelData['82ca3efc'] = {"dfnID": "82ca3efc", "url": "https://webidl.spec.whatwg.org/#exceptiondef-typeerror", "dfnText": "TypeError", "refSections": [{"refs": [{"id": "ref-for-exceptiondef-typeerror"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['dacde8b5'] = {"dfnID": "dacde8b5", "url": "https://webidl.spec.whatwg.org/#a-new-promise", "dfnText": "a new promise", "refSections": [{"refs": [{"id": "ref-for-a-new-promise"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-a-new-promise\u2460"}], "title": "2.4.5. start() method"}], "external": true};
-window.dfnpanelData['d0b4a948'] = {"dfnID": "d0b4a948", "url": "https://webidl.spec.whatwg.org/#a-promise-rejected-with", "dfnText": "a promise rejected with", "refSections": [{"refs": [{"id": "ref-for-a-promise-rejected-with"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-a-promise-rejected-with\u2460"}, {"id": "ref-for-a-promise-rejected-with\u2461"}, {"id": "ref-for-a-promise-rejected-with\u2462"}], "title": "2.4.5. start() method"}], "external": true};
+window.dfnpanelData['d0b4a948'] = {"dfnID": "d0b4a948", "url": "https://webidl.spec.whatwg.org/#a-promise-rejected-with", "dfnText": "a promise rejected with", "refSections": [{"refs": [{"id": "ref-for-a-promise-rejected-with"}, {"id": "ref-for-a-promise-rejected-with\u2460"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-a-promise-rejected-with\u2461"}, {"id": "ref-for-a-promise-rejected-with\u2462"}, {"id": "ref-for-a-promise-rejected-with\u2463"}, {"id": "ref-for-a-promise-rejected-with\u2464"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['b262501e'] = {"dfnID": "b262501e", "url": "https://webidl.spec.whatwg.org/#reject", "dfnText": "reject", "refSections": [{"refs": [{"id": "ref-for-reject"}, {"id": "ref-for-reject\u2460"}, {"id": "ref-for-reject\u2461"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['3b90bdcd'] = {"dfnID": "3b90bdcd", "url": "https://webidl.spec.whatwg.org/#resolve", "dfnText": "resolve", "refSections": [{"refs": [{"id": "ref-for-resolve"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-resolve\u2460"}], "title": "2.4.5. start() method"}], "external": true};
-window.dfnpanelData['4013a022'] = {"dfnID": "4013a022", "url": "https://webidl.spec.whatwg.org/#this", "dfnText": "this", "refSections": [{"refs": [{"id": "ref-for-this"}], "title": "2.4.1. userState attribute"}, {"refs": [{"id": "ref-for-this\u2460"}], "title": "2.4.2. screenState attribute"}, {"refs": [{"id": "ref-for-this\u2461"}], "title": "2.4.4. requestPermission() method"}], "external": true};
+window.dfnpanelData['4013a022'] = {"dfnID": "4013a022", "url": "https://webidl.spec.whatwg.org/#this", "dfnText": "this", "refSections": [{"refs": [{"id": "ref-for-this"}], "title": "2.4.1. userState attribute"}, {"refs": [{"id": "ref-for-this\u2460"}], "title": "2.4.2. screenState attribute"}, {"refs": [{"id": "ref-for-this\u2461"}, {"id": "ref-for-this\u2462"}, {"id": "ref-for-this\u2463"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-this\u2464"}, {"id": "ref-for-this\u2465"}], "title": "2.4.5. start() method"}], "external": true};
 window.dfnpanelData['5f90bbfb'] = {"dfnID": "5f90bbfb", "url": "https://webidl.spec.whatwg.org/#idl-undefined", "dfnText": "undefined", "refSections": [{"refs": [{"id": "ref-for-idl-undefined"}], "title": "2.4. The IdleDetector interface"}], "external": true};
 window.dfnpanelData['f14b47b8'] = {"dfnID": "f14b47b8", "url": "https://webidl.spec.whatwg.org/#idl-unsigned-long-long", "dfnText": "unsigned long long", "refSections": [{"refs": [{"id": "ref-for-idl-unsigned-long-long"}], "title": "2.4. The IdleDetector interface"}], "external": true};
 window.dfnpanelData['enumdef-useridlestate'] = {"dfnID": "enumdef-useridlestate", "url": "#enumdef-useridlestate", "dfnText": "UserIdleState", "refSections": [{"refs": [{"id": "ref-for-enumdef-useridlestate"}], "title": "2.1.1. The UserIdleState enum"}, {"refs": [{"id": "ref-for-enumdef-useridlestate\u2460"}], "title": "2.4. The IdleDetector interface"}], "external": false};
@@ -2312,7 +2345,7 @@ window.dfnpanelData['dom-idledetector-state-slot'] = {"dfnID": "dom-idledetector
 window.dfnpanelData['dom-idledetector-threshold-slot'] = {"dfnID": "dom-idledetector-threshold-slot", "url": "#dom-idledetector-threshold-slot", "dfnText": "[[threshold]]", "refSections": [{"refs": [{"id": "ref-for-dom-idledetector-threshold-slot"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-dom-idledetector-threshold-slot\u2460"}], "title": "2.4.6. Reacting to state changes"}], "external": false};
 window.dfnpanelData['dom-idledetector-userstate-slot'] = {"dfnID": "dom-idledetector-userstate-slot", "url": "#dom-idledetector-userstate-slot", "dfnText": "[[userState]]", "refSections": [{"refs": [{"id": "ref-for-dom-idledetector-userstate-slot"}], "title": "2.4.1. userState attribute"}, {"refs": [{"id": "ref-for-dom-idledetector-userstate-slot\u2460"}, {"id": "ref-for-dom-idledetector-userstate-slot\u2461"}, {"id": "ref-for-dom-idledetector-userstate-slot\u2462"}, {"id": "ref-for-dom-idledetector-userstate-slot\u2463"}], "title": "2.4.6. Reacting to state changes"}], "external": false};
 window.dfnpanelData['dom-idledetector-screenstate-slot'] = {"dfnID": "dom-idledetector-screenstate-slot", "url": "#dom-idledetector-screenstate-slot", "dfnText": "[[screenState]]", "refSections": [{"refs": [{"id": "ref-for-dom-idledetector-screenstate-slot"}], "title": "2.4.2. screenState attribute"}, {"refs": [{"id": "ref-for-dom-idledetector-screenstate-slot\u2460"}, {"id": "ref-for-dom-idledetector-screenstate-slot\u2461"}, {"id": "ref-for-dom-idledetector-screenstate-slot\u2462"}, {"id": "ref-for-dom-idledetector-screenstate-slot\u2463"}], "title": "2.4.6. Reacting to state changes"}], "external": false};
-window.dfnpanelData['idle-detection-task-source'] = {"dfnID": "idle-detection-task-source", "url": "#idle-detection-task-source", "dfnText": "idle detection task source", "refSections": [{"refs": [{"id": "ref-for-idle-detection-task-source"}, {"id": "ref-for-idle-detection-task-source\u2460"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-idle-detection-task-source\u2461"}, {"id": "ref-for-idle-detection-task-source\u2462"}, {"id": "ref-for-idle-detection-task-source\u2463"}, {"id": "ref-for-idle-detection-task-source\u2464"}], "title": "2.4.6. Reacting to state changes"}], "external": false};
+window.dfnpanelData['idle-detection-task-source'] = {"dfnID": "idle-detection-task-source", "url": "#idle-detection-task-source", "dfnText": "idle detection task source", "refSections": [{"refs": [{"id": "ref-for-idle-detection-task-source"}], "title": "2.4.4. requestPermission() method"}, {"refs": [{"id": "ref-for-idle-detection-task-source\u2460"}], "title": "2.4.5. start() method"}, {"refs": [{"id": "ref-for-idle-detection-task-source\u2461"}, {"id": "ref-for-idle-detection-task-source\u2462"}, {"id": "ref-for-idle-detection-task-source\u2463"}, {"id": "ref-for-idle-detection-task-source\u2464"}], "title": "2.4.6. Reacting to state changes"}], "external": false};
 window.dfnpanelData['dom-idledetector-userstate'] = {"dfnID": "dom-idledetector-userstate", "url": "#dom-idledetector-userstate", "dfnText": "userState", "refSections": [{"refs": [{"id": "ref-for-dom-idledetector-userstate"}], "title": "2.4. The IdleDetector interface"}, {"refs": [{"id": "ref-for-dom-idledetector-userstate\u2460"}], "title": "2.4.1. userState attribute"}, {"refs": [{"id": "ref-for-dom-idledetector-userstate\u2461"}], "title": "2.4.5. start() method"}], "external": false};
 window.dfnpanelData['dom-idledetector-screenstate'] = {"dfnID": "dom-idledetector-screenstate", "url": "#dom-idledetector-screenstate", "dfnText": "screenState", "refSections": [{"refs": [{"id": "ref-for-dom-idledetector-screenstate"}], "title": "2.4. The IdleDetector interface"}, {"refs": [{"id": "ref-for-dom-idledetector-screenstate\u2460"}], "title": "2.4.2. screenState attribute"}, {"refs": [{"id": "ref-for-dom-idledetector-screenstate\u2461"}], "title": "2.4.5. start() method"}], "external": false};
 window.dfnpanelData['dom-idledetector-onchange'] = {"dfnID": "dom-idledetector-onchange", "url": "#dom-idledetector-onchange", "dfnText": "onchange", "refSections": [{"refs": [{"id": "ref-for-dom-idledetector-onchange"}], "title": "2.4. The IdleDetector interface"}, {"refs": [{"id": "ref-for-dom-idledetector-onchange\u2460"}], "title": "2.4.3. onchange attribute"}], "external": false};

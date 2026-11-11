@@ -179,7 +179,7 @@ See [[PERMISSIONS-POLICY]] for more details.
 
 <xmp class="idl">
 dictionary IdleOptions {
-  [EnforceRange] unsigned long long threshold;
+  [EnforceRange] unsigned long long threshold = 60000;
   AbortSignal signal;
 };
 
@@ -334,15 +334,22 @@ The <dfn method for=IdleDetector>start(|options|)</dfn> method steps are:
         <wpt>idle-permission.tentative.https.window.js</wpt>
     1.  [=Queue a global task=] on the [=relevant global object=] of [=this=]
         using the [=idle detection task source=] to perform the following steps:
+        1.  If |options|["{{signal}}"] is present and
+            |options|["{{signal}}"] is [=AbortSignal/aborted=], abort these steps.
         1.  If |permissionState| is `"denied"`,
             1.  Set |this|.{{IdleDetector/[[state]]}} to `"stopped"`.
             1.  [=Reject=] |result| with a "{{NotAllowedError}}" {{DOMException}}.
         1.  Otherwise,
             1.  If |this|.{{IdleDetector/[[state]]}} is `"stopped"`, abort these
                 steps.
-            1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
             1.  Set |this|.{{IdleDetector/[[threshold]]}} to |options|["{{threshold}}"].
+            1.  Set |this|.{{IdleDetector/[[userState]]}} to {{"idle"}} if the user
+                has not interacted with the device within the last
+                |this|.{{IdleDetector/[[threshold]]}} milliseconds, and {{"active"}} otherwise.
+            1.  Set |this|.{{IdleDetector/[[screenState]]}} to {{"locked"}} if the screen is locked, and {{"unlocked"}} otherwise.
+            1.  Set |this|.{{IdleDetector/[[state]]}} to `"started"`.
             1.  [=Resolve=] |result|.
+            1.  [=Fire an event=] named {{"change"}} at [=this=].
 1.  Return |result|.
 
 Note: The steps above are performed [=in parallel=] to enable implementations
